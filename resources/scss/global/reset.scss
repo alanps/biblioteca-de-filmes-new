@@ -1,0 +1,26 @@
+@use "./variables.scss" as *;
+
+// =========================
+// RESET
+// =========================
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#efefef;
+    color:$white;
+    font-family:$font-default;
+}
+
+img{
+    max-width:100%;
+    display:block;
+}
+
+a{
+    text-decoration:none;
+}

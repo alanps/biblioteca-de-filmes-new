@@ -1,0 +1,19 @@
+@use "../global/variables.scss" as *;
+
+//==================================================
+// Cadastro
+//==================================================
+
+.register-box{
+    background:#343434;
+}
+
+.register-title{
+    background:#f5d652;
+    color:#222;
+    text-align:center;
+    padding:8px 0;
+    font-weight:700;
+    font-size:13px;
+    text-transform:uppercase;
+}

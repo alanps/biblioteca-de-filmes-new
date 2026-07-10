@@ -1,0 +1,30 @@
+@use "../global/variables.scss" as *;
+
+// =========================
+// CTA
+// =========================
+
+.cta{
+    background:$light;
+    padding:70px 0;
+}
+
+.btn-cadastro{
+    display:block;
+    width:100%;
+    background:$black;
+    color:$white;
+    text-align:center;
+    font-family:'Anton',sans-serif;
+    letter-spacing:2px;
+    font-size:38px;
+    padding:28px;
+    transition:.3s;
+    border-radius:2px;
+
+    &:hover{
+        background:#111;
+        color:$white;
+    }
+
+}

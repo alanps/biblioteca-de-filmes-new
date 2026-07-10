@@ -1,0 +1,142 @@
+// =========================
+// RESPONSIVO
+// =========================
+
+@media(max-width:991px){
+
+    .card-filme{
+        height:250px;
+    }
+
+}
+
+@media(max-width:768px){
+
+    .home{
+        padding-top:40px;
+    }
+
+    .logo{
+
+        img{
+            width:220px;
+        }
+
+    }
+
+    .card-filme{
+        height:auto;
+        padding:45px 25px;
+
+        .icon{
+            width:95px;
+            height:95px;
+
+            img{
+                width:60px;
+            }
+
+        }
+
+        p{
+            width:100%;
+            font-size:16px;
+        }
+
+    }
+
+    .btn-cadastro{
+        font-size:28px;
+        padding:22px;
+    }
+
+    .assinatura{
+        flex-direction:column;
+        gap:5px;
+        text-align:center;
+    }
+
+}
+
+@media(max-width:576px){
+
+    .cards{
+        padding:0 15px;
+    }
+
+    .card-filme{
+        margin-bottom:15px;
+    }
+
+    .btn-cadastro{
+        font-size:22px;
+    }
+
+}
+
+//==================================================
+// Responsivo
+//==================================================
+
+@media (max-width:992px){
+
+    .page{
+        flex-direction:column;
+    }
+
+    .left-side{
+        width: 100% !important;
+        height:280px;
+    }
+
+    .right-side{
+        width: 100% !important;
+        padding:40px 20px;
+    }
+
+    .yellow-column,
+    .blue-column{
+        min-height:280px;
+    }
+
+    .claquete{
+        width: 100% !important;
+        position: relative !important;
+        top: 0 !important;
+        transform: none !important;
+    }
+
+    .ticket{
+        width: 100% !important;
+        position: relative !important;
+        top: 0 !important;
+        transform: none !important;
+    }
+
+    .bottom-box{
+        display:none;
+    }
+
+}
+
+@media (max-width:768px){
+
+    .left-side{
+        display:none;
+    }
+
+    .login-wrapper{
+        max-width:100%;
+    }
+
+    .footer{
+        position:relative;
+        width:100%;
+    }
+
+    .login-buttons{
+        flex-direction:column;
+    }
+
+}
+

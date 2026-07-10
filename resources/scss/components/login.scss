@@ -1,0 +1,52 @@
+@use "../global/variables.scss" as *;
+
+//==================================================
+// Container Login
+//==================================================
+
+.login-wrapper{
+    width:100%;
+    max-width:470px;
+}
+
+//==================================================
+// Caixa Login
+//==================================================
+
+.login-box{
+    background:$dark;
+    margin-bottom:8px;
+}
+
+//==================================================
+// Barra Superior
+//==================================================
+
+.login-title{
+    height:24px;
+    background:$black;
+    color:$white;
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+    font-size:12px;
+    letter-spacing:1px;
+    padding: 12px 8px 11px;
+    position:relative;
+
+    span{
+        width:12px;
+        height:12px;
+        margin-left:4px;
+        display:block;
+    }
+
+    span:nth-child(1){
+        background:$red;
+    }
+
+    span:nth-child(2){
+        background:$yellow;
+    }
+
+}

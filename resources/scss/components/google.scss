@@ -1,0 +1,25 @@
+@use "../global/variables.scss" as *;
+
+//==================================================
+// Google
+//==================================================
+
+.btn-google{
+    width:100%;
+    height:42px;
+    border:none;
+    background:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:12px;
+    cursor:pointer;
+    font-size:13px;
+    text-transform:uppercase;
+    transition:.25s;
+
+    img{
+        width:24px;
+    }
+
+}

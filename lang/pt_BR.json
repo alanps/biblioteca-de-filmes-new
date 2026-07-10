@@ -1,0 +1,21 @@
+{
+    "The :attribute field is required.": "O campo :attribute é obrigatório.",
+    "The :attribute must be at least :min characters.": "O campo :attribute deve ter pelo menos :min caracteres.",
+    "The :attribute must be a valid email address.": "O campo :attribute deve ser um e-mail válido.",
+    "The :attribute has already been taken.": "Este :attribute já está sendo utilizado.",
+    "validation.required": "O campo :attribute é obrigatório.",
+    "validation.email": "O campo :attribute deve ser um e-mail válido.",
+    "validation.unique": "Este :attribute já está cadastrado.",
+    "validation.min.string": "O campo :attribute deve conter no mínimo :min caracteres.",
+
+    "The :attribute field is required.": "O campo :attribute é obrigatório.",
+    "The :attribute must be at least :min characters.": "O campo :attribute deve ter pelo menos :min caracteres.",
+    "The :attribute must be a valid email address.": "O campo :attribute deve ser um e-mail válido.",
+    "The :attribute has already been taken.": "Este :attribute já está sendo utilizado.",
+    
+    "attributes": {
+        "name": "nome",
+        "email": "e-mail",
+        "password": "senha"
+    }
+}

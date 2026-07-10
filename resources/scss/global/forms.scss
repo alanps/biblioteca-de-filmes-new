@@ -1,0 +1,104 @@
+@use "../global/variables.scss" as *;
+
+//==================================================
+// Formulários
+//==================================================
+
+.login-box form,
+.register-box form{
+    padding:18px;
+}
+
+label{
+    display:block;
+    color:#fff;
+    font-size:13px;
+    margin-bottom:6px;
+    text-transform:uppercase;
+}
+
+.form-control{
+    border-radius: 0 !important;
+    border: 0 !important;
+    
+    &:focus{
+        box-shadow:none !important;
+        border:none !important;
+    }
+}
+
+
+//==================================================
+// Área senha
+//==================================================
+
+.password{
+    position:relative;
+}
+
+.show-password{
+    position:absolute;
+    right:6px;
+    bottom:4px;
+    width:28px;
+    height:28px;
+    border:none;
+    background:transparent;
+    cursor:pointer;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    img{
+        width:20px;
+    }
+
+    &.active {
+        transform: rotateZ(90deg);
+    }
+
+}
+
+//==================================================
+// Botões Login
+//==================================================
+
+.login-buttons{
+    display:flex;
+    gap:10px;
+    margin:18px 0;
+}
+
+.btn-login{
+    flex:1;
+}
+
+.login-buttons a{
+    color: #fff;
+    text-transform: uppercase;
+    flex: 1;
+    justify-content: left;
+    align-items: center;
+    font-size: 12px;
+    text-decoration: none;
+    transition: all .25s;
+    display: flex;
+}
+
+//==================================================
+// Botões Register
+//==================================================
+
+button.btn {
+    background: #000;
+    color: #FFF;
+    border-radius: 0;
+    width: 100%;
+    text-transform: uppercase;
+    font-size: 13px;
+
+    &:hover{
+        background:#000;
+        color:#fff;
+    }
+}

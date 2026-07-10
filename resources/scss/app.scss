@@ -1,0 +1,20 @@
+// Global
+@use './global/variables.scss';
+@use './global/mobile.scss';
+@use './global/reset.scss';
+@use './global/forms.scss';
+
+// Pages
+@use './pages/landing-page.scss';
+@use './pages/login-register.scss';
+
+// Components
+@use './components/alert.scss';
+@use './components/cta.scss';
+@use './components/login.scss';
+@use './components/signature.scss';
+@use './components/google.scss';
+@use './components/register.scss';
+
+// Bootstrap
+@import "bootstrap/scss/bootstrap";
