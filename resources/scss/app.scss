@@ -16,5 +16,8 @@
 @use './components/google.scss';
 @use './components/register.scss';
 
+// Dashboard
+@use './pages/dashboard/styles.scss';
+
 // Bootstrap
 @import "bootstrap/scss/bootstrap-grid";

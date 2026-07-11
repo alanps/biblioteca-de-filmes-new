@@ -1,0 +1,52 @@
+/* ==========================================================
+   ABSTRACTS
+   ========================================================== */
+
+@use "abstracts/variables" as *;
+@use "abstracts/mixins" as *;
+@use "abstracts/functions" as *;
+@use "abstracts/placeholders" as *;
+
+/* ==========================================================
+   BASE
+   ========================================================== */
+
+@use "base/reset";
+@use "base/typography";
+@use "base/global";
+@use "base/helpers";
+@use "base/animations";
+
+/* ==========================================================
+   LAYOUT
+   ========================================================== */
+
+@use "layout/grid";
+@use "layout/header";
+@use "layout/filters";
+@use "layout/movies";
+@use "layout/panels";
+@use "layout/footer";
+
+/* ==========================================================
+   COMPONENTS
+   ========================================================== */
+
+@use "components/logo";
+@use "components/banner";
+@use "components/profile";
+@use "components/buttons";
+@use "components/movie-card";
+@use "components/search";
+@use "components/tag";
+@use "components/window";
+@use "components/forms";
+@use "components/pagination";
+@use "components/tables";
+
+/* ==========================================================
+   PAGES
+========================================================== */
+
+@use "pages/home";
+@use "figma-dashboard";

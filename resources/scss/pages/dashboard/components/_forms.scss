@@ -1,0 +1,115 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+@use "../abstracts/placeholders" as *;
+
+/* ==========================================================
+   FORMS
+========================================================== */
+
+.form-group {
+
+    margin-bottom: 20px;
+
+}
+
+.form-group:last-child {
+
+    margin-bottom: 0;
+
+}
+
+.form-label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: $font-sm;
+
+    font-weight: $bold;
+
+    color: $text;
+
+}
+
+.form-control {
+
+    width: 100%;
+
+    height: 42px;
+
+    padding: 0 14px;
+
+    border: 1px solid $border;
+
+    border-radius: $radius-sm;
+
+    background: #ffffff;
+
+    transition: $transition;
+
+}
+
+.form-control:focus {
+
+    border-color: $primary;
+
+    box-shadow: 0 0 0 3px rgba($primary,.15);
+
+}
+
+textarea.form-control {
+
+    min-height: 150px;
+
+    padding: 12px;
+
+    resize: vertical;
+
+}
+
+select.form-control {
+
+    cursor: pointer;
+
+}
+
+.form-check {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 10px;
+
+}
+
+.form-check input {
+
+    width: 18px;
+
+    height: 18px;
+
+}
+
+.form-error {
+
+    margin-top: 5px;
+
+    font-size: 12px;
+
+    color: $danger;
+
+}
+
+.form-success {
+
+    margin-top: 5px;
+
+    font-size: 12px;
+
+    color: $success;
+
+}

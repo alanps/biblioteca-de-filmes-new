@@ -1,0 +1,119 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+@use "../abstracts/placeholders" as *;
+
+/* ==========================================================
+   FOOTER
+========================================================== */
+
+.footer {
+
+    margin-top: 40px;
+
+    background: linear-gradient(#f8f8f8, #ececec);
+
+    border-top: 1px solid $border;
+
+    padding: 20px 0;
+
+}
+
+.footer p {
+
+    margin: 0;
+
+    font-size: $font-sm;
+
+    color: $text-light;
+
+}
+
+.footer-menu {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    align-items: center;
+
+    gap: 20px;
+
+}
+
+.footer-menu a {
+
+    color: $text;
+
+    font-size: $font-sm;
+
+    font-weight: $medium;
+
+    transition: $transition;
+
+}
+
+.footer-menu a:hover {
+
+    color: $primary;
+
+}
+
+.footer-menu a.active {
+
+    color: $primary;
+
+    font-weight: $bold;
+
+}
+
+.footer .row {
+
+    align-items: center;
+
+}
+
+/* ==========================================================
+   RESPONSIVO
+========================================================== */
+
+@include tablet {
+
+    .footer {
+
+        text-align: center;
+
+    }
+
+    .footer-menu {
+
+        justify-content: center;
+
+        margin-top: 15px;
+
+        flex-wrap: wrap;
+
+    }
+
+}
+
+@include mobile {
+
+    .footer {
+
+        padding: 15px 0;
+
+    }
+
+    .footer-menu {
+
+        gap: 12px;
+
+    }
+
+    .footer-menu a {
+
+        font-size: 13px;
+
+    }
+
+}

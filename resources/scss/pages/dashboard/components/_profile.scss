@@ -1,0 +1,135 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+@use "../abstracts/placeholders" as *;
+
+/* ==========================================================
+   PROFILE
+========================================================== */
+
+.profile {
+
+    @include flex(space-between, center);
+
+    gap: 15px;
+
+}
+
+.profile-avatar {
+
+    width: 48px;
+
+    height: 48px;
+
+    overflow: hidden;
+
+    border-radius: 50%;
+
+    border: 2px solid $primary;
+
+    flex-shrink: 0;
+
+}
+
+.profile-avatar img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+}
+
+.profile-name {
+
+    flex: 1;
+
+    font-size: $font-md;
+
+    font-weight: $bold;
+
+    color: $text;
+
+}
+
+.profile-role {
+
+    display: block;
+
+    margin-top: 3px;
+
+    font-size: $font-xs;
+
+    color: $text-light;
+
+}
+
+.profile-status {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    font-size: $font-xs;
+
+    color: $text-light;
+
+}
+
+.profile-status::before {
+
+    content: "";
+
+    width: 8px;
+
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: $success;
+
+}
+
+.logout {
+
+    padding: 8px 14px;
+
+    border-radius: $radius-sm;
+
+    background: $danger;
+
+    color: #fff;
+
+    font-size: $font-sm;
+
+    transition: $transition;
+
+}
+
+.logout:hover {
+
+    background: darken($danger, 8%);
+
+}
+
+@include mobile {
+
+    .profile {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+    }
+
+    .logout {
+
+        width: 100%;
+
+        text-align: center;
+
+    }
+
+}

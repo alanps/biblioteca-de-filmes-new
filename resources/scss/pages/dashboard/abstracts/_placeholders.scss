@@ -1,0 +1,103 @@
+/* ==========================================================
+   PLACEHOLDERS
+========================================================== */
+
+@use "variables" as *;
+
+/* Card */
+
+%card {
+
+    background: $surface;
+
+    border: 1px solid $border;
+
+    border-radius: $radius-sm;
+
+    box-shadow: $shadow-sm;
+
+}
+
+/* Botão */
+
+%button {
+
+    display: inline-flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    border: none;
+
+    cursor: pointer;
+
+    transition: $transition;
+
+}
+
+/* Input */
+
+%input {
+
+    width: 100%;
+
+    height: 40px;
+
+    padding: 0 12px;
+
+    border: 1px solid $border;
+
+    border-radius: $radius-sm;
+
+    background: #fff;
+
+    transition: $transition;
+
+}
+
+/* Painel */
+
+%panel {
+
+    @extend %card;
+
+    padding: 20px;
+
+}
+
+/* Título */
+
+%title {
+
+    font-size: $font-xl;
+
+    font-weight: $bold;
+
+    color: $primary;
+
+}
+
+/* Flex Center */
+
+%flex-center {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+}
+
+/* Lista */
+
+%list-reset {
+
+    list-style: none;
+
+    margin: 0;
+
+    padding: 0;
+
+}

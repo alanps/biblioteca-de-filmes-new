@@ -1,0 +1,149 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+@use "../abstracts/placeholders" as *;
+
+/* ==========================================================
+   GLOBAL
+========================================================== */
+
+body {
+
+    background: $background;
+
+    overflow-x: hidden;
+
+}
+
+.app {
+
+    min-height: 100vh;
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+main {
+
+    flex: 1;
+
+}
+
+/* ==========================================================
+   CONTAINER
+========================================================== */
+
+.container-fluid {
+
+    max-width: $container-width;
+
+    margin: 0 auto;
+
+    padding-left: 20px;
+
+    padding-right: 20px;
+
+}
+
+/* ==========================================================
+   IMAGENS
+========================================================== */
+
+img {
+
+    user-select: none;
+
+    -webkit-user-drag: none;
+
+}
+
+/* ==========================================================
+   LINKS
+========================================================== */
+
+a {
+
+    transition: $transition;
+
+}
+
+a:hover {
+
+    text-decoration: none;
+
+}
+
+/* ==========================================================
+   FORMULÁRIOS
+========================================================== */
+
+input,
+select,
+textarea {
+
+    @include input;
+
+}
+
+textarea {
+
+    min-height: 120px;
+
+    padding-top: 12px;
+
+}
+
+/* ==========================================================
+   SCROLLBAR
+========================================================== */
+
+::-webkit-scrollbar {
+
+    width: 8px;
+
+    height: 8px;
+
+}
+
+::-webkit-scrollbar-thumb {
+
+    background: #b8b8b8;
+
+    border-radius: 10px;
+
+}
+
+::-webkit-scrollbar-track {
+
+    background: transparent;
+
+}
+
+/* ==========================================================
+   RESPONSIVO
+========================================================== */
+
+@include tablet {
+
+    .container-fluid {
+
+        padding-left: 15px;
+
+        padding-right: 15px;
+
+    }
+
+}
+
+@include mobile {
+
+    .container-fluid {
+
+        padding-left: 12px;
+
+        padding-right: 12px;
+
+    }
+
+}

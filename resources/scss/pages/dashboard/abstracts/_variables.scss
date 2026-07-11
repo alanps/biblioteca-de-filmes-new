@@ -1,0 +1,70 @@
+/* ==========================================================
+   COLORS
+========================================================== */
+
+$primary: #0b4ea2;
+$primary-dark: #063b7d;
+
+$secondary: #d6d6d6;
+
+$background: #ececec;
+
+$surface: #ffffff;
+
+$border: #b9b9b9;
+
+$text: #333333;
+$text-light: #666666;
+$text-muted: #999999;
+
+$success: #4CAF50;
+$danger: #E53935;
+$warning: #FBC02D;
+
+/* ==========================================================
+   TYPOGRAPHY
+========================================================== */
+
+$font-primary: Arial, Helvetica, sans-serif;
+$font-title: Arial, Helvetica, sans-serif;
+
+$font-xs: 12px;
+$font-sm: 13px;
+$font-md: 14px;
+$font-lg: 18px;
+$font-xl: 22px;
+$font-xxl: 28px;
+
+$regular: 400;
+$medium: 500;
+$bold: 700;
+
+/* ==========================================================
+   BORDER RADIUS
+========================================================== */
+
+$radius-xs: 2px;
+$radius-sm: 4px;
+$radius-md: 6px;
+$radius-lg: 10px;
+$radius-round: 999px;
+
+/* ==========================================================
+   SHADOWS
+========================================================== */
+
+$shadow-sm: 0 1px 3px rgba(0,0,0,.12);
+
+$shadow-md: 0 3px 10px rgba(0,0,0,.15);
+
+$shadow-lg: 0 8px 25px rgba(0,0,0,.20);
+
+/* ==========================================================
+   LAYOUT
+========================================================== */
+
+$container-width: 1360px;
+
+$header-height: 140px;
+
+$transition: .25s ease;

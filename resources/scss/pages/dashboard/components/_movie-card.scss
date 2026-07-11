@@ -1,0 +1,147 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+@use "../abstracts/placeholders" as *;
+
+/* ==========================================================
+   MOVIE CARD
+========================================================== */
+
+.movie-card {
+
+    @extend %card;
+
+    display: flex;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background: #fff;
+
+}
+
+.movie-card__poster {
+
+    width: 180px;
+
+    flex-shrink: 0;
+
+}
+
+.movie-card__poster img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+}
+
+.movie-card__content {
+
+    flex: 1;
+
+    padding: 20px;
+
+}
+
+.movie-card__content h2 {
+
+    margin-bottom: 15px;
+
+    font-size: 22px;
+
+    color: $primary;
+
+}
+
+.movie-card__content p {
+
+    line-height: 1.7;
+
+    color: $text-light;
+
+}
+
+.movie-card__aside {
+
+    width: 150px;
+
+    padding: 18px;
+
+    border-left: 1px solid $border;
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+.movie-card__aside .btn-more {
+
+    margin-top: auto;
+
+}
+
+.favorite {
+
+    position: absolute;
+
+    top: 15px;
+
+    right: 15px;
+
+    width: 16px;
+
+    height: 16px;
+
+    background: $danger;
+
+    border-radius: 2px;
+
+}
+
+@include tablet {
+
+    .movie-card {
+
+        flex-direction: column;
+
+    }
+
+    .movie-card__poster {
+
+        width: 100%;
+
+        height: 320px;
+
+    }
+
+    .movie-card__aside {
+
+        width: 100%;
+
+        border-left: 0;
+
+        border-top: 1px solid $border;
+
+        flex-direction: row;
+
+        flex-wrap: wrap;
+
+        gap: 10px;
+
+    }
+
+}
+
+@include mobile {
+
+    .movie-card__poster {
+
+        height: 250px;
+
+    }
+
+}

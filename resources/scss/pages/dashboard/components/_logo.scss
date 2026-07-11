@@ -1,0 +1,81 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+@use "../abstracts/placeholders" as *;
+
+/* ==========================================================
+   LOGO
+========================================================== */
+
+.logo-box {
+
+    @extend %card;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    min-height: 180px;
+
+    padding: 20px;
+
+    background: #ffffff;
+
+}
+
+.logo-box img {
+
+    width: 100%;
+
+    max-width: 180px;
+
+    height: auto;
+
+    object-fit: contain;
+
+}
+
+.logo-box a {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    width: 100%;
+
+}
+
+.logo-box:hover {
+
+    box-shadow: $shadow-md;
+
+}
+
+@include tablet {
+
+    .logo-box {
+
+        min-height: 150px;
+
+    }
+
+}
+
+@include mobile {
+
+    .logo-box {
+
+        padding: 15px;
+
+    }
+
+    .logo-box img {
+
+        max-width: 140px;
+
+    }
+
+}

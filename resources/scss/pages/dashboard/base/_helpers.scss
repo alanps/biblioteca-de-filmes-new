@@ -1,0 +1,150 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+@use "../abstracts/placeholders" as *;
+
+/* ==========================================================
+   HELPERS
+========================================================== */
+
+.d-flex {
+
+    display: flex !important;
+
+}
+
+.d-block {
+
+    display: block !important;
+
+}
+
+.d-none {
+
+    display: none !important;
+
+}
+
+.align-center {
+
+    align-items: center !important;
+
+}
+
+.justify-center {
+
+    justify-content: center !important;
+
+}
+
+.justify-between {
+
+    justify-content: space-between !important;
+
+}
+
+.flex-column {
+
+    flex-direction: column !important;
+
+}
+
+.flex-wrap {
+
+    flex-wrap: wrap !important;
+
+}
+
+.text-center {
+
+    text-align: center !important;
+
+}
+
+.text-left {
+
+    text-align: left !important;
+
+}
+
+.text-right {
+
+    text-align: right !important;
+
+}
+
+.w-100 {
+
+    width: 100% !important;
+
+}
+
+.h-100 {
+
+    height: 100% !important;
+
+}
+
+.position-relative {
+
+    position: relative !important;
+
+}
+
+.position-absolute {
+
+    position: absolute !important;
+
+}
+
+.rounded {
+
+    border-radius: $radius-sm !important;
+
+}
+
+.shadow {
+
+    box-shadow: $shadow-sm !important;
+
+}
+
+.overflow-hidden {
+
+    overflow: hidden !important;
+
+}
+
+/* ==========================================================
+   MARGINS
+========================================================== */
+
+.mt-1 { margin-top:10px !important; }
+.mt-2 { margin-top:20px !important; }
+.mt-3 { margin-top:30px !important; }
+.mt-4 { margin-top:40px !important; }
+
+.mb-1 { margin-bottom:10px !important; }
+.mb-2 { margin-bottom:20px !important; }
+.mb-3 { margin-bottom:30px !important; }
+.mb-4 { margin-bottom:40px !important; }
+
+.ml-auto {
+
+    margin-left: auto !important;
+
+}
+
+.mr-auto {
+
+    margin-right: auto !important;
+
+}
+
+/* ==========================================================
+   PADDINGS
+========================================================== */
+
+.p-1 { padding:10px !important; }
+.p-2 { padding:20px !important; }
+.p-3 { padding:30px !important; }
+.p-4 { padding:40px !important; }

@@ -1,0 +1,81 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+@use "../abstracts/placeholders" as *;
+
+/* ==========================================================
+   SEARCH
+========================================================== */
+
+.search-panel {
+
+    @extend %card;
+
+    padding: 20px;
+
+    background: #fff;
+
+}
+
+.search-panel label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: $font-sm;
+
+    font-weight: $bold;
+
+    color: $text;
+
+}
+
+.search-input {
+
+    width: 100%;
+
+    height: 42px;
+
+    padding: 0 15px;
+
+    border: 1px solid $border;
+
+    border-radius: $radius-sm;
+
+    background: #fff;
+
+    transition: $transition;
+
+}
+
+.search-input:focus {
+
+    border-color: $primary;
+
+    box-shadow: 0 0 0 3px rgba($primary,.15);
+
+}
+
+.search-input::placeholder {
+
+    color: $text-muted;
+
+}
+
+.total-movies {
+
+    margin-top: 15px;
+
+    font-size: $font-sm;
+
+    color: $text-light;
+
+}
+
+.total-movies strong {
+
+    color: $primary;
+
+    font-size: $font-lg;
+
+}

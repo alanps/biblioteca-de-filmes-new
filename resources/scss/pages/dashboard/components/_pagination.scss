@@ -1,0 +1,78 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+@use "../abstracts/placeholders" as *;
+
+/* ==========================================================
+   PAGINATION
+========================================================== */
+
+.pagination {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-top: 25px;
+
+}
+
+.pagination a,
+.pagination span {
+
+    min-width: 36px;
+
+    height: 36px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    border: 1px solid $border;
+
+    border-radius: $radius-sm;
+
+    background: #fff;
+
+    color: $text;
+
+    font-size: $font-sm;
+
+    transition: $transition;
+
+}
+
+.pagination a:hover {
+
+    background: $primary;
+
+    border-color: $primary;
+
+    color: #fff;
+
+}
+
+.pagination .active {
+
+    background: $primary;
+
+    border-color: $primary;
+
+    color: #fff;
+
+    font-weight: $bold;
+
+}
+
+.pagination .disabled {
+
+    opacity: .45;
+
+    pointer-events: none;
+
+}

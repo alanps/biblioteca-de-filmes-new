@@ -1,0 +1,312 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+@use "../abstracts/placeholders" as *;
+
+/* ==========================================================
+   HEADER
+========================================================== */
+
+.header {
+
+    background: linear-gradient(#f8f8f8, #ececec);
+
+    border-bottom: 1px solid $border;
+
+    padding: 20px 0 25px;
+
+    margin-bottom: 25px;
+
+}
+
+/* ==========================================================
+   ROW
+========================================================== */
+
+.header .row {
+
+    align-items: stretch;
+
+}
+
+/* ==========================================================
+   LOGO
+========================================================== */
+
+.logo-box {
+
+    @include flex(center, center);
+
+    @include card;
+
+    min-height: 180px;
+
+    padding: 20px;
+
+    background: #ffffff;
+
+}
+
+.logo-box img {
+
+    width: 100%;
+
+    max-width: 180px;
+
+    height: auto;
+
+    object-fit: contain;
+
+}
+
+/* ==========================================================
+   BANNER
+========================================================== */
+
+.header-banner {
+
+    @include card;
+
+    overflow: hidden;
+
+    min-height: 180px;
+
+    height: 100%;
+
+    background: #ffffff;
+
+}
+
+.header-banner img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+}
+
+/* ==========================================================
+   MENU LATERAL
+========================================================== */
+
+.top-actions {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    height: 100%;
+
+}
+
+/* ==========================================================
+   ACTION CARD
+========================================================== */
+
+.action-card {
+
+    @include card;
+
+    @include flex(flex-start, center);
+
+    gap: 15px;
+
+    min-height: 56px;
+
+    padding: 12px 18px;
+
+    background: #ffffff;
+
+    transition: $transition;
+
+    cursor: pointer;
+
+}
+
+.action-card:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow: $shadow-md;
+
+}
+
+.action-card__icon {
+
+    @include size(38px);
+
+    @include flex(center, center);
+
+    border-radius: 50%;
+
+    background: $primary;
+
+    flex-shrink: 0;
+
+}
+
+.action-card__icon img {
+
+    width: 20px;
+
+    height: 20px;
+
+    object-fit: contain;
+
+}
+
+.action-card span {
+
+    font-size: $font-md;
+
+    font-weight: $bold;
+
+    color: $text;
+
+    letter-spacing: .3px;
+
+}
+
+/* ==========================================================
+   PROFILE
+========================================================== */
+
+.profile {
+
+    justify-content: space-between;
+
+}
+
+.profile-avatar {
+
+    @include size(44px);
+
+    overflow: hidden;
+
+    border-radius: 50%;
+
+    border: 2px solid $primary;
+
+    flex-shrink: 0;
+
+}
+
+.profile-avatar img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+}
+
+.profile-name {
+
+    flex: 1;
+
+    margin-left: 15px;
+
+    font-weight: $bold;
+
+    color: $text;
+
+}
+
+.logout {
+
+    padding: 8px 16px;
+
+    border-radius: $radius-sm;
+
+    background: $danger;
+
+    color: #ffffff;
+
+    font-size: $font-sm;
+
+    transition: $transition;
+
+}
+
+.logout:hover {
+
+    background: darken($danger, 8%);
+
+}
+
+/* ==========================================================
+   RESPONSIVO
+========================================================== */
+
+@include tablet {
+
+    .logo-box,
+    .header-banner {
+
+        min-height: auto;
+
+    }
+
+    .header-banner {
+
+        margin-top: 20px;
+
+    }
+
+    .top-actions {
+
+        margin-top: 20px;
+
+    }
+
+}
+
+@include mobile {
+
+    .header {
+
+        padding: 15px 0;
+
+    }
+
+    .logo-box {
+
+        padding: 15px;
+
+    }
+
+    .action-card {
+
+        padding: 12px;
+
+    }
+
+    .profile {
+
+        flex-wrap: wrap;
+
+        gap: 10px;
+
+    }
+
+    .profile-name {
+
+        margin-left: 0;
+
+    }
+
+    .logout {
+
+        width: 100%;
+
+        text-align: center;
+
+    }
+
+}

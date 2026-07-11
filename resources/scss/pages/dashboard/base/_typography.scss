@@ -1,0 +1,156 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+@use "../abstracts/placeholders" as *;
+
+/* ==========================================================
+   TYPOGRAPHY
+========================================================== */
+
+body {
+
+    font-family: $font-primary;
+
+    font-size: $font-md;
+
+    line-height: 1.5;
+
+    color: $text;
+
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+
+    margin: 0;
+
+    font-family: $font-title;
+
+    font-weight: $bold;
+
+    color: $text;
+
+    line-height: 1.2;
+
+}
+
+h1 {
+
+    font-size: 34px;
+
+}
+
+h2 {
+
+    font-size: 28px;
+
+}
+
+h3 {
+
+    font-size: 22px;
+
+}
+
+h4 {
+
+    font-size: 18px;
+
+}
+
+h5 {
+
+    font-size: 16px;
+
+}
+
+h6 {
+
+    font-size: 14px;
+
+}
+
+p {
+
+    margin-bottom: 15px;
+
+    color: $text-light;
+
+    line-height: 1.7;
+
+}
+
+strong {
+
+    font-weight: $bold;
+
+}
+
+small {
+
+    font-size: $font-sm;
+
+}
+
+label {
+
+    display: block;
+
+    margin-bottom: 6px;
+
+    font-weight: $medium;
+
+}
+
+code {
+
+    font-family: Consolas, monospace;
+
+}
+
+blockquote {
+
+    padding: 20px;
+
+    margin: 20px 0;
+
+    border-left: 4px solid $primary;
+
+    background: #f5f5f5;
+
+}
+
+hr {
+
+    border: none;
+
+    border-top: 1px solid $border;
+
+    margin: 25px 0;
+
+}
+
+@include tablet {
+
+    h1 {
+
+        font-size: 30px;
+
+    }
+
+    h2 {
+
+        font-size: 24px;
+
+    }
+
+    h3 {
+
+        font-size: 20px;
+
+    }
+
+}

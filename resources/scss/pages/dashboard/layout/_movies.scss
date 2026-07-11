@@ -1,0 +1,409 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+@use "../abstracts/placeholders" as *;
+
+/* ==========================================================
+   MOVIES
+========================================================== */
+
+.movies {
+
+    margin-bottom: 40px;
+
+}
+
+/* ==========================================================
+   GRID
+========================================================== */
+
+.movie-list {
+
+    row-gap: 30px;
+
+}
+
+/* ==========================================================
+   CARD
+========================================================== */
+
+.movie-card {
+
+    @include card;
+
+    position: relative;
+
+    display: flex;
+
+    align-items: stretch;
+
+    min-height: 255px;
+
+    overflow: hidden;
+
+    background: #ffffff;
+
+    transition: $transition;
+
+}
+
+.movie-card:hover {
+
+    transform: translateY(-3px);
+
+    box-shadow: $shadow-lg;
+
+}
+
+/* ==========================================================
+   POSTER
+========================================================== */
+
+.movie-card__poster {
+
+    width: 180px;
+
+    min-width: 180px;
+
+    overflow: hidden;
+
+    border-right: 1px solid $border;
+
+    background: #e5e5e5;
+
+}
+
+.movie-card__poster img {
+
+    width: 100%;
+
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+}
+
+/* ==========================================================
+   CONTENT
+========================================================== */
+
+.movie-card__content {
+
+    flex: 1;
+
+    padding: 22px;
+
+}
+
+.movie-card__content h2 {
+
+    margin-bottom: 15px;
+
+    font-size: 24px;
+
+    color: $primary;
+
+    font-weight: $bold;
+
+    line-height: 1.3;
+
+}
+
+.movie-card__content p {
+
+    font-size: 14px;
+
+    color: $text-light;
+
+    line-height: 1.8;
+
+    margin: 0;
+
+    @include lineClamp(8);
+
+}
+
+/* ==========================================================
+   ASIDE
+========================================================== */
+
+.movie-card__aside {
+
+    width: 150px;
+
+    min-width: 150px;
+
+    padding: 20px;
+
+    border-left: 1px solid $border;
+
+    background: #f8f8f8;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+}
+
+.movie-card__aside .tag {
+
+    margin-bottom: 8px;
+
+}
+
+.movie-card__aside .btn-more {
+
+    margin-top: auto;
+
+}
+
+/* ==========================================================
+   TAG
+========================================================== */
+
+.tag {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 28px;
+
+    padding: 6px 12px;
+
+    margin-bottom: 8px;
+
+    border-radius: 20px;
+
+    background: $primary;
+
+    color: #ffffff;
+
+    font-size: 12px;
+
+    font-weight: $bold;
+
+    text-transform: uppercase;
+
+}
+
+/* ==========================================================
+   ADD BUTTON
+========================================================== */
+
+.btn-more {
+
+    @include size(42px);
+
+    @include flex(center, center);
+
+    border-radius: 50%;
+
+    background: $danger;
+
+    color: #ffffff;
+
+    font-size: 28px;
+
+    font-weight: 700;
+
+    transition: $transition;
+
+}
+
+.btn-more:hover {
+
+    transform: rotate(90deg);
+
+    background: darken($danger, 8%);
+
+}
+
+/* ==========================================================
+   FAVORITE
+========================================================== */
+
+.favorite {
+
+    position: absolute;
+
+    top: 14px;
+
+    right: 14px;
+
+    width: 16px;
+
+    height: 16px;
+
+    background: $danger;
+
+    border-radius: 2px;
+
+}
+
+/* ==========================================================
+   LOAD MORE
+========================================================== */
+
+.load-more-area {
+
+    display: flex;
+
+    justify-content: center;
+
+    margin: 35px 0;
+
+}
+
+.btn-load-more {
+
+    min-width: 220px;
+
+    height: 48px;
+
+    border-radius: 5px;
+
+    background: $primary;
+
+    color: #ffffff;
+
+    font-weight: $bold;
+
+    transition: $transition;
+
+}
+
+.btn-load-more:hover {
+
+    background: $primary-dark;
+
+}
+
+/* ==========================================================
+   RESPONSIVO
+========================================================== */
+
+@include laptop {
+
+    .movie-card {
+
+        flex-direction: column;
+
+    }
+
+    .movie-card__poster {
+
+        width: 100%;
+
+        min-width: 100%;
+
+        height: 320px;
+
+        border-right: none;
+
+        border-bottom: 1px solid $border;
+
+    }
+
+    .movie-card__aside {
+
+        width: 100%;
+
+        min-width: 100%;
+
+        border-left: none;
+
+        border-top: 1px solid $border;
+
+        flex-direction: row;
+
+        flex-wrap: wrap;
+
+        gap: 10px;
+
+        align-items: center;
+
+    }
+
+    .movie-card__aside .btn-more {
+
+        margin-left: auto;
+
+        margin-top: 0;
+
+    }
+
+}
+
+@include tablet {
+
+    .movie-card__poster {
+
+        height: 280px;
+
+    }
+
+    .movie-card__content {
+
+        padding: 18px;
+
+    }
+
+    .movie-card__content h2 {
+
+        font-size: 20px;
+
+    }
+
+}
+
+@include mobile {
+
+    .movie-card {
+
+        min-height: auto;
+
+    }
+
+    .movie-card__poster {
+
+        height: 240px;
+
+    }
+
+    .movie-card__content {
+
+        padding: 15px;
+
+    }
+
+    .movie-card__content h2 {
+
+        font-size: 18px;
+
+    }
+
+    .movie-card__content p {
+
+        -webkit-line-clamp: 5;
+
+    }
+
+    .movie-card__aside {
+
+        padding: 15px;
+
+    }
+
+    .btn-load-more {
+
+        width: 100%;
+
+    }
+
+}

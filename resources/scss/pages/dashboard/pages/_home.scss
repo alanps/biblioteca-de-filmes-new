@@ -1,0 +1,111 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+@use "../abstracts/placeholders" as *;
+
+/* ==========================================================
+   HOME PAGE
+========================================================== */
+
+.home {
+
+    padding-bottom: 40px;
+
+}
+
+/* HEADER */
+
+.home .header {
+
+    margin-bottom: 30px;
+
+}
+
+/* FILTERS */
+
+.home .filters {
+
+    margin-bottom: 35px;
+
+}
+
+/* MOVIES */
+
+.home .movies {
+
+    margin-bottom: 40px;
+
+}
+
+/* PANELS */
+
+.home .lower-panels {
+
+    margin-top: 40px;
+
+}
+
+/* FOOTER */
+
+.home .footer {
+
+    margin-top: 40px;
+
+}
+
+/* ==========================================================
+   PAGE ANIMATIONS
+========================================================== */
+
+.home .movie-card {
+
+    animation: fadeUp .4s ease;
+
+}
+
+.home .panel {
+
+    animation: fadeIn .4s ease;
+
+}
+
+.home .header-banner {
+
+    animation: scaleIn .35s ease;
+
+}
+
+.home .logo-box {
+
+    animation: fadeIn .4s ease;
+
+}
+
+/* ==========================================================
+   RESPONSIVO
+========================================================== */
+
+@include tablet {
+
+    .home {
+
+        padding-bottom: 25px;
+
+    }
+
+    .home .lower-panels {
+
+        margin-top: 25px;
+
+    }
+
+}
+
+@include mobile {
+
+    .home .movies {
+
+        margin-bottom: 25px;
+
+    }
+
+}

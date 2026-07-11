@@ -1,0 +1,109 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+@use "../abstracts/placeholders" as *;
+
+/* ==========================================================
+   BUTTONS
+========================================================== */
+
+button {
+
+    border: none;
+
+    outline: none;
+
+    cursor: pointer;
+
+    transition: $transition;
+
+}
+
+/* Botão Primário */
+
+.btn-primary {
+
+    @extend %button;
+
+    height: 42px;
+
+    padding: 0 22px;
+
+    background: $primary;
+
+    color: #fff;
+
+    border-radius: $radius-sm;
+
+    font-size: $font-sm;
+
+    font-weight: $bold;
+
+}
+
+.btn-primary:hover {
+
+    background: $primary-dark;
+
+}
+
+/* Botão Secundário */
+
+.btn-secondary {
+
+    @extend %button;
+
+    height: 42px;
+
+    padding: 0 22px;
+
+    background: #ececec;
+
+    border: 1px solid $border;
+
+    border-radius: $radius-sm;
+
+}
+
+.btn-secondary:hover {
+
+    background: #dcdcdc;
+
+}
+
+/* Botão Circular */
+
+.btn-circle {
+
+    @include size(42px);
+
+    @include flex(center, center);
+
+    border-radius: 50%;
+
+    background: $primary;
+
+    color: #fff;
+
+}
+
+.btn-circle:hover {
+
+    transform: rotate(90deg);
+
+}
+
+/* Botão Danger */
+
+.btn-danger {
+
+    background: $danger;
+
+    color: #fff;
+
+}
+
+.btn-danger:hover {
+
+    background: darken($danger, 10%);
+
+}

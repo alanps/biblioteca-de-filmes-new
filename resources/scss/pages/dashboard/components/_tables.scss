@@ -1,0 +1,67 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+@use "../abstracts/placeholders" as *;
+
+/* ==========================================================
+   TABLES
+========================================================== */
+
+.table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    background: #ffffff;
+
+}
+
+.table th {
+
+    padding: 12px;
+
+    background: $primary;
+
+    color: #ffffff;
+
+    text-align: left;
+
+    font-size: $font-sm;
+
+    font-weight: $bold;
+
+}
+
+.table td {
+
+    padding: 12px;
+
+    border-bottom: 1px solid $border;
+
+    font-size: $font-sm;
+
+}
+
+.table tbody tr {
+
+    transition: $transition;
+
+}
+
+.table tbody tr:hover {
+
+    background: #f5f9ff;
+
+}
+
+.table-striped tbody tr:nth-child(even) {
+
+    background: #fafafa;
+
+}
+
+.table-responsive {
+
+    overflow-x: auto;
+
+}

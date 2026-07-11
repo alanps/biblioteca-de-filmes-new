@@ -1,0 +1,103 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+@use "../abstracts/placeholders" as *;
+
+/* ==========================================================
+   BANNER
+========================================================== */
+
+.header-banner,
+.center-banner {
+
+    @extend %card;
+
+    overflow: hidden;
+
+    position: relative;
+
+    background: #ffffff;
+
+}
+
+.header-banner {
+
+    min-height: 180px;
+
+}
+
+.center-banner {
+
+    min-height: 600px;
+
+}
+
+.header-banner img,
+.center-banner img {
+
+    width: 100%;
+
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+}
+
+.banner-placeholder {
+
+    width: 100%;
+
+    height: 100%;
+
+    min-height: inherit;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    background: linear-gradient(
+        135deg,
+        #f8f8f8,
+        #ececec
+    );
+
+    border: 2px dashed $border;
+
+}
+
+.banner-placeholder::before {
+
+    content: "BANNER";
+
+    font-size: 42px;
+
+    font-weight: $bold;
+
+    color: rgba($text,.15);
+
+    letter-spacing: 6px;
+
+}
+
+@include tablet {
+
+    .center-banner {
+
+        min-height: 350px;
+
+    }
+
+}
+
+@include mobile {
+
+    .header-banner {
+
+        min-height: 150px;
+
+    }
+
+}

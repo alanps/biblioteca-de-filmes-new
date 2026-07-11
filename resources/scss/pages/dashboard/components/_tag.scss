@@ -1,0 +1,81 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+@use "../abstracts/placeholders" as *;
+
+/* ==========================================================
+   TAGS
+========================================================== */
+
+.tag {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 28px;
+
+    padding: 6px 12px;
+
+    border-radius: 30px;
+
+    background: $primary;
+
+    color: #fff;
+
+    font-size: 12px;
+
+    font-weight: $bold;
+
+    text-transform: uppercase;
+
+    transition: $transition;
+
+}
+
+.tag:hover {
+
+    background: $primary-dark;
+
+}
+
+.tag-action {
+
+    background: #4CAF50;
+
+}
+
+.tag-comedy {
+
+    background: #FF9800;
+
+}
+
+.tag-drama {
+
+    background: #9C27B0;
+
+}
+
+.tag-scifi {
+
+    background: #2196F3;
+
+}
+
+.tag-danger {
+
+    background: $danger;
+
+}
+
+.tags {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+}

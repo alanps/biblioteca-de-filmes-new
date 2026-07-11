@@ -1,0 +1,185 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+@use "../abstracts/placeholders" as *;
+
+/* ==========================================================
+   GRID
+========================================================== */
+
+.container-fluid {
+
+    width: 100%;
+
+    max-width: $container-width;
+
+    margin: 0 auto;
+
+    padding-left: 20px;
+
+    padding-right: 20px;
+
+}
+
+.row {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+}
+
+[class*="col-"] {
+
+    position: relative;
+
+}
+
+/* ==========================================================
+   SPACING
+========================================================== */
+
+.section {
+
+    padding: 40px 0;
+
+}
+
+.section-sm {
+
+    padding: 20px 0;
+
+}
+
+.section-lg {
+
+    padding: 60px 0;
+
+}
+
+/* ==========================================================
+   GAPS
+========================================================== */
+
+.gap-10 {
+
+    gap: 10px;
+
+}
+
+.gap-15 {
+
+    gap: 15px;
+
+}
+
+.gap-20 {
+
+    gap: 20px;
+
+}
+
+.gap-30 {
+
+    gap: 30px;
+
+}
+
+.gap-40 {
+
+    gap: 40px;
+
+}
+
+/* ==========================================================
+   FLEX HELPERS
+========================================================== */
+
+.flex {
+
+    display: flex;
+
+}
+
+.flex-center {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+}
+
+.flex-between {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+}
+
+.flex-column {
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+/* ==========================================================
+   RESPONSIVO
+========================================================== */
+
+@include laptop {
+
+    .section {
+
+        padding: 30px 0;
+
+    }
+
+}
+
+@include tablet {
+
+    .container-fluid {
+
+        padding-left: 15px;
+
+        padding-right: 15px;
+
+    }
+
+    .section {
+
+        padding: 25px 0;
+
+    }
+
+}
+
+@include mobile {
+
+    .container-fluid {
+
+        padding-left: 12px;
+
+        padding-right: 12px;
+
+    }
+
+    .gap-30 {
+
+        gap: 20px;
+
+    }
+
+    .gap-40 {
+
+        gap: 25px;
+
+    }
+
+}

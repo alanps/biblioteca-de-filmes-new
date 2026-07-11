@@ -1,0 +1,482 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+@use "../abstracts/placeholders" as *;
+
+/* ==========================================================
+   PANELS
+========================================================== */
+
+.lower-panels {
+
+    margin-top: 40px;
+
+}
+
+/* ==========================================================
+   PANEL
+========================================================== */
+
+.panel {
+
+    @include card;
+
+    display: flex;
+
+    flex-direction: column;
+
+    height: 100%;
+
+    overflow: hidden;
+
+    background: #ffffff;
+
+}
+
+/* ==========================================================
+   TITLE
+========================================================== */
+
+.panel-title {
+
+    @include flex(space-between, center);
+
+    padding: 12px 18px;
+
+    background: $primary;
+
+    color: #ffffff;
+
+    border-bottom: 1px solid darken($primary, 8%);
+
+}
+
+.panel-title span {
+
+    font-size: $font-md;
+
+    font-weight: $bold;
+
+    text-transform: uppercase;
+
+    letter-spacing: .5px;
+
+}
+
+.panel-actions {
+
+    display: flex;
+
+    gap: 6px;
+
+}
+
+.panel-actions .action {
+
+    @include size(12px);
+
+    border-radius: 50%;
+
+}
+
+.panel-actions .red {
+
+    background: #ff5f57;
+
+}
+
+.panel-actions .yellow {
+
+    background: #febc2e;
+
+}
+
+.panel-actions .green {
+
+    background: #28c840;
+
+}
+
+/* ==========================================================
+   BODY
+========================================================== */
+
+.panel-body {
+
+    flex: 1;
+
+    padding: 18px;
+
+    background: #fafafa;
+
+}
+
+/* ==========================================================
+   SEARCH
+========================================================== */
+
+.panel-search {
+
+    margin-bottom: 20px;
+
+}
+
+.panel-search label {
+
+    display: block;
+
+    margin-bottom: 6px;
+
+    font-weight: $bold;
+
+}
+
+.panel-search input {
+
+    width: 100%;
+
+}
+
+/* ==========================================================
+   COUNTER
+========================================================== */
+
+.panel-counter {
+
+    margin-bottom: 18px;
+
+    font-size: $font-sm;
+
+    color: $text-light;
+
+}
+
+.panel-counter strong {
+
+    color: $primary;
+
+}
+
+/* ==========================================================
+   LIST
+========================================================== */
+
+.movie-result-list,
+.users-list {
+
+    margin: 0;
+
+    padding: 0;
+
+    list-style: none;
+
+}
+
+.movie-result-list li,
+.users-list li {
+
+    @include flex(space-between, center);
+
+    padding: 10px 12px;
+
+    margin-bottom: 8px;
+
+    border: 1px solid $border;
+
+    border-radius: $radius-sm;
+
+    background: #ffffff;
+
+    transition: $transition;
+
+}
+
+.movie-result-list li:hover,
+.users-list li:hover {
+
+    background: #f3f8ff;
+
+    border-color: $primary;
+
+}
+
+/* ==========================================================
+   STATUS
+========================================================== */
+
+.status {
+
+    @include size(14px);
+
+    display: inline-block;
+
+    margin-left: 5px;
+
+    border-radius: 50%;
+
+}
+
+.status.white {
+
+    background: #ffffff;
+
+    border: 1px solid #ccc;
+
+}
+
+.status.green {
+
+    background: #4caf50;
+
+}
+
+.status.black {
+
+    background: #222;
+
+}
+
+/* ==========================================================
+   SELECTED MOVIE
+========================================================== */
+
+.selected-movie {
+
+    display: flex;
+
+    gap: 15px;
+
+    margin: 20px 0;
+
+    padding: 12px;
+
+    border: 1px solid $border;
+
+    border-radius: $radius-sm;
+
+    background: #ffffff;
+
+}
+
+.selected-movie img {
+
+    width: 95px;
+
+    height: 140px;
+
+    object-fit: cover;
+
+    border-radius: 3px;
+
+}
+
+.selected-tags {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 8px;
+
+    flex: 1;
+
+}
+
+/* ==========================================================
+   CENTER BANNER
+========================================================== */
+
+.center-banner {
+
+    @include card;
+
+    height: 100%;
+
+    min-height: 620px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    background: #ffffff;
+
+}
+
+.banner-placeholder {
+
+    width: 90%;
+
+    height: 90%;
+
+    border: 2px dashed $border;
+
+    border-radius: $radius-md;
+
+    background: linear-gradient(
+        135deg,
+        #f8f8f8,
+        #ececec
+    );
+
+}
+
+/* ==========================================================
+   USERS
+========================================================== */
+
+.users-list button {
+
+    width: 26px;
+
+    height: 26px;
+
+    border-radius: 50%;
+
+    background: $danger;
+
+    color: #ffffff;
+
+    font-weight: $bold;
+
+    transition: $transition;
+
+}
+
+.users-list button:hover {
+
+    background: darken($danger, 10%);
+
+}
+
+/* ==========================================================
+   PAGINATION
+========================================================== */
+
+.pagination {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 6px;
+
+    margin-top: 20px;
+
+}
+
+.pagination a,
+.pagination span {
+
+    min-width: 34px;
+
+    height: 34px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    border-radius: 4px;
+
+    border: 1px solid $border;
+
+    background: #ffffff;
+
+    font-size: $font-sm;
+
+}
+
+.pagination a {
+
+    transition: $transition;
+
+}
+
+.pagination a:hover {
+
+    background: $primary;
+
+    color: #ffffff;
+
+}
+
+.pagination .active {
+
+    background: $primary;
+
+    border-color: $primary;
+
+    color: #ffffff;
+
+}
+
+/* ==========================================================
+   RESPONSIVO
+========================================================== */
+
+@include tablet {
+
+    .panel {
+
+        margin-bottom: 25px;
+
+    }
+
+    .center-banner {
+
+        min-height: 350px;
+
+    }
+
+}
+
+@include mobile {
+
+    .selected-movie {
+
+        flex-direction: column;
+
+        align-items: center;
+
+        text-align: center;
+
+    }
+
+    .selected-movie img {
+
+        width: 140px;
+
+        height: 200px;
+
+    }
+
+    .selected-tags {
+
+        align-items: center;
+
+    }
+
+    .movie-result-list li,
+    .users-list li {
+
+        flex-direction: column;
+
+        gap: 10px;
+
+        align-items: flex-start;
+
+    }
+
+    .users-list button {
+
+        align-self: flex-end;
+
+    }
+
+}

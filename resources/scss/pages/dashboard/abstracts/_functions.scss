@@ -1,0 +1,27 @@
+/* ==========================================================
+   FUNCTIONS
+========================================================== */
+
+@function rem($pixels) {
+
+    @return calc($pixels / 16) * 1rem;
+
+}
+
+@function em($pixels, $base:16) {
+
+    @return calc($pixels / $base) * 1em;
+
+}
+
+@function percentage-width($value,$total){
+
+    @return percentage(calc($value / $total));
+
+}
+
+@function z($value){
+
+    @return $value * 10;
+
+}

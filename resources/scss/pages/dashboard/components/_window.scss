@@ -1,0 +1,134 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+@use "../abstracts/placeholders" as *;
+
+/* ==========================================================
+   WINDOW
+========================================================== */
+
+.window {
+
+    @extend %card;
+
+    overflow: hidden;
+
+    background: #ffffff;
+
+}
+
+/* ==========================================================
+   TITLE BAR
+========================================================== */
+
+.window__titlebar {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    height: 42px;
+
+    padding: 0 15px;
+
+    background: linear-gradient(
+        $primary,
+        $primary-dark
+    );
+
+    color: #ffffff;
+
+}
+
+.window__titlebar span {
+
+    font-size: $font-sm;
+
+    font-weight: $bold;
+
+    text-transform: uppercase;
+
+}
+
+.window__buttons {
+
+    display: flex;
+
+    gap: 6px;
+
+}
+
+.window__buttons span {
+
+    width: 12px;
+
+    height: 12px;
+
+    border-radius: 50%;
+
+}
+
+.window__buttons span:nth-child(1) {
+
+    background: #ff5f57;
+
+}
+
+.window__buttons span:nth-child(2) {
+
+    background: #febc2e;
+
+}
+
+.window__buttons span:nth-child(3) {
+
+    background: #28c840;
+
+}
+
+/* ==========================================================
+   BODY
+========================================================== */
+
+.window__body {
+
+    padding: 20px;
+
+    background: #ffffff;
+
+}
+
+/* ==========================================================
+   HOVER
+========================================================== */
+
+.window:hover {
+
+    box-shadow: $shadow-md;
+
+}
+
+/* ==========================================================
+   RESPONSIVO
+========================================================== */
+
+@include tablet {
+
+    .window {
+
+        margin-bottom: 20px;
+
+    }
+
+}
+
+@include mobile {
+
+    .window__body {
+
+        padding: 15px;
+
+    }
+
+}
