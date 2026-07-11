@@ -1,53 +1,53 @@
 import logo from "@images/logo.png";
 import google from "@images/google.svg";
-import RegisterBox from '@/components/register-box';
+import RegisterBox from '@/components/registerBox';
 import Password from '@/components/password';
 import { useState } from "react";
 
 export default function LoginBox() {
 
     const [email, setEmail] = useState('');
-    const [senha, setSenha] = useState('');
+    const [password, setPassword] = useState('');
 
-    const [erro, setErro] = useState(null);
-    const [carregando, setCarregando] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const lidarComLogin = async (evento) => {
-        evento.preventDefault();
-        setErro(null);
-        setCarregando(true);
+    const handleLogin = async (event) => {
+        event.preventDefault();
+        setErrorMessage(null);
+        setIsLoading(true);
 
         try {
-            const resposta = await fetch('https://bibliotecaDeFilmes.ddev.site/api/login', {
+            const response = await fetch('https://biblioteca-de-filmes.ddev.site/api/login', {
                 method: 'POST',
                 headers: {
-                    'ContentType': 'application/json',
+                    'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'AcceptLanguage': 'ptBR' // Força a resposta em português se houver erro de validação
+                    'Accept-Language': 'pt-BR'
                 },
                 body: JSON.stringify({
                     email: email,
-                    password: senha
+                    password: password
                 })
             });
 
-            const dados = await resposta.json();
+            const data = await response.json();
 
-            if (!resposta.ok) {
-                throw new Error(dados.message || 'Erro ao fazer login.');
+            if (!response.ok) {
+                throw new Error(data.message || 'Erro ao fazer login.');
             }
 
             
-            localStorage.setItem('TOKEN_API', dados.access_token);
+            localStorage.setItem('TOKEN_API', data.access_token);
 
-            setErro(null);
+            setErrorMessage(null);
             
             window.location.href = '/listagem';
 
         } catch (error) {
-            setErro(error.message);
+            setErrorMessage(error instanceof Error ? error.message : 'Não foi possível fazer login.');
         } finally {
-            setCarregando(false);
+            setIsLoading(false);
         }
     };
 
@@ -75,7 +75,7 @@ export default function LoginBox() {
 
                 </div>
 
-                <form onSubmit={lidarComLogin}>
+                <form onSubmit={handleLogin}>
 
                     <div className="mb-3">
 
@@ -96,9 +96,9 @@ export default function LoginBox() {
                         <label>Senha</label>
 
                         <Password 
-                            value={senha} 
+                            value={password} 
                             onChange={(e) => {
-                                setSenha(e.target.value);
+                                setPassword(e.target.value);
                             }} 
                         />
 
@@ -116,15 +116,15 @@ export default function LoginBox() {
 
                         <a href="/forgotpass">
 
-                            Esqueceu a senha?
+                            Esqueceu a password?
 
                         </a>
 
                     </div>
 
-                    {erro && (
+                    {errorMessage && (
                         <div className="alertError" style={{ display: 'block' }}>
-                            {erro}
+                            {errorMessage}
                         </div>
                     )}
 

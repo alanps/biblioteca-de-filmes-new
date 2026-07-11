@@ -4,24 +4,13 @@ type CardProps = {
     title: string;
 };
 
-export default function Card({
-    color,
-    icon,
-    title,
-}: CardProps) {
-
+export default function Card({ color, icon, title }: CardProps) {
     return (
-
-        <article className={`movieCard ${color}`}>
-
-            <div className="icon">
+        <article className={`landingCard ${color}`}>
+            <div className="landingCardIcon">
                 <img src={icon} alt="" />
             </div>
-
             <p>{title}</p>
-
         </article>
-
     );
-
 }

@@ -4,88 +4,82 @@ import logo from "@images/logo.png";
 import { useState } from "react";
 
 export default function ForgotPassword() {
-    // Controle de etapas (1 = pedir email, 2 = definir nova senha)
-    const [etapa, setEtapa] = useState(1);
-    
-    // Estados dos inputs
+    const [step, setStep] = useState(1);
+
     const [email, setEmail] = useState('');
     const [token, setToken] = useState('');
-    const [novaSenha, setNovaSenha] = useState('');
+    const [newPassword, setNewPassword] = useState('');
     
-    // Estados de feedback e carregamento
-    const [mensagemSucesso, setMensagemSucesso] = useState(null);
-    const [erro, setErro] = useState(null);
-    const [carregando, setCarregando] = useState(false);
+    const [successMessage, setSuccessMessage] = useState(null);
+    const [errorMessage, setErrorMessage] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
-    // 1. Envia a solicitação de recuperação para o Laravel
-    const lidarComSolicitacao = async (evento) => {
-        evento.preventDefault();
-        setErro(null);
-        setCarregando(true);
+    const handleResetRequest = async (event) => {
+        event.preventDefault();
+        setErrorMessage(null);
+        setIsLoading(true);
 
         try {
-            const resposta = await fetch('https://bibliotecaDeFilmes.ddev.site/api/forgotPassword', {
+            const response = await fetch('https://biblioteca-de-filmes.ddev.site/api/forgot-password', {
                 method: 'POST',
                 headers: {
-                    'ContentType': 'application/json',
+                    'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'AcceptLanguage': 'ptBR'
+                    'Accept-Language': 'pt-BR'
                 },
                 body: JSON.stringify({ email: email })
             });
 
-            const dados = await resposta.json();
+            const data = await response.json();
 
-            if (!resposta.ok) {
-                throw new Error(dados.message || 'Erro ao solicitar recuperação.');
+            if (!response.ok) {
+                throw new Error(data.message || 'Erro ao solicitar recuperação.');
             }
 
-            setMensagemSucesso(dados.message);
-            setEtapa(2); // Avança para a tela de digitar o token e nova senha
+            setSuccessMessage(data.message);
+            setStep(2);
 
         } catch (error) {
-            setErro(error.message);
+            setErrorMessage(error instanceof Error ? error.message : 'Não foi possível solicitar a recuperação.');
         } finally {
-            setCarregando(false);
+            setIsLoading(false);
         }
     };
 
-    // 2. Envia o token e a nova senha para atualizar no Laravel
-    const lidarComRedefinicao = async (evento) => {
-        evento.preventDefault();
-        setErro(null);
-        setCarregando(true);
+    const handlePasswordReset = async (event) => {
+        event.preventDefault();
+        setErrorMessage(null);
+        setIsLoading(true);
 
         try {
-            const resposta = await fetch('https://bibliotecaDeFilmes.ddev.site/api/resetPassword', {
+            const response = await fetch('https://biblioteca-de-filmes.ddev.site/api/reset-password', {
                 method: 'POST',
                 headers: {
-                    'ContentType': 'application/json',
+                    'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'AcceptLanguage': 'ptBR'
+                    'Accept-Language': 'pt-BR'
                 },
                 body: JSON.stringify({
                     email: email,
                     token: token,
-                    password: novaSenha
+                    password: newPassword
                 })
             });
 
-            const dados = await resposta.json();
+            const data = await response.json();
 
-            if (!resposta.ok) {
-                throw new Error(dados.message || 'Erro ao redefinir senha.');
+            if (!response.ok) {
+                throw new Error(data.message || 'Erro ao redefinir senha.');
             }
 
-            alert(dados.message); // "Sua senha foi alterada com sucesso!"
-            
-            // Redireciona o usuário para a tela de login do seu sistema
+            alert(data.message);
+
             window.location.href = '/login';
 
         } catch (error) {
-            setErro(error.message);
+            setErrorMessage(error instanceof Error ? error.message : 'Não foi possível redefinir a senha.');
         } finally {
-            setCarregando(false);
+            setIsLoading(false);
         }
     };
 
@@ -110,16 +104,14 @@ export default function ForgotPassword() {
                     <div className="registerBox loginBox forgotBox">
                         <div className="registerTitle">RECUPERAR ACESSO</div>
 
-                        {/* Mensagem de sucesso global (ex: "Instruções enviadas por eMail") */}
-                        {mensagemSucesso && (
+                        {successMessage && (
                             <div className="alertSuccess" style={{ display: 'block', color: 'green', marginBottom: '15px' }}>
-                                {mensagemSucesso}
+                                {successMessage}
                             </div>
                         )}
 
-                        {/* ETAPA 1: Formulário para solicitar o token */}
-                        {etapa === 1 && (
-                            <form onSubmit={lidarComSolicitacao}>
+                        {step === 1 && (
+                            <form onSubmit={handleResetRequest}>
                                 <p style={{ fontSize: '14px', marginBottom: '15px', color: '#FFF' }}>
                                     Insira seu eMail cadastrado para receber o código de verificação.
                                 </p>
@@ -135,15 +127,14 @@ export default function ForgotPassword() {
                                     />
                                 </div>
 
-                                <button className="btn btnRegister" type="submit" disabled={carregando}>
-                                    {carregando ? 'Buscando...' : 'Enviar Código'}
+                                <button className="btn btnRegister" type="submit" disabled={isLoading}>
+                                    {isLoading ? 'Buscando...' : 'Enviar Código'}
                                 </button>
                             </form>
                         )}
 
-                        {/* ETAPA 2: Formulário para digitar o token recebido e a nova senha */}
-                        {etapa === 2 && (
-                            <form onSubmit={lidarComRedefinicao}>
+                        {step === 2 && (
+                            <form onSubmit={handlePasswordReset}>
                                 <div className="mb-3">
                                     <label>Código/Token de Recuperação</label>
                                     <input 
@@ -159,29 +150,28 @@ export default function ForgotPassword() {
                                 <div className="mb-3 password">
                                     <label>Nova Senha (mínimo 8 caracteres)</label>
                                     <Password 
-                                        value={novaSenha} 
-                                        onChange={(e) => setNovaSenha(e.target.value)} 
+                                        value={newPassword} 
+                                        onChange={(e) => setNewPassword(e.target.value)} 
                                     />
                                 </div>
 
-                                <button className="btn btnRegister" type="submit" disabled={carregando}>
-                                    {carregando ? 'Alterando...' : 'Salvar Nova Senha'}
+                                <button className="btn btnRegister" type="submit" disabled={isLoading}>
+                                    {isLoading ? 'Alterando...' : 'Salvar Nova Senha'}
                                 </button>
                                 
                                 <button 
                                     type="button" 
                                     style={{ background: 'none', border: 'none', color: '#666', marginTop: '10px', cursor: 'pointer' }}
-                                    onClick={() => { setEtapa(1); setMensagemSucesso(null); }}
+                                    onClick={() => { setStep(1); setSuccessMessage(null); }}
                                 >
                                     ← Voltar e corrigir eMail
                                 </button>
                             </form>
                         )}
 
-                        {/* Exibição dinâmica de erros vindos do Laravel */}
-                        {erro && (
+                        {errorMessage && (
                             <div className="alertError" style={{ display: 'block', marginTop: '15px' }}>
-                                {erro}
+                                {errorMessage}
                             </div>
                         )}
                     </div>

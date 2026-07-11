@@ -1,4 +1,4 @@
-import { Search, UserRound, UsersRound } from 'lucide-react';
+import { CircleUserRound, Search, UsersRound } from 'lucide-react';
 
 import logo from '@images/logo.png';
 
@@ -22,7 +22,7 @@ export function DashboardHeader({ onOpenUsers, onOpenAddMovie }: DashboardHeader
                     <span>Adicionar filme</span>
                 </button>
                 <button type="button" className="filmLibrary__profile">
-                    <UserRound aria-hidden="true" />
+                    <CircleUserRound aria-hidden="true" />
                     <span>Alan PS</span>
                     <small>Sair</small>
                 </button>

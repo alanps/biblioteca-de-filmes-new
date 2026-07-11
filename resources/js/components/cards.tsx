@@ -1,54 +1,35 @@
-import Card from "./card";
+import Card from './card';
 
-import clapboard from "@images/claquete.svg";
-import oculos from "@images/oculos.svg";
-import pipoca from "@images/pipoca.svg";
-import camera from "@images/camera.svg";
+import camera from '@images/camera.svg';
+import clapboard from '@images/claquete.svg';
+import glasses from '@images/oculos.svg';
+import popcorn from '@images/pipoca.svg';
 
 export default function Cards() {
-
     return (
-
         <section className="cards">
-
-            <div className="row g-0">
-
-                <div className="col-lg-6">
-                    <Card
-                        color="cardGreen"
-                        icon={clapboard}
-                        title="Faça sua lista de filmes com cadastro automático."
-                    />
-                </div>
-
-                <div className="col-lg-6">
-                    <Card
-                        color="cardBlue"
-                        icon={oculos}
-                        title="Descubra clássicos do cinema."
-                    />
-                </div>
-
-                <div className="col-lg-6">
-                    <Card
-                        color="cardYellow"
-                        icon={pipoca}
-                        title="Marque os filmes que já assistiu."
-                    />
-                </div>
-
-                <div className="col-lg-6">
-                    <Card
-                        color="cardPink"
-                        icon={camera}
-                        title="Compartilhe sua coleção."
-                    />
-                </div>
-
+            <div className="landingCardsGrid">
+                <Card
+                    color="landingCardGreen"
+                    icon={clapboard}
+                    title="Faça sua lista de filmes com cadastro automático."
+                />
+                <Card
+                    color="landingCardBlue"
+                    icon={glasses}
+                    title="Descubra clássicos do cinema."
+                />
+                <Card
+                    color="landingCardYellow"
+                    icon={popcorn}
+                    title="Marque os filmes que já assistiu."
+                />
+                <Card
+                    color="landingCardPink"
+                    icon={camera}
+                    title="Compartilhe sua coleção."
+                />
             </div>
-
         </section>
-
     );
-
 }

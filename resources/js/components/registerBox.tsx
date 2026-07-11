@@ -4,61 +4,60 @@ import { useState, useRef } from "react";
 
 export default function RegisterBox() {
 
-    // Estados para todos os campos do formulário
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
-    const [senha, setSenha] = useState('');
-    const [confirmarSenha, setConfirmarSenha] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
-    const confirmarSenhaRef = useRef(null);
+    const confirmPasswordRef = useRef(null);
     
-    const [erro, setErro] = useState(null);
-    const [carregando, setCarregando] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const lidarComCadastro = async (evento) => {
-        evento.preventDefault();
-        const inputConfirmacao = confirmarSenhaRef.current;
+    const handleRegistration = async (event) => {
+        event.preventDefault();
+        const confirmPasswordInput = confirmPasswordRef.current;
 
-        if (senha !== confirmarSenha) {
-            inputConfirmacao.setCustomValidity("As senhas não coincidem!");
-            inputConfirmacao.reportValidity();
+        if (password !== confirmPassword) {
+            confirmPasswordInput.setCustomValidity("As passwords não coincidem!");
+            confirmPasswordInput.reportValidity();
             return;
         }
 
-        inputConfirmacao.setCustomValidity("");
+        confirmPasswordInput.setCustomValidity("");
 
-        setCarregando(true);
+        setIsLoading(true);
 
         try {
-            const resposta = await fetch('https://bibliotecaDeFilmes.ddev.site/api/register', {
+            const response = await fetch('https://biblioteca-de-filmes.ddev.site/api/register', {
                 method: 'POST',
                 headers: {
-                    'ContentType': 'application/json',
+                    'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 },
                 body: JSON.stringify({
                     name: name,
                     email: email,
-                    password: senha
+                    password: password
                 })
             });
 
-            const dados = await resposta.json();
+            const data = await response.json();
 
-            if (!resposta.ok) {
-                throw new Error(dados.message || 'Erro ao cadastrar.');
+            if (!response.ok) {
+                throw new Error(data.message || 'Erro ao cadastrar.');
             }
 
-            localStorage.setItem('TOKEN_API', dados.access_token);
+            localStorage.setItem('TOKEN_API', data.access_token);
 
-            setErro(null);
+            setErrorMessage(null);
             
             window.location.href = '/listagem';
 
         } catch (error) {
-            setErro(error.message);
+            setErrorMessage(error instanceof Error ? error.message : 'Não foi possível cadastrar.');
         } finally {
-            setCarregando(false);
+            setIsLoading(false);
         }
     };
 
@@ -72,7 +71,7 @@ export default function RegisterBox() {
 
             </div>
 
-            <form onSubmit={lidarComCadastro}>
+            <form onSubmit={handleRegistration}>
 
                 <div className="mb-3">
 
@@ -107,11 +106,11 @@ export default function RegisterBox() {
                     <label>Senha (mínimo 8 caracteres)</label>
 
                         <Password 
-                            value={senha} 
+                            value={password} 
                             onChange={(e) => {
-                                setSenha(e.target.value);
-                                if (confirmarSenhaRef.current) {
-                                    confirmarSenhaRef.current.setCustomValidity("");
+                                setPassword(e.target.value);
+                                if (confirmPasswordRef.current) {
+                                    confirmPasswordRef.current.setCustomValidity("");
                                 }
                             }} 
                         />
@@ -120,29 +119,29 @@ export default function RegisterBox() {
 
                 <div className="mb-3 password passwordConfirm">
 
-                    <label>Repetir senha</label>
+                    <label>Repetir password</label>
 
                         <Password 
                             passwordConfirm={true} 
-                            value={confirmarSenha} 
+                            value={confirmPassword} 
                             onChange={(e) => {
-                                setConfirmarSenha(e.target.value);
-                                if (confirmarSenhaRef.current) {
-                                    confirmarSenhaRef.current.setCustomValidity("");
+                                setConfirmPassword(e.target.value);
+                                if (confirmPasswordRef.current) {
+                                    confirmPasswordRef.current.setCustomValidity("");
                                 }
                             }} 
-                            ref={confirmarSenhaRef}
+                            ref={confirmPasswordRef}
                         />
 
                 </div>
 
-                <button className="btn btnRegister" type="submit" disabled={carregando}>
-                    {carregando ? 'Cadastrando...' : 'Cadastrar'}
+                <button className="btn btnRegister" type="submit" disabled={isLoading}>
+                    {isLoading ? 'Cadastrando...' : 'Cadastrar'}
                 </button>
 
-                {erro && (
+                {errorMessage && (
                     <div className="alertError" style={{ display: 'block' }}>
-                        {erro}
+                        {errorMessage}
                     </div>
                 )}
 

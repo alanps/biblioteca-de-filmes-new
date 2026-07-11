@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::inertia('/', 'landing-page')->name('home');
+Route::inertia('/', 'landingPage')->name('home');
 Route::inertia('/login', 'auth/login')->name('login');
 Route::inertia('/forgotpass', 'forgotpass')->name('forgotpass');
 

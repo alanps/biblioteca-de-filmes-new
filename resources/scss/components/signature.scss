@@ -1,20 +1,21 @@
 @use "../global/variables.scss" as *;
-
-// =========================
 // ASSINATURA
-// =========================
 .signature{
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: center;
     color: #fff;
     background: #111;
-    align-items: center;
-    gap: 12px;
-    padding: 5px 10px;
-    font-size: 14px;
-    font-weight: 500;
-    box-shadow: 0 5px 20px #00000026;
+    gap: 3px 6px;
+    padding: 4px 7px;
+    font-family: "Share Tech Mono", monospace;
+    font-size: 10px;
+    font-weight: 400;
+    box-shadow: none;
     position: fixed;
     bottom: 4px;
     left: 4px;
+    z-index: 60;
 
     .text{
         color: #ffd84d;
@@ -22,7 +23,12 @@
 
     .name{
 
+        display: flex;
+        align-items: center;
+
         a {
+            display: inline-flex;
+            align-items: center;
             color:#ffd84d;
             font-weight:700;
         }
@@ -30,21 +36,16 @@
     }
 
     img.icon {
-        display: inline-block;
-        width: 13px;
-        top: -2.5px;
-        position: relative;
-        margin-left: 8px;
+        display: block;
+        width: 12px;
+        margin: 0 5px 0 0;
     }
 
     .copyright {
-        font-size: 11px;
+        grid-column: 1 / -1;
+        color: #fff;
+        font-size: 8px;
     }
 
 }
-
-// =========================
 // FOOTER
-// =========================
-
-

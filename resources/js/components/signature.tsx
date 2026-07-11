@@ -9,7 +9,7 @@ export default function Signature() {
             <div className="signature">
 
                 <span className="text">
-                    Desenvolvido por
+                    Desenvolvido por:
                 </span>
 
                 <span className="name">
