@@ -64,9 +64,9 @@ export default function RegisterBox() {
 
     return (
     
-        <div class="register-box">
+        <div className="register-box">
 
-            <div class="register-title">
+            <div className="register-title">
 
                 CADASTRAR NOVO USUÁRIO
 
@@ -74,7 +74,7 @@ export default function RegisterBox() {
 
             <form onSubmit={lidarComCadastro}>
 
-                <div class="mb-3">
+                <div className="mb-3">
 
                     <label>Nome</label>
 
@@ -84,11 +84,11 @@ export default function RegisterBox() {
                         required
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        class="form-control" />
+                        className="form-control" />
 
                 </div>
 
-                <div class="mb-3">
+                <div className="mb-3">
 
                     <label>Email</label>
 
@@ -98,11 +98,11 @@ export default function RegisterBox() {
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        class="form-control" />
+                        className="form-control" />
 
                 </div>
 
-                <div class="mb-3 password">
+                <div className="mb-3 password">
 
                     <label>Senha (mínimo 8 caracteres)</label>
 
@@ -118,7 +118,7 @@ export default function RegisterBox() {
 
                 </div>
 
-                <div class="mb-3 password password-confirm">
+                <div className="mb-3 password password-confirm">
 
                     <label>Repetir senha</label>
 
@@ -153,7 +153,7 @@ export default function RegisterBox() {
                 </small>
 
                 <button
-                    class="btn-google"
+                    className="btn-google"
                     type="button">
 
                     <img

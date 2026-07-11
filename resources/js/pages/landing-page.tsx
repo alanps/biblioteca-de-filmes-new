@@ -10,9 +10,9 @@ export default function LandingPage() {
         <>
             <Head />
             
-            <main class="home">
+            <main className="home">
 
-                <div class="container">
+                <div className="container">
 
                     <Header />
                     

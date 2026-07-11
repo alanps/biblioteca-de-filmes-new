@@ -5,23 +5,23 @@ export default function LeftSide() {
 
     return (
 
-        <div class="left-side">
+        <div className="left-side">
 
-            <div class="yellow-column">
+            <div className="yellow-column">
 
                 <img
                     src={claquete2}
                     alt="Claquete"
-                    class="claquete" />
+                    className="claquete" />
 
             </div>
 
-            <div class="blue-column">
+            <div className="blue-column">
 
                 <img
                     src={ticket}
                     alt="Ingressos"
-                    class="ticket" />
+                    className="ticket" />
 
             </div>
 

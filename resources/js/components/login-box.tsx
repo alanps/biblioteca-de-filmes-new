@@ -53,9 +53,9 @@ export default function LoginBox() {
 
     return (
         
-        <div class="login-wrapper">
+        <div className="login-wrapper">
 
-            <header class="logo text-center">
+            <header className="logo text-center">
 
                 <img
                     src={logo}
@@ -63,9 +63,9 @@ export default function LoginBox() {
 
             </header>
 
-            <div class="login-box">
+            <div className="login-box">
 
-                <div class="login-title">
+                <div className="login-title">
 
                     FAÇA LOGIN
 
@@ -77,7 +77,7 @@ export default function LoginBox() {
 
                 <form onSubmit={lidarComLogin}>
 
-                    <div class="mb-3">
+                    <div className="mb-3">
 
                         <label>Email</label>
 
@@ -87,11 +87,11 @@ export default function LoginBox() {
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            class="form-control" />
+                            className="form-control" />
 
                     </div>
 
-                    <div class="mb-3 password">
+                    <div className="mb-3 password">
 
                         <label>Senha</label>
 
@@ -104,11 +104,11 @@ export default function LoginBox() {
 
                     </div>
 
-                    <div class="login-buttons">
+                    <div className="login-buttons">
 
                         <button
                             type="submit"
-                            class="btn btn-login">
+                            className="btn btn-login">
 
                             Entrar
 
@@ -123,7 +123,7 @@ export default function LoginBox() {
                     </div>
 
                     {erro && (
-                        <div className="alert-error" style={{ display: 'block' }}>
+                        <div classNameName="alert-error" style={{ display: 'block' }}>
                             {erro}
                         </div>
                     )}
@@ -135,7 +135,7 @@ export default function LoginBox() {
                     </small>
 
                     <button
-                        class="btn-google"
+                        className="btn-google"
                         type="button">
 
                         <img

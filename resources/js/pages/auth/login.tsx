@@ -9,15 +9,15 @@ export default function Login() {
         <>
             <Head />
             
-            <div class="page">
+            <div className="page">
 
                 <LeftSide />
 
-                <div class="right-side">
+                <div className="right-side">
                     
                     <LoginBox />
             
-                    <div class="bottom-box"></div>
+                    <div className="bottom-box"></div>
 
                 </div>
 
