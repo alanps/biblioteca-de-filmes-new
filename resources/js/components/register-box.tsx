@@ -30,10 +30,10 @@ export default function RegisterBox() {
         setCarregando(true);
 
         try {
-            const resposta = await fetch('https://biblioteca-de-filmes.ddev.site/api/register', {
+            const resposta = await fetch('https://bibliotecaDeFilmes.ddev.site/api/register', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'ContentType': 'application/json',
                     'Accept': 'application/json'
                 },
                 body: JSON.stringify({
@@ -64,9 +64,9 @@ export default function RegisterBox() {
 
     return (
     
-        <div className="register-box">
+        <div className="registerBox">
 
-            <div className="register-title">
+            <div className="registerTitle">
 
                 CADASTRAR NOVO USUÁRIO
 
@@ -84,7 +84,7 @@ export default function RegisterBox() {
                         required
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className="form-control" />
+                        className="formControl" />
 
                 </div>
 
@@ -98,7 +98,7 @@ export default function RegisterBox() {
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="form-control" />
+                        className="formControl" />
 
                 </div>
 
@@ -118,7 +118,7 @@ export default function RegisterBox() {
 
                 </div>
 
-                <div className="mb-3 password password-confirm">
+                <div className="mb-3 password passwordConfirm">
 
                     <label>Repetir senha</label>
 
@@ -136,12 +136,12 @@ export default function RegisterBox() {
 
                 </div>
 
-                <button className="btn btn-register" type="submit" disabled={carregando}>
+                <button className="btn btnRegister" type="submit" disabled={carregando}>
                     {carregando ? 'Cadastrando...' : 'Cadastrar'}
                 </button>
 
                 {erro && (
-                    <div className="alert-error" style={{ display: 'block' }}>
+                    <div className="alertError" style={{ display: 'block' }}>
                         {erro}
                     </div>
                 )}
@@ -153,7 +153,7 @@ export default function RegisterBox() {
                 </small>
 
                 <button
-                    className="btn-google"
+                    className="btnGoogle"
                     type="button">
 
                     <img

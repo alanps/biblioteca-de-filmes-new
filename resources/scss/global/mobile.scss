@@ -4,7 +4,7 @@
 
 @media(max-width:991px){
 
-    .card-filme{
+    .movieCard{
         height:250px;
     }
 
@@ -24,7 +24,7 @@
 
     }
 
-    .card-filme{
+    .movieCard{
         height:auto;
         padding:45px 25px;
 
@@ -45,12 +45,12 @@
 
     }
 
-    .btn-cadastro{
+    .registrationButton{
         font-size:28px;
         padding:22px;
     }
 
-    .assinatura{
+    .signature{
         flex-direction:column;
         gap:5px;
         text-align:center;
@@ -64,11 +64,11 @@
         padding:0 15px;
     }
 
-    .card-filme{
+    .movieCard{
         margin-bottom:15px;
     }
 
-    .btn-cadastro{
+    .registrationButton{
         font-size:22px;
     }
 
@@ -84,22 +84,22 @@
         flex-direction:column;
     }
 
-    .left-side{
+    .leftSide{
         width: 100% !important;
         height:280px;
     }
 
-    .right-side{
+    .rightSide{
         width: 100% !important;
         padding:40px 20px;
     }
 
-    .yellow-column,
-    .blue-column{
+    .yellowColumn,
+    .blueColumn{
         min-height:280px;
     }
 
-    .claquete{
+    .clapboard{
         width: 100% !important;
         position: relative !important;
         top: 0 !important;
@@ -113,7 +113,7 @@
         transform: none !important;
     }
 
-    .bottom-box{
+    .bottomBox{
         display:none;
     }
 
@@ -121,11 +121,11 @@
 
 @media (max-width:768px){
 
-    .left-side{
+    .leftSide{
         display:none;
     }
 
-    .login-wrapper{
+    .loginWrapper{
         max-width:100%;
     }
 
@@ -134,7 +134,7 @@
         width:100%;
     }
 
-    .login-buttons{
+    .loginButtons{
         flex-direction:column;
     }
 

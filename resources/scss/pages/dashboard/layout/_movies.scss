@@ -16,7 +16,7 @@
    GRID
 ========================================================== */
 
-.movie-list {
+.movieList {
 
     row-gap: 30px;
 
@@ -26,7 +26,7 @@
    CARD
 ========================================================== */
 
-.movie-card {
+.movieCard {
 
     @include card;
 
@@ -46,7 +46,7 @@
 
 }
 
-.movie-card:hover {
+.movieCard:hover {
 
     transform: translateY(-3px);
 
@@ -58,7 +58,7 @@
    POSTER
 ========================================================== */
 
-.movie-card__poster {
+.movieCard__poster {
 
     width: 180px;
 
@@ -72,7 +72,7 @@
 
 }
 
-.movie-card__poster img {
+.movieCard__poster img {
 
     width: 100%;
 
@@ -88,7 +88,7 @@
    CONTENT
 ========================================================== */
 
-.movie-card__content {
+.movieCard__content {
 
     flex: 1;
 
@@ -96,7 +96,7 @@
 
 }
 
-.movie-card__content h2 {
+.movieCard__content h2 {
 
     margin-bottom: 15px;
 
@@ -110,7 +110,7 @@
 
 }
 
-.movie-card__content p {
+.movieCard__content p {
 
     font-size: 14px;
 
@@ -128,7 +128,7 @@
    ASIDE
 ========================================================== */
 
-.movie-card__aside {
+.movieCard__aside {
 
     width: 150px;
 
@@ -148,13 +148,13 @@
 
 }
 
-.movie-card__aside .tag {
+.movieCard__aside .tag {
 
     margin-bottom: 8px;
 
 }
 
-.movie-card__aside .btn-more {
+.movieCard__aside .btnMore {
 
     margin-top: auto;
 
@@ -196,7 +196,7 @@
    ADD BUTTON
 ========================================================== */
 
-.btn-more {
+.btnMore {
 
     @include size(42px);
 
@@ -216,7 +216,7 @@
 
 }
 
-.btn-more:hover {
+.btnMore:hover {
 
     transform: rotate(90deg);
 
@@ -250,7 +250,7 @@
    LOAD MORE
 ========================================================== */
 
-.load-more-area {
+.loadMoreArea {
 
     display: flex;
 
@@ -260,7 +260,7 @@
 
 }
 
-.btn-load-more {
+.btnLoadMore {
 
     min-width: 220px;
 
@@ -278,7 +278,7 @@
 
 }
 
-.btn-load-more:hover {
+.btnLoadMore:hover {
 
     background: $primary-dark;
 
@@ -290,13 +290,13 @@
 
 @include laptop {
 
-    .movie-card {
+    .movieCard {
 
         flex-direction: column;
 
     }
 
-    .movie-card__poster {
+    .movieCard__poster {
 
         width: 100%;
 
@@ -310,7 +310,7 @@
 
     }
 
-    .movie-card__aside {
+    .movieCard__aside {
 
         width: 100%;
 
@@ -330,7 +330,7 @@
 
     }
 
-    .movie-card__aside .btn-more {
+    .movieCard__aside .btnMore {
 
         margin-left: auto;
 
@@ -342,19 +342,19 @@
 
 @include tablet {
 
-    .movie-card__poster {
+    .movieCard__poster {
 
         height: 280px;
 
     }
 
-    .movie-card__content {
+    .movieCard__content {
 
         padding: 18px;
 
     }
 
-    .movie-card__content h2 {
+    .movieCard__content h2 {
 
         font-size: 20px;
 
@@ -364,43 +364,43 @@
 
 @include mobile {
 
-    .movie-card {
+    .movieCard {
 
         min-height: auto;
 
     }
 
-    .movie-card__poster {
+    .movieCard__poster {
 
         height: 240px;
 
     }
 
-    .movie-card__content {
+    .movieCard__content {
 
         padding: 15px;
 
     }
 
-    .movie-card__content h2 {
+    .movieCard__content h2 {
 
         font-size: 18px;
 
     }
 
-    .movie-card__content p {
+    .movieCard__content p {
 
         -webkit-line-clamp: 5;
 
     }
 
-    .movie-card__aside {
+    .movieCard__aside {
 
         padding: 15px;
 
     }
 
-    .btn-load-more {
+    .btnLoadMore {
 
         width: 100%;
 

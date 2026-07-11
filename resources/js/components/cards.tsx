@@ -1,6 +1,6 @@
 import Card from "./card";
 
-import claquete from "@images/claquete.svg";
+import clapboard from "@images/claquete.svg";
 import oculos from "@images/oculos.svg";
 import pipoca from "@images/pipoca.svg";
 import camera from "@images/camera.svg";
@@ -15,15 +15,15 @@ export default function Cards() {
 
                 <div className="col-lg-6">
                     <Card
-                        color="card-green"
-                        icon={claquete}
+                        color="cardGreen"
+                        icon={clapboard}
                         title="Faça sua lista de filmes com cadastro automático."
                     />
                 </div>
 
                 <div className="col-lg-6">
                     <Card
-                        color="card-blue"
+                        color="cardBlue"
                         icon={oculos}
                         title="Descubra clássicos do cinema."
                     />
@@ -31,7 +31,7 @@ export default function Cards() {
 
                 <div className="col-lg-6">
                     <Card
-                        color="card-yellow"
+                        color="cardYellow"
                         icon={pipoca}
                         title="Marque os filmes que já assistiu."
                     />
@@ -39,7 +39,7 @@ export default function Cards() {
 
                 <div className="col-lg-6">
                     <Card
-                        color="card-pink"
+                        color="cardPink"
                         icon={camera}
                         title="Compartilhe sua coleção."
                     />

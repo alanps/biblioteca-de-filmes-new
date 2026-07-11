@@ -6,38 +6,26 @@ export default function Signature() {
 
         <footer className="footer">
 
-            <div className="container">
+            <div className="signature">
 
-                <div className="row justify-content-center">
+                <span className="text">
+                    Desenvolvido por
+                </span>
 
-                    <div className="col-auto">
+                <span className="name">
+                    <a
+                        href="https://www.linkedin.com/in/alanpardinisantana/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
 
-                        <div className="assinatura">
+                        <img className="icon" src={dup} alt="Alan Pardini Sant'Ana" />
+                        Alan Pardini Sant'Ana
+                    </a>
+                </span>
 
-                            <span className="texto">
-                                Desenvolvido por
-                            </span>
-
-                            <span className="nome">
-                                <a
-                                    href="https://www.linkedin.com/in/alanpardinisantana/"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-
-                                    <img className="icon" src={dup} alt="Alan Pardini Sant'Ana" />
-                                    Alan Pardini Sant'Ana
-                                </a>
-                            </span>
-
-                            <div className="copyright">
-                                Todos os direitos reservados.
-                            </div>
-
-                        </div>
-
-                    </div>
-
+                <div className="copyright">
+                    Todos os direitos reservados.
                 </div>
 
             </div>

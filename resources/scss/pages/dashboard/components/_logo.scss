@@ -6,7 +6,7 @@
    LOGO
 ========================================================== */
 
-.logo-box {
+.logoBox {
 
     @extend %card;
 
@@ -24,7 +24,7 @@
 
 }
 
-.logo-box img {
+.logoBox img {
 
     width: 100%;
 
@@ -36,7 +36,7 @@
 
 }
 
-.logo-box a {
+.logoBox a {
 
     display: flex;
 
@@ -48,7 +48,7 @@
 
 }
 
-.logo-box:hover {
+.logoBox:hover {
 
     box-shadow: $shadow-md;
 
@@ -56,7 +56,7 @@
 
 @include tablet {
 
-    .logo-box {
+    .logoBox {
 
         min-height: 150px;
 
@@ -66,13 +66,13 @@
 
 @include mobile {
 
-    .logo-box {
+    .logoBox {
 
         padding: 15px;
 
     }
 
-    .logo-box img {
+    .logoBox img {
 
         max-width: 140px;
 

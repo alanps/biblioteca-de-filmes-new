@@ -6,7 +6,7 @@
    PANELS
 ========================================================== */
 
-.lower-panels {
+.lowerPanels {
 
     margin-top: 40px;
 
@@ -36,7 +36,7 @@
    TITLE
 ========================================================== */
 
-.panel-title {
+.panelTitle {
 
     @include flex(space-between, center);
 
@@ -50,7 +50,7 @@
 
 }
 
-.panel-title span {
+.panelTitle span {
 
     font-size: $font-md;
 
@@ -62,7 +62,7 @@
 
 }
 
-.panel-actions {
+.panelActions {
 
     display: flex;
 
@@ -70,7 +70,7 @@
 
 }
 
-.panel-actions .action {
+.panelActions .action {
 
     @include size(12px);
 
@@ -78,19 +78,19 @@
 
 }
 
-.panel-actions .red {
+.panelActions .red {
 
     background: #ff5f57;
 
 }
 
-.panel-actions .yellow {
+.panelActions .yellow {
 
     background: #febc2e;
 
 }
 
-.panel-actions .green {
+.panelActions .green {
 
     background: #28c840;
 
@@ -100,7 +100,7 @@
    BODY
 ========================================================== */
 
-.panel-body {
+.panelBody {
 
     flex: 1;
 
@@ -114,13 +114,13 @@
    SEARCH
 ========================================================== */
 
-.panel-search {
+.panelSearch {
 
     margin-bottom: 20px;
 
 }
 
-.panel-search label {
+.panelSearch label {
 
     display: block;
 
@@ -130,7 +130,7 @@
 
 }
 
-.panel-search input {
+.panelSearch input {
 
     width: 100%;
 
@@ -140,7 +140,7 @@
    COUNTER
 ========================================================== */
 
-.panel-counter {
+.panelCounter {
 
     margin-bottom: 18px;
 
@@ -150,7 +150,7 @@
 
 }
 
-.panel-counter strong {
+.panelCounter strong {
 
     color: $primary;
 
@@ -160,8 +160,8 @@
    LIST
 ========================================================== */
 
-.movie-result-list,
-.users-list {
+.movieResultList,
+.usersList {
 
     margin: 0;
 
@@ -171,8 +171,8 @@
 
 }
 
-.movie-result-list li,
-.users-list li {
+.movieResultList li,
+.usersList li {
 
     @include flex(space-between, center);
 
@@ -190,8 +190,8 @@
 
 }
 
-.movie-result-list li:hover,
-.users-list li:hover {
+.movieResultList li:hover,
+.usersList li:hover {
 
     background: #f3f8ff;
 
@@ -239,7 +239,7 @@
    SELECTED MOVIE
 ========================================================== */
 
-.selected-movie {
+.selectedMovie {
 
     display: flex;
 
@@ -257,7 +257,7 @@
 
 }
 
-.selected-movie img {
+.selectedMovie img {
 
     width: 95px;
 
@@ -269,7 +269,7 @@
 
 }
 
-.selected-tags {
+.selectedTags {
 
     display: flex;
 
@@ -287,7 +287,7 @@
    CENTER BANNER
 ========================================================== */
 
-.center-banner {
+.centerBanner {
 
     @include card;
 
@@ -305,7 +305,7 @@
 
 }
 
-.banner-placeholder {
+.bannerPlaceholder {
 
     width: 90%;
 
@@ -327,7 +327,7 @@
    USERS
 ========================================================== */
 
-.users-list button {
+.usersList button {
 
     width: 26px;
 
@@ -345,7 +345,7 @@
 
 }
 
-.users-list button:hover {
+.usersList button:hover {
 
     background: darken($danger, 10%);
 
@@ -428,7 +428,7 @@
 
     }
 
-    .center-banner {
+    .centerBanner {
 
         min-height: 350px;
 
@@ -438,7 +438,7 @@
 
 @include mobile {
 
-    .selected-movie {
+    .selectedMovie {
 
         flex-direction: column;
 
@@ -448,7 +448,7 @@
 
     }
 
-    .selected-movie img {
+    .selectedMovie img {
 
         width: 140px;
 
@@ -456,14 +456,14 @@
 
     }
 
-    .selected-tags {
+    .selectedTags {
 
         align-items: center;
 
     }
 
-    .movie-result-list li,
-    .users-list li {
+    .movieResultList li,
+    .usersList li {
 
         flex-direction: column;
 
@@ -473,7 +473,7 @@
 
     }
 
-    .users-list button {
+    .usersList button {
 
         align-self: flex-end;
 

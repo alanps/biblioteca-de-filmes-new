@@ -20,7 +20,7 @@ button {
 
 /* Botão Primário */
 
-.btn-primary {
+.btnPrimary {
 
     @extend %button;
 
@@ -40,7 +40,7 @@ button {
 
 }
 
-.btn-primary:hover {
+.btnPrimary:hover {
 
     background: $primary-dark;
 
@@ -48,7 +48,7 @@ button {
 
 /* Botão Secundário */
 
-.btn-secondary {
+.btnSecondary {
 
     @extend %button;
 
@@ -64,7 +64,7 @@ button {
 
 }
 
-.btn-secondary:hover {
+.btnSecondary:hover {
 
     background: #dcdcdc;
 
@@ -72,7 +72,7 @@ button {
 
 /* Botão Circular */
 
-.btn-circle {
+.btnCircle {
 
     @include size(42px);
 
@@ -86,7 +86,7 @@ button {
 
 }
 
-.btn-circle:hover {
+.btnCircle:hover {
 
     transform: rotate(90deg);
 
@@ -94,7 +94,7 @@ button {
 
 /* Botão Danger */
 
-.btn-danger {
+.btnDanger {
 
     background: $danger;
 
@@ -102,7 +102,7 @@ button {
 
 }
 
-.btn-danger:hover {
+.btnDanger:hover {
 
     background: darken($danger, 10%);
 

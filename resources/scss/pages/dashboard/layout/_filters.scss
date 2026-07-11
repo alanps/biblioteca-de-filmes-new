@@ -12,7 +12,7 @@
 
 }
 
-.filters-left {
+.filtersLeft {
 
     @include card;
 
@@ -24,7 +24,7 @@
 
 }
 
-.search-panel {
+.searchPanel {
 
     @include card;
 
@@ -40,7 +40,7 @@
    FILTER LINE
 ========================================================== */
 
-.filter-line {
+.filterLine {
 
     @include flex(flex-start, center);
 
@@ -52,13 +52,13 @@
 
 }
 
-.filter-line:last-child {
+.filterLine:last-child {
 
     margin-bottom: 0;
 
 }
 
-.filter-label {
+.filterLabel {
 
     min-width: 95px;
 
@@ -74,7 +74,7 @@
    FILTER BUTTON
 ========================================================== */
 
-.filter-button {
+.filterButton {
 
     height: 38px;
 
@@ -96,7 +96,7 @@
 
 }
 
-.filter-button:hover {
+.filterButton:hover {
 
     background: $primary;
 
@@ -106,7 +106,7 @@
 
 }
 
-.filter-button.active {
+.filterButton.active {
 
     background: $primary;
 
@@ -120,7 +120,7 @@
    SEARCH
 ========================================================== */
 
-.search-panel label {
+.searchPanel label {
 
     display: block;
 
@@ -132,7 +132,7 @@
 
 }
 
-.search-input {
+.searchInput {
 
     width: 100%;
 
@@ -150,7 +150,7 @@
 
 }
 
-.search-input:focus {
+.searchInput:focus {
 
     border-color: $primary;
 
@@ -158,7 +158,7 @@
 
 }
 
-.total-movies {
+.totalMovies {
 
     margin-top: 18px;
 
@@ -168,7 +168,7 @@
 
 }
 
-.total-movies strong {
+.totalMovies strong {
 
     color: $primary;
 
@@ -180,7 +180,7 @@
    TAG FILTERS
 ========================================================== */
 
-.filter-tags {
+.filterTags {
 
     display: flex;
 
@@ -190,7 +190,7 @@
 
 }
 
-.filter-tag {
+.filterTag {
 
     padding: 6px 12px;
 
@@ -208,7 +208,7 @@
 
 }
 
-.filter-tag:hover {
+.filterTag:hover {
 
     background: $primary;
 
@@ -218,7 +218,7 @@
 
 }
 
-.filter-tag.active {
+.filterTag.active {
 
     background: $primary;
 
@@ -230,7 +230,7 @@
    SELECT
 ========================================================== */
 
-.filter-select {
+.filterSelect {
 
     min-width: 170px;
 
@@ -254,19 +254,19 @@
 
 @include tablet {
 
-    .filters-left {
+    .filtersLeft {
 
         margin-bottom: 20px;
 
     }
 
-    .filter-line {
+    .filterLine {
 
         align-items: flex-start;
 
     }
 
-    .filter-label {
+    .filterLabel {
 
         width: 100%;
 
@@ -280,25 +280,25 @@
 
 @include mobile {
 
-    .filter-button {
+    .filterButton {
 
         width: 100%;
 
     }
 
-    .filter-select {
+    .filterSelect {
 
         width: 100%;
 
     }
 
-    .search-panel {
+    .searchPanel {
 
         margin-top: 15px;
 
     }
 
-    .total-movies {
+    .totalMovies {
 
         text-align: center;
 

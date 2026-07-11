@@ -16,11 +16,11 @@ const Password = forwardRef(({ passwordConfirm = false, value, onChange }, ref) 
                 ref={ref} 
                 onChange={onChange}
                 title="O campo deve ter no mínimo 8 caracteres." 
-                className="form-control" />
+                className="formControl" />
 
             <button
                 type="button"
-                className="show-password"
+                className="showPassword"
                 name="password"
                 onClick={(e) => {
                     setShowPassword(!showPassword);

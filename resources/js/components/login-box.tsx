@@ -18,12 +18,12 @@ export default function LoginBox() {
         setCarregando(true);
 
         try {
-            const resposta = await fetch('https://biblioteca-de-filmes.ddev.site/api/login', {
+            const resposta = await fetch('https://bibliotecaDeFilmes.ddev.site/api/login', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'ContentType': 'application/json',
                     'Accept': 'application/json',
-                    'Accept-Language': 'pt-BR' // Força a resposta em português se houver erro de validação
+                    'AcceptLanguage': 'ptBR' // Força a resposta em português se houver erro de validação
                 },
                 body: JSON.stringify({
                     email: email,
@@ -53,7 +53,7 @@ export default function LoginBox() {
 
     return (
         
-        <div className="login-wrapper">
+        <div className="loginWrapper">
 
             <header className="logo text-center">
 
@@ -63,9 +63,9 @@ export default function LoginBox() {
 
             </header>
 
-            <div className="login-box">
+            <div className="loginBox">
 
-                <div className="login-title">
+                <div className="loginTitle">
 
                     FAÇA LOGIN
 
@@ -87,7 +87,7 @@ export default function LoginBox() {
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="form-control" />
+                            className="formControl" />
 
                     </div>
 
@@ -104,11 +104,11 @@ export default function LoginBox() {
 
                     </div>
 
-                    <div className="login-buttons">
+                    <div className="loginButtons">
 
                         <button
                             type="submit"
-                            className="btn btn-login">
+                            className="btn btnLogin">
 
                             Entrar
 
@@ -123,7 +123,7 @@ export default function LoginBox() {
                     </div>
 
                     {erro && (
-                        <div classNameName="alert-error" style={{ display: 'block' }}>
+                        <div className="alertError" style={{ display: 'block' }}>
                             {erro}
                         </div>
                     )}
@@ -135,7 +135,7 @@ export default function LoginBox() {
                     </small>
 
                     <button
-                        className="btn-google"
+                        className="btnGoogle"
                         type="button">
 
                         <img

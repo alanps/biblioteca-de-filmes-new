@@ -13,11 +13,11 @@ export default function Login() {
 
                 <LeftSide />
 
-                <div className="right-side">
+                <div className="rightSide">
                     
                     <LoginBox />
             
-                    <div className="bottom-box"></div>
+                    <div className="bottomBox"></div>
 
                 </div>
 

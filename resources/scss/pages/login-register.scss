@@ -13,13 +13,13 @@
 // Lado esquerdo
 //==================================================
 
-.left-side{
+.leftSide{
     display:flex;
     width:50%;
 }
 
-.yellow-column,
-.blue-column{
+.yellowColumn,
+.blueColumn{
     width:50%;
     position:relative;
     display:flex;
@@ -28,11 +28,11 @@
     overflow:hidden;
 }
 
-.yellow-column{
+.yellowColumn{
     background:$yellow;
 }
 
-.blue-column{
+.blueColumn{
     background:$blue;
 }
 
@@ -40,7 +40,7 @@
 // Imagens
 //==================================================
 
-.claquete{
+.clapboard{
     max-width: 240px;
     position: fixed;
     top: 50%;
@@ -60,7 +60,7 @@
 // Lado direito
 //==================================================
 
-.right-side{
+.rightSide{
     background: #f7f7f7;
     justify-content: center;
     align-items: center;
@@ -101,7 +101,7 @@ small{
 // Barra inferior
 //==================================================
 
-.bottom-box{
+.bottomBox{
     width:540px;
     height:84px;
     background:#555;

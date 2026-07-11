@@ -32,7 +32,7 @@
     margin:auto;
 }
 
-.card-filme{
+.movieCard{
     height:280px;
     display:flex;
     flex-direction:column;
@@ -77,18 +77,18 @@
 // CORES DOS CARDS
 // =========================
 
-.card-green{
+.cardGreen{
     background:$green;
 }
 
-.card-blue{
+.cardBlue{
     background:$blue;
 }
 
-.card-yellow{
+.cardYellow{
     background:$yellow;
 }
 
-.card-pink{
+.cardPink{
     background:$pink;
 }

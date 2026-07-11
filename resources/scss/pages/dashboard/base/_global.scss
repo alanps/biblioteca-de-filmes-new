@@ -34,7 +34,7 @@ main {
    CONTAINER
 ========================================================== */
 
-.container-fluid {
+.containerFluid {
 
     max-width: $container-width;
 
@@ -126,7 +126,7 @@ textarea {
 
 @include tablet {
 
-    .container-fluid {
+    .containerFluid {
 
         padding-left: 15px;
 
@@ -138,7 +138,7 @@ textarea {
 
 @include mobile {
 
-    .container-fluid {
+    .containerFluid {
 
         padding-left: 12px;
 

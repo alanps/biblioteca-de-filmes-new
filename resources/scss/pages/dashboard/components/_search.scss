@@ -6,7 +6,7 @@
    SEARCH
 ========================================================== */
 
-.search-panel {
+.searchPanel {
 
     @extend %card;
 
@@ -16,7 +16,7 @@
 
 }
 
-.search-panel label {
+.searchPanel label {
 
     display: block;
 
@@ -30,7 +30,7 @@
 
 }
 
-.search-input {
+.searchInput {
 
     width: 100%;
 
@@ -48,7 +48,7 @@
 
 }
 
-.search-input:focus {
+.searchInput:focus {
 
     border-color: $primary;
 
@@ -56,13 +56,13 @@
 
 }
 
-.search-input::placeholder {
+.searchInput::placeholder {
 
     color: $text-muted;
 
 }
 
-.total-movies {
+.totalMovies {
 
     margin-top: 15px;
 
@@ -72,7 +72,7 @@
 
 }
 
-.total-movies strong {
+.totalMovies strong {
 
     color: $primary;
 

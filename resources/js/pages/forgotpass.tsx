@@ -24,12 +24,12 @@ export default function ForgotPassword() {
         setCarregando(true);
 
         try {
-            const resposta = await fetch('https://biblioteca-de-filmes.ddev.site/api/forgot-password', {
+            const resposta = await fetch('https://bibliotecaDeFilmes.ddev.site/api/forgotPassword', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'ContentType': 'application/json',
                     'Accept': 'application/json',
-                    'Accept-Language': 'pt-BR'
+                    'AcceptLanguage': 'ptBR'
                 },
                 body: JSON.stringify({ email: email })
             });
@@ -57,12 +57,12 @@ export default function ForgotPassword() {
         setCarregando(true);
 
         try {
-            const resposta = await fetch('https://biblioteca-de-filmes.ddev.site/api/reset-password', {
+            const resposta = await fetch('https://bibliotecaDeFilmes.ddev.site/api/resetPassword', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'ContentType': 'application/json',
                     'Accept': 'application/json',
-                    'Accept-Language': 'pt-BR'
+                    'AcceptLanguage': 'ptBR'
                 },
                 body: JSON.stringify({
                     email: email,
@@ -97,7 +97,7 @@ export default function ForgotPassword() {
             
             <div class="page d-flex justify-content-center align-items-center">
 
-                <div class="register-wrapper">
+                <div class="registerWrapper">
 
                     <header class="logo text-center">
 
@@ -107,12 +107,12 @@ export default function ForgotPassword() {
 
                     </header>
 
-                    <div className="register-box login-box forgot-box">
-                        <div className="register-title">RECUPERAR ACESSO</div>
+                    <div className="registerBox loginBox forgotBox">
+                        <div className="registerTitle">RECUPERAR ACESSO</div>
 
-                        {/* Mensagem de sucesso global (ex: "Instruções enviadas por e-mail") */}
+                        {/* Mensagem de sucesso global (ex: "Instruções enviadas por eMail") */}
                         {mensagemSucesso && (
-                            <div className="alert-success" style={{ display: 'block', color: 'green', marginBottom: '15px' }}>
+                            <div className="alertSuccess" style={{ display: 'block', color: 'green', marginBottom: '15px' }}>
                                 {mensagemSucesso}
                             </div>
                         )}
@@ -121,7 +121,7 @@ export default function ForgotPassword() {
                         {etapa === 1 && (
                             <form onSubmit={lidarComSolicitacao}>
                                 <p style={{ fontSize: '14px', marginBottom: '15px', color: '#FFF' }}>
-                                    Insira seu e-mail cadastrado para receber o código de verificação.
+                                    Insira seu eMail cadastrado para receber o código de verificação.
                                 </p>
                                 
                                 <div className="mb-3">
@@ -129,13 +129,13 @@ export default function ForgotPassword() {
                                     <input 
                                         type="email" 
                                         required 
-                                        className="form-control" 
+                                        className="formControl"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                     />
                                 </div>
 
-                                <button className="btn btn-register" type="submit" disabled={carregando}>
+                                <button className="btn btnRegister" type="submit" disabled={carregando}>
                                     {carregando ? 'Buscando...' : 'Enviar Código'}
                                 </button>
                             </form>
@@ -149,7 +149,7 @@ export default function ForgotPassword() {
                                     <input 
                                         type="text" 
                                         required 
-                                        className="form-control" 
+                                        className="formControl"
                                         placeholder="Insira o token recebido"
                                         value={token}
                                         onChange={(e) => setToken(e.target.value)}
@@ -164,7 +164,7 @@ export default function ForgotPassword() {
                                     />
                                 </div>
 
-                                <button className="btn btn-register" type="submit" disabled={carregando}>
+                                <button className="btn btnRegister" type="submit" disabled={carregando}>
                                     {carregando ? 'Alterando...' : 'Salvar Nova Senha'}
                                 </button>
                                 
@@ -173,14 +173,14 @@ export default function ForgotPassword() {
                                     style={{ background: 'none', border: 'none', color: '#666', marginTop: '10px', cursor: 'pointer' }}
                                     onClick={() => { setEtapa(1); setMensagemSucesso(null); }}
                                 >
-                                    ← Voltar e corrigir e-mail
+                                    ← Voltar e corrigir eMail
                                 </button>
                             </form>
                         )}
 
                         {/* Exibição dinâmica de erros vindos do Laravel */}
                         {erro && (
-                            <div className="alert-error" style={{ display: 'block', marginTop: '15px' }}>
+                            <div className="alertError" style={{ display: 'block', marginTop: '15px' }}>
                                 {erro}
                             </div>
                         )}

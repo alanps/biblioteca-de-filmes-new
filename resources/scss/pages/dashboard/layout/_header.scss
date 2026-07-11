@@ -32,7 +32,7 @@
    LOGO
 ========================================================== */
 
-.logo-box {
+.logoBox {
 
     @include flex(center, center);
 
@@ -46,7 +46,7 @@
 
 }
 
-.logo-box img {
+.logoBox img {
 
     width: 100%;
 
@@ -62,7 +62,7 @@
    BANNER
 ========================================================== */
 
-.header-banner {
+.headerBanner {
 
     @include card;
 
@@ -76,7 +76,7 @@
 
 }
 
-.header-banner img {
+.headerBanner img {
 
     width: 100%;
 
@@ -92,7 +92,7 @@
    MENU LATERAL
 ========================================================== */
 
-.top-actions {
+.topActions {
 
     display: flex;
 
@@ -108,7 +108,7 @@
    ACTION CARD
 ========================================================== */
 
-.action-card {
+.actionCard {
 
     @include card;
 
@@ -128,7 +128,7 @@
 
 }
 
-.action-card:hover {
+.actionCard:hover {
 
     transform: translateY(-2px);
 
@@ -136,7 +136,7 @@
 
 }
 
-.action-card__icon {
+.actionCard__icon {
 
     @include size(38px);
 
@@ -150,7 +150,7 @@
 
 }
 
-.action-card__icon img {
+.actionCard__icon img {
 
     width: 20px;
 
@@ -160,7 +160,7 @@
 
 }
 
-.action-card span {
+.actionCard span {
 
     font-size: $font-md;
 
@@ -182,7 +182,7 @@
 
 }
 
-.profile-avatar {
+.profileAvatar {
 
     @include size(44px);
 
@@ -196,7 +196,7 @@
 
 }
 
-.profile-avatar img {
+.profileAvatar img {
 
     width: 100%;
 
@@ -206,7 +206,7 @@
 
 }
 
-.profile-name {
+.profileName {
 
     flex: 1;
 
@@ -246,20 +246,20 @@
 
 @include tablet {
 
-    .logo-box,
-    .header-banner {
+    .logoBox,
+    .headerBanner {
 
         min-height: auto;
 
     }
 
-    .header-banner {
+    .headerBanner {
 
         margin-top: 20px;
 
     }
 
-    .top-actions {
+    .topActions {
 
         margin-top: 20px;
 
@@ -275,13 +275,13 @@
 
     }
 
-    .logo-box {
+    .logoBox {
 
         padding: 15px;
 
     }
 
-    .action-card {
+    .actionCard {
 
         padding: 12px;
 
@@ -295,7 +295,7 @@
 
     }
 
-    .profile-name {
+    .profileName {
 
         margin-left: 0;
 

@@ -6,8 +6,8 @@
    BANNER
 ========================================================== */
 
-.header-banner,
-.center-banner {
+.headerBanner,
+.centerBanner {
 
     @extend %card;
 
@@ -19,20 +19,20 @@
 
 }
 
-.header-banner {
+.headerBanner {
 
     min-height: 180px;
 
 }
 
-.center-banner {
+.centerBanner {
 
     min-height: 600px;
 
 }
 
-.header-banner img,
-.center-banner img {
+.headerBanner img,
+.centerBanner img {
 
     width: 100%;
 
@@ -44,7 +44,7 @@
 
 }
 
-.banner-placeholder {
+.bannerPlaceholder {
 
     width: 100%;
 
@@ -68,7 +68,7 @@
 
 }
 
-.banner-placeholder::before {
+.bannerPlaceholder::before {
 
     content: "BANNER";
 
@@ -84,7 +84,7 @@
 
 @include tablet {
 
-    .center-banner {
+    .centerBanner {
 
         min-height: 350px;
 
@@ -94,7 +94,7 @@
 
 @include mobile {
 
-    .header-banner {
+    .headerBanner {
 
         min-height: 150px;
 

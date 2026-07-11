@@ -4,8 +4,8 @@
 // Formulários
 //==================================================
 
-.login-box form,
-.register-box form{
+.loginBox form,
+.registerBox form{
     padding:18px;
 }
 
@@ -17,7 +17,7 @@ label{
     text-transform:uppercase;
 }
 
-.form-control{
+.formControl{
     border-radius: 0 !important;
     border: 0 !important;
     
@@ -36,7 +36,7 @@ label{
     position:relative;
 }
 
-.show-password{
+.showPassword{
     position:absolute;
     right:6px;
     bottom:4px;
@@ -63,17 +63,17 @@ label{
 // Botões Login
 //==================================================
 
-.login-buttons{
+.loginButtons{
     display:flex;
     gap:10px;
     margin:18px 0;
 }
 
-.btn-login{
+.btnLogin{
     flex:1;
 }
 
-.login-buttons a{
+.loginButtons a{
     color: #fff;
     text-transform: uppercase;
     flex: 1;

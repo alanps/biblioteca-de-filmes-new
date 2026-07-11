@@ -14,7 +14,7 @@
 
 }
 
-.profile-avatar {
+.profileAvatar {
 
     width: 48px;
 
@@ -30,7 +30,7 @@
 
 }
 
-.profile-avatar img {
+.profileAvatar img {
 
     width: 100%;
 
@@ -40,7 +40,7 @@
 
 }
 
-.profile-name {
+.profileName {
 
     flex: 1;
 
@@ -52,7 +52,7 @@
 
 }
 
-.profile-role {
+.profileRole {
 
     display: block;
 
@@ -64,7 +64,7 @@
 
 }
 
-.profile-status {
+.profileStatus {
 
     display: flex;
 
@@ -78,7 +78,7 @@
 
 }
 
-.profile-status::before {
+.profileStatus::before {
 
     content: "";
 

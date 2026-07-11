@@ -6,19 +6,19 @@
    FORMS
 ========================================================== */
 
-.form-group {
+.formGroup {
 
     margin-bottom: 20px;
 
 }
 
-.form-group:last-child {
+.formGroup:last-child {
 
     margin-bottom: 0;
 
 }
 
-.form-label {
+.formLabel {
 
     display: block;
 
@@ -32,7 +32,7 @@
 
 }
 
-.form-control {
+.formControl {
 
     width: 100%;
 
@@ -50,7 +50,7 @@
 
 }
 
-.form-control:focus {
+.formControl:focus {
 
     border-color: $primary;
 
@@ -58,7 +58,7 @@
 
 }
 
-textarea.form-control {
+textarea.formControl {
 
     min-height: 150px;
 
@@ -68,13 +68,13 @@ textarea.form-control {
 
 }
 
-select.form-control {
+select.formControl {
 
     cursor: pointer;
 
 }
 
-.form-check {
+.formCheck {
 
     display: flex;
 
@@ -86,7 +86,7 @@ select.form-control {
 
 }
 
-.form-check input {
+.formCheck input {
 
     width: 18px;
 
@@ -94,7 +94,7 @@ select.form-control {
 
 }
 
-.form-error {
+.formError {
 
     margin-top: 5px;
 
@@ -104,7 +104,7 @@ select.form-control {
 
 }
 
-.form-success {
+.formSuccess {
 
     margin-top: 5px;
 

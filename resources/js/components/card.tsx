@@ -12,7 +12,7 @@ export default function Card({
 
     return (
 
-        <article className={`card-filme ${color}`}>
+        <article className={`movieCard ${color}`}>
 
             <div className="icon">
                 <img src={icon} alt="" />

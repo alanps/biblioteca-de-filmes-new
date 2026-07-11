@@ -6,7 +6,7 @@
    GRID
 ========================================================== */
 
-.container-fluid {
+.containerFluid {
 
     width: 100%;
 
@@ -44,13 +44,13 @@
 
 }
 
-.section-sm {
+.sectionSm {
 
     padding: 20px 0;
 
 }
 
-.section-lg {
+.sectionLg {
 
     padding: 60px 0;
 
@@ -60,31 +60,31 @@
    GAPS
 ========================================================== */
 
-.gap-10 {
+.gap10 {
 
     gap: 10px;
 
 }
 
-.gap-15 {
+.gap15 {
 
     gap: 15px;
 
 }
 
-.gap-20 {
+.gap20 {
 
     gap: 20px;
 
 }
 
-.gap-30 {
+.gap30 {
 
     gap: 30px;
 
 }
 
-.gap-40 {
+.gap40 {
 
     gap: 40px;
 
@@ -100,7 +100,7 @@
 
 }
 
-.flex-center {
+.flexCenter {
 
     display: flex;
 
@@ -110,7 +110,7 @@
 
 }
 
-.flex-between {
+.flexBetween {
 
     display: flex;
 
@@ -120,7 +120,7 @@
 
 }
 
-.flex-column {
+.flexColumn {
 
     display: flex;
 
@@ -144,7 +144,7 @@
 
 @include tablet {
 
-    .container-fluid {
+    .containerFluid {
 
         padding-left: 15px;
 
@@ -162,7 +162,7 @@
 
 @include mobile {
 
-    .container-fluid {
+    .containerFluid {
 
         padding-left: 12px;
 
@@ -170,13 +170,13 @@
 
     }
 
-    .gap-30 {
+    .gap30 {
 
         gap: 20px;
 
     }
 
-    .gap-40 {
+    .gap40 {
 
         gap: 25px;
 

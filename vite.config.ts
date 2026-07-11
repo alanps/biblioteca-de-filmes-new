@@ -22,7 +22,11 @@ export default defineConfig({
                 google('Montserrat', {
                     weights: [400, 500, 600, 700],
                 }),
-                google('Anton')
+                google('Anton'),
+                google('Roboto Condensed', {
+                    weights: [400, 500, 600, 700],
+                }),
+                google('Share Tech Mono'),
             ],
             assets: ['resources/img/**'],
         }),

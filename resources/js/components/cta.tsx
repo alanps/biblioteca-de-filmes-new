@@ -15,9 +15,9 @@ export default function CTA() {
 
                         <Link
                             href="/login"
-                            className="btn-cadastro"
+                            className="registrationButton"
                         >
-                            Faça login ou cadastre-se agora!
+                            Faça login ou cadastreSe agora!
                         </Link>
                     </div>
 

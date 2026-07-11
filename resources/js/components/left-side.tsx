@@ -1,22 +1,22 @@
-import claquete2 from "@images/claquete2.png";
+import clapboard2 from "@images/claquete2.png";
 import ticket from "@images/ticket.png";
 
 export default function LeftSide() {
 
     return (
 
-        <div className="left-side">
+        <div className="leftSide">
 
-            <div className="yellow-column">
+            <div className="yellowColumn">
 
                 <img
-                    src={claquete2}
+                    src={clapboard2}
                     alt="Claquete"
-                    className="claquete" />
+                    className="clapboard" />
 
             </div>
 
-            <div className="blue-column">
+            <div className="blueColumn">
 
                 <img
                     src={ticket}
