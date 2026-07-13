@@ -23,3 +23,10 @@ test('movie title and original title are required', function () {
 
     expect($validator->errors()->keys())->toContain('title', 'originalTitle');
 });
+
+test('movie storage requires authentication', function () {
+    $this->postJson(route('movies.store'), [
+        'title' => 'Jumanji',
+        'originalTitle' => 'Jumanji',
+    ])->assertUnauthorized();
+});

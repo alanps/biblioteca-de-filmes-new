@@ -2,7 +2,9 @@ import { Head } from '@inertiajs/react';
 import { useEffect, useMemo, useState } from 'react';
 
 import Signature from "@/components/signature";
+import { login } from '@/routes';
 import { search as searchMovies, store as storeMovie } from '@/routes/movies';
+import { destroy as destroySession, user as getAuthenticatedUser } from '@/routes/session';
 import { index as listUsers } from '@/routes/users';
 import type { DashboardUser, Movie } from '@/dashboard/types';
 import { moviesPerPage, usersPerPage } from '@/dashboard/data';
@@ -30,6 +32,8 @@ export default function Dashboard() {
     const [usersError, setUsersError] = useState<string | null>(null);
     const [savingMovieId, setSavingMovieId] = useState<number | null>(null);
     const [movieSaveError, setMovieSaveError] = useState<string | null>(null);
+    const [authenticatedUser, setAuthenticatedUser] = useState<DashboardUser | null>(null);
+    const [isLoggingOut, setIsLoggingOut] = useState(false);
 
     const movies = useMemo(() => {
         return libraryMovies.filter((movie) => {
@@ -77,6 +81,50 @@ export default function Dashboard() {
         window.addEventListener('keydown', closeOnEscape);
 
         return () => window.removeEventListener('keydown', closeOnEscape);
+    }, []);
+
+    useEffect(() => {
+        const token = window.localStorage.getItem('TOKEN_API');
+
+        if (! token) {
+            window.location.replace(login.url());
+
+            return;
+        }
+
+        const controller = new AbortController();
+
+        async function loadAuthenticatedUser() {
+            try {
+                const response = await fetch(getAuthenticatedUser.url(), {
+                    headers: {
+                        Accept: 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                    signal: controller.signal,
+                });
+                const payload = await response.json() as { user?: DashboardUser };
+
+                if (response.status === 401) {
+                    window.localStorage.removeItem('TOKEN_API');
+                    window.location.replace(login.url());
+
+                    return;
+                }
+
+                if (response.ok && payload.user) {
+                    setAuthenticatedUser(payload.user);
+                }
+            } catch (error) {
+                if (! (error instanceof DOMException && error.name === 'AbortError')) {
+                    setAuthenticatedUser(null);
+                }
+            }
+        }
+
+        void loadAuthenticatedUser();
+
+        return () => controller.abort();
     }, []);
 
     useEffect(() => {
@@ -237,6 +285,30 @@ export default function Dashboard() {
         }
     }
 
+    async function logout() {
+        if (isLoggingOut) {
+            return;
+        }
+
+        setIsLoggingOut(true);
+        const token = window.localStorage.getItem('TOKEN_API');
+
+        try {
+            if (token) {
+                await fetch(destroySession.url(), {
+                    method: 'DELETE',
+                    headers: {
+                        Accept: 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+            }
+        } finally {
+            window.localStorage.removeItem('TOKEN_API');
+            window.location.replace(login.url());
+        }
+    }
+
     return (
         <>
             <Head title="Biblioteca de Filmes" />
@@ -244,6 +316,8 @@ export default function Dashboard() {
             <main className="filmLibrary">
                 <div className="filmLibrary__topBar" aria-hidden="true" />
                 <DashboardHeader
+                    userName={authenticatedUser?.name ?? 'Usuário'}
+                    isLoggingOut={isLoggingOut}
                     onOpenUsers={() => {
                         setUsersPage(1);
                         setActiveModal('users');
@@ -256,6 +330,7 @@ export default function Dashboard() {
                         setMovieSearchError(null);
                         setActiveModal('add-movie');
                     }}
+                    onLogout={() => void logout()}
                 />
 
                 <section className="filmLibrary__filters" aria-label="Filtros de filmes">

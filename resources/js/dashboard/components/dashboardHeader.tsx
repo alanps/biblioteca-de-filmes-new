@@ -3,11 +3,14 @@ import { CircleUserRound, Search, UsersRound } from 'lucide-react';
 import logo from '@images/logo.png';
 
 type DashboardHeaderProps = {
+    userName: string;
+    isLoggingOut: boolean;
     onOpenUsers: () => void;
     onOpenAddMovie: () => void;
+    onLogout: () => void;
 };
 
-export function DashboardHeader({ onOpenUsers, onOpenAddMovie }: DashboardHeaderProps) {
+export function DashboardHeader({ userName, isLoggingOut, onOpenUsers, onOpenAddMovie, onLogout }: DashboardHeaderProps) {
     return (
         <header className="filmLibrary__header">
             <img src={logo} alt="Biblioteca de Filmes" className="filmLibrary__logo" />
@@ -21,10 +24,10 @@ export function DashboardHeader({ onOpenUsers, onOpenAddMovie }: DashboardHeader
                     <Search aria-hidden="true" />
                     <span>Adicionar filme</span>
                 </button>
-                <button type="button" className="filmLibrary__profile">
+                <button type="button" className="filmLibrary__profile" disabled={isLoggingOut} onClick={onLogout}>
                     <CircleUserRound aria-hidden="true" />
-                    <span>Alan PS</span>
-                    <small>Sair</small>
+                    <span>{userName}</span>
+                    <small>{isLoggingOut ? 'Saindo...' : 'Sair'}</small>
                 </button>
             </nav>
         </header>
