@@ -38,9 +38,7 @@
 .filmLibrary__movieGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 15px; padding: 0 17px; }.filmLibrary__empty { grid-column: 1 / -1; margin: 0; padding: 24px; background: var(--gray); }
 .filmLibrary__movieCard { position: relative; display: grid; grid-template-columns: 137px minmax(0, 1fr) 133px; gap: 12px; min-height: 182px; padding: 10px; background: var(--gray); }.filmLibrary__poster { display: flex; min-height: 160px; flex-direction: column; align-items: center; justify-content: center; background: #e7e4da; color: #262626; text-align: center; text-transform: uppercase; line-height: .9; overflow: hidden; }.filmLibrary__poster span { font-size: 5px; letter-spacing: -1px; }.filmLibrary__poster strong { max-width: 82px; margin-top: 22px; font-family: Arial, sans-serif; font-size: 16px; line-height: .8; font-weight: 900; }.filmLibrary__poster em { color: #be5634; font-family: Georgia, serif; font-size: 35px; font-style: normal; font-weight: bold; }.filmLibrary__poster small { margin-top: 20px; font-size: 5px; }
 .filmLibrary__movieContent { background: white; padding: 10px 12px; }.filmLibrary__movieContent h2 { color: #080808; font-family: "Roboto Condensed", sans-serif; font-size: 21px; margin: 0 0 4px; }.filmLibrary__movieContent p { color: #111; font-family: "Roboto Condensed", sans-serif; font-size: 14px; line-height: 1.15; margin: 0; }.filmLibrary__movieTags { display: flex; flex-direction: column; align-items: flex-start; gap: 9px; }.filmLibrary__movieTags span, .filmLibrary__selectedMovie span { background: white; padding: 8px 14px; }.filmLibrary__movieTags button, .filmLibrary__selectedMovie button { display: grid; width: 35px; height: 29px; place-items: center; background: white; }.filmLibrary__movieStatus { position: absolute; top: 6px; right: 6px; width: 16px; height: 16px; background: #ff3543; }
-.filmLibrary__loadMore { display: block; margin: 9px auto 22px; min-width: 137px; background: var(--black); color: white; padding: 7px 20px; }
 .filmLibrary__bottomBanner { display: block; margin: 22px auto 16px; }
-.filmLibrary__loadMore + .filmLibrary__bottomBanner { margin-top: 0; }
 .filmLibrary__lowerPanels { display: grid; grid-template-columns: 234px minmax(250px, 476px) 234px; justify-content: space-between; gap: 32px; padding: 0 138px 8px; }.filmLibrary__window { background: #bcbcbc; }.filmLibrary__windowTitle { display: flex; align-items: center; justify-content: flex-end; height: 15px; gap: 3px; background: var(--black); color: white; font-size: 10px; text-transform: uppercase; }.filmLibrary__windowTitle span { margin-right: auto; padding-left: 5px; }.filmLibrary__windowTitle i, .filmLibrary__windowTitle b { width: 10px; height: 10px; }.filmLibrary__windowTitle i { background: #f8ce2b; }.filmLibrary__windowTitle b { background: #fa4f62; margin-right: 4px; }.filmLibrary__windowBody { padding: 13px 6px 10px; }.filmLibrary__smallSearch { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 5px; }.filmLibrary__smallSearch input { width: 100%; }.filmLibrary__windowBody > p { color: #111; margin: 6px 0; text-align: right; }.filmLibrary__resultList, .filmLibrary__userList { list-style: none; margin: 0; padding: 0; }.filmLibrary__resultList li, .filmLibrary__userList li { display: flex; justify-content: space-between; border-top: 1px solid white; color: #151515; font-size: 10px; line-height: 14px; }.filmLibrary__resultList i, .filmLibrary__resultList b { display: inline-block; width: 8px; height: 8px; margin-left: 3px; background: white; }.filmLibrary__resultList b { background: #26be51; }.filmLibrary__resultList .isDark { background: #222; }.filmLibrary__selectedMovie { display: grid; grid-template-columns: 62px 1fr; gap: 6px; margin: 9px 13px; }.filmLibrary__selectedMovie .filmLibrary__poster { min-height: 75px; }.filmLibrary__selectedMovie .filmLibrary__poster span, .filmLibrary__selectedMovie .filmLibrary__poster small { display: none; }.filmLibrary__selectedMovie .filmLibrary__poster strong { font-size: 8px; margin: 0; }.filmLibrary__selectedMovie .filmLibrary__poster em { font-size: 16px; }.filmLibrary__selectedMovie > div { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; }.filmLibrary__selectedMovie span { padding: 3px 9px; font-size: 9px; }.filmLibrary__selectedMovie button { width: 28px; height: 18px; }.filmLibrary__userList button { color: #e9384d; background: white; font-size: 10px; padding: 0 2px; }.filmLibrary__pagination { display: flex; align-items: center; justify-content: space-between; margin-top: 13px; padding: 0 4px; }.filmLibrary__pagination button { background: transparent; }.filmLibrary__pagination .isCurrent { border-radius: 100%; background: #363636; color: white; width: 17px; height: 13px; }.filmLibrary__lowerBanner { align-self: center; height: 76px; background: #505050; }
 .filmLibrary__footer { display: grid; grid-template-columns: auto 14px auto; align-items: center; width: max-content; max-width: calc(100% - 10px); margin: 0 6px; padding: 4px 7px; gap: 4px; background: var(--black); color: #f4d528; font-size: 10px; }.filmLibrary__footer img { width: 13px; }.filmLibrary__footer small { grid-column: 1 / -1; font-size: 8px; }
 
@@ -259,6 +257,22 @@
     margin: 7px 13px 3px;
 }
 
+.filmLibrary__resultDetails .filmLibrary__selectedMovie .filmLibrary__poster {
+    width: 62px;
+    min-width: 62px;
+    max-width: 62px;
+    height: 75px;
+    min-height: 75px;
+    max-height: 75px;
+    align-self: start;
+}
+
+.filmLibrary__resultDetails .filmLibrary__selectedMovie .filmLibrary__poster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 .filmLibrary__poster img {
     width: 100%;
     height: 100%;
@@ -322,6 +336,58 @@
 .filmLibrary__modalDialog .filmLibrary__resultList li,
 .filmLibrary__modalDialog .filmLibrary__userList li {
     border-top-color: #777;
+}
+
+.filmLibrary__modalMessage {
+    margin: 4px 0 !important;
+    color: #222;
+    font-size: 10px;
+    text-align: left !important;
+}
+
+.filmLibrary__modalMessageError {
+    color: #b00020;
+}
+
+.filmLibrary__movieCard {
+    grid-template-columns: 137px minmax(0, 1fr);
+}
+
+.filmLibrary__movieMeta {
+    display: grid;
+    gap: 2px;
+    margin: 0 0 7px;
+    color: #111;
+    font-family: "Roboto Condensed", sans-serif;
+    font-size: 11px;
+}
+
+.filmLibrary__movieMeta div {
+    display: flex;
+    gap: 4px;
+}
+
+.filmLibrary__movieMeta dt {
+    font-weight: 700;
+}
+
+.filmLibrary__movieMeta dd {
+    margin: 0;
+}
+
+.filmLibrary__selectedMovieContent {
+    display: grid !important;
+    align-content: start;
+    gap: 4px !important;
+    min-width: 0;
+}
+
+.filmLibrary__selectedMovieContent p {
+    margin: 0;
+    color: #111;
+    font-family: "Roboto Condensed", sans-serif;
+    font-size: 10px;
+    line-height: 1.15;
 }
 
 @media (max-width: 1024px) { .filmLibrary__header { grid-template-columns: 1fr; justify-items: center; padding-bottom: 12px; }.filmLibrary__logo { width: 189px; }.filmLibrary__banner { position: static; justify-self: center; margin: 12px 0 0; transform: none; }.filmLibrary__actions { justify-content: center; padding-top: 12px; }.filmLibrary__movieGrid { grid-template-columns: 1fr; }.filmLibrary__lowerPanels { grid-template-columns: 1fr; padding: 0 17px 8px; }.filmLibrary__lowerBanner { display: none; } }

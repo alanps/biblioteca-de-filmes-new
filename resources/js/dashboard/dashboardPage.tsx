@@ -2,7 +2,10 @@ import { Head } from '@inertiajs/react';
 import { useEffect, useMemo, useState } from 'react';
 
 import Signature from "@/components/signature";
-import { initialUsers, movieCatalog, moviesPerPage, randomMovies, usersPerPage } from '@/dashboard/data';
+import { search as searchMovies, store as storeMovie } from '@/routes/movies';
+import { index as listUsers } from '@/routes/users';
+import type { DashboardUser, Movie } from '@/dashboard/types';
+import { moviesPerPage, usersPerPage } from '@/dashboard/data';
 import { DashboardHeader } from '@/dashboard/components/dashboardHeader';
 import { MovieCard } from '@/dashboard/components/movieCard';
 import { Poster } from '@/dashboard/components/poster';
@@ -12,14 +15,21 @@ export default function Dashboard() {
     const [search, setSearch] = useState('');
     const [activeGenre, setActiveGenre] = useState<string | null>(null);
     const [sortDirection, setSortDirection] = useState<'ascending' | 'descending' | null>(null);
-    const [libraryMovies, setLibraryMovies] = useState(() => randomMovies(6));
-    const [users, setUsers] = useState(initialUsers);
+    const [libraryMovies, setLibraryMovies] = useState<Movie[]>([]);
+    const [users, setUsers] = useState<DashboardUser[]>([]);
     const [addMovieSearch, setAddMovieSearch] = useState('');
     const [userSearch, setUserSearch] = useState('');
     const [activeModal, setActiveModal] = useState<'add-movie' | 'users' | null>(null);
     const [expandedMovieResult, setExpandedMovieResult] = useState<number | null>(null);
     const [addMoviePage, setAddMoviePage] = useState(1);
     const [usersPage, setUsersPage] = useState(1);
+    const [remoteMovieResults, setRemoteMovieResults] = useState<Movie[]>([]);
+    const [isMovieSearchLoading, setIsMovieSearchLoading] = useState(false);
+    const [movieSearchError, setMovieSearchError] = useState<string | null>(null);
+    const [isUsersLoading, setIsUsersLoading] = useState(false);
+    const [usersError, setUsersError] = useState<string | null>(null);
+    const [savingMovieId, setSavingMovieId] = useState<number | null>(null);
+    const [movieSaveError, setMovieSaveError] = useState<string | null>(null);
 
     const movies = useMemo(() => {
         return libraryMovies.filter((movie) => {
@@ -38,19 +48,15 @@ export default function Dashboard() {
         });
     }, [activeGenre, libraryMovies, search, sortDirection]);
 
-    const availableMovies = useMemo(
-        () => movieCatalog.filter((movie) => !libraryMovies.some((libraryMovie) => libraryMovie.id === movie.id)),
-        [libraryMovies],
+    const addMovieResults = useMemo(
+        () => remoteMovieResults.filter((movie) => !libraryMovies.some((libraryMovie) =>
+            libraryMovie.id === movie.id || libraryMovie.title.localeCompare(movie.title, 'pt-BR', { sensitivity: 'base' }) === 0,
+        )),
+        [libraryMovies, remoteMovieResults],
     );
 
-    const addMovieResults = useMemo(() => {
-        return [...availableMovies]
-            .sort(() => Math.random() - 0.5)
-            .filter((movie) => movie.title.toLocaleLowerCase().includes(addMovieSearch.toLocaleLowerCase()));
-    }, [addMovieSearch, availableMovies]);
-
     const filteredUsers = useMemo(
-        () => users.filter((user) => user.toLocaleLowerCase().includes(userSearch.toLocaleLowerCase())),
+        () => users.filter((user) => user.name.toLocaleLowerCase().includes(userSearch.toLocaleLowerCase())),
         [userSearch, users],
     );
 
@@ -73,6 +79,103 @@ export default function Dashboard() {
         return () => window.removeEventListener('keydown', closeOnEscape);
     }, []);
 
+    useEffect(() => {
+        if (activeModal !== 'add-movie') {
+            return;
+        }
+
+        const typedTitle = addMovieSearch.trim();
+
+        if (typedTitle.length > 0 && typedTitle.length < 3) {
+            setRemoteMovieResults([]);
+            setIsMovieSearchLoading(false);
+            setMovieSearchError(null);
+
+            return;
+        }
+
+        const controller = new AbortController();
+        const title = typedTitle || 'jumanji';
+        const delay = typedTitle ? 350 : 0;
+        const timer = window.setTimeout(async () => {
+            setIsMovieSearchLoading(true);
+            setMovieSearchError(null);
+
+            try {
+                const response = await fetch(searchMovies.url({ query: { title } }), {
+                    headers: { Accept: 'application/json' },
+                    signal: controller.signal,
+                });
+                const payload = await response.json() as { movies?: Movie[]; message?: string };
+
+                if (! response.ok) {
+                    throw new Error(payload.message || 'Não foi possível buscar os filmes agora.');
+                }
+
+                setRemoteMovieResults(payload.movies ?? []);
+            } catch (error) {
+                if (error instanceof DOMException && error.name === 'AbortError') {
+                    return;
+                }
+
+                setRemoteMovieResults([]);
+                setMovieSearchError(error instanceof Error ? error.message : 'Não foi possível buscar os filmes agora.');
+            } finally {
+                if (! controller.signal.aborted) {
+                    setIsMovieSearchLoading(false);
+                }
+            }
+        }, delay);
+
+        return () => {
+            window.clearTimeout(timer);
+            controller.abort();
+        };
+    }, [activeModal, addMovieSearch]);
+
+    useEffect(() => {
+        if (activeModal !== 'users') {
+            return;
+        }
+
+        const controller = new AbortController();
+
+        async function loadUsers() {
+            setIsUsersLoading(true);
+            setUsersError(null);
+            setUsers([]);
+
+            try {
+                const response = await fetch(listUsers.url(), {
+                    headers: { Accept: 'application/json' },
+                    signal: controller.signal,
+                });
+                const payload = await response.json() as { users?: DashboardUser[]; message?: string };
+
+                if (! response.ok) {
+                    throw new Error(payload.message || 'Não foi possível carregar os usuários agora.');
+                }
+
+                setUsers(payload.users ?? []);
+            } catch (error) {
+                if (error instanceof DOMException && error.name === 'AbortError') {
+                    return;
+                }
+
+                setUsers([]);
+                setUsersError(error instanceof Error ? error.message : 'Não foi possível carregar os usuários agora.');
+            } finally {
+                if (! controller.signal.aborted) {
+                    setIsUsersLoading(false);
+                }
+            }
+        }
+
+        void loadUsers();
+
+        return () => controller.abort();
+    }, [activeModal]);
+
     function closeModal() {
         setActiveModal(null);
         setAddMovieSearch('');
@@ -80,16 +183,58 @@ export default function Dashboard() {
         setExpandedMovieResult(null);
         setAddMoviePage(1);
         setUsersPage(1);
+        setRemoteMovieResults([]);
+        setIsMovieSearchLoading(false);
+        setMovieSearchError(null);
+        setIsUsersLoading(false);
+        setUsersError(null);
+        setSavingMovieId(null);
+        setMovieSaveError(null);
     }
 
-    function loadMoreMovies() {
-        const increment = window.matchMedia('(min-width: 1025px)').matches ? 2 : 1;
+    async function addMovie(result: Movie) {
+        if (savingMovieId !== null) {
+            return;
+        }
 
-        setLibraryMovies((currentMovies) => {
-            const availableMovies = movieCatalog.filter((movie) => !currentMovies.some((currentMovie) => currentMovie.id === movie.id));
+        const token = window.localStorage.getItem('TOKEN_API');
 
-            return [...currentMovies, ...availableMovies.sort(() => Math.random() - 0.5).slice(0, increment)];
-        });
+        if (! token) {
+            setMovieSaveError('Faça login para adicionar um filme.');
+
+            return;
+        }
+
+        setSavingMovieId(result.id);
+        setMovieSaveError(null);
+
+        try {
+            const response = await fetch(storeMovie.url(), {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(result),
+            });
+            const payload = await response.json() as { movie?: Movie; message?: string; errors?: Record<string, string[]> };
+
+            if (! response.ok || ! payload.movie) {
+                const validationMessage = Object.values(payload.errors ?? {}).flat()[0];
+
+                throw new Error(validationMessage || payload.message || 'Não foi possível adicionar o filme.');
+            }
+
+            const savedMovie = payload.movie;
+
+            setSortDirection(null);
+            setLibraryMovies((currentMovies) => [savedMovie, ...currentMovies.filter((movie) => movie.id !== savedMovie.id)]);
+            closeModal();
+        } catch (error) {
+            setMovieSaveError(error instanceof Error ? error.message : 'Não foi possível adicionar o filme.');
+            setSavingMovieId(null);
+        }
     }
 
     return (
@@ -104,8 +249,11 @@ export default function Dashboard() {
                         setActiveModal('users');
                     }}
                     onOpenAddMovie={() => {
+                        setAddMovieSearch('');
                         setAddMoviePage(1);
                         setExpandedMovieResult(null);
+                        setRemoteMovieResults([]);
+                        setMovieSearchError(null);
                         setActiveModal('add-movie');
                     }}
                 />
@@ -146,7 +294,6 @@ export default function Dashboard() {
                     {movies.length ? movies.map((movie) => <MovieCard key={movie.id} movie={movie} onRemove={() => setLibraryMovies((currentMovies) => currentMovies.filter((currentMovie) => currentMovie.id !== movie.id))} />) : <p className="filmLibrary__empty">Nenhum filme encontrado.</p>}
                 </section>
 
-                {availableMovies.length > 0 && <button type="button" className="filmLibrary__loadMore" onClick={loadMoreMovies}>Carregar Mais</button>}
                 <aside className="filmLibrary__bottomBanner" aria-label="Espaço publicitário" />
 
                 {activeModal && <div className="filmLibrary__modal" role="presentation" onClick={(event) => event.currentTarget === event.target && closeModal()}>
@@ -160,6 +307,10 @@ export default function Dashboard() {
                                     setExpandedMovieResult(null);
                                 }} /></label>
                                 <p>Total de <strong>{addMovieResults.length}</strong> filmes encontrados</p>
+                                {isMovieSearchLoading && <p className="filmLibrary__modalMessage">Buscando filmes...</p>}
+                                {movieSearchError && <p className="filmLibrary__modalMessage filmLibrary__modalMessageError">{movieSearchError}</p>}
+                                {movieSaveError && <p className="filmLibrary__modalMessage filmLibrary__modalMessageError">{movieSaveError}</p>}
+                                {!isMovieSearchLoading && !movieSearchError && addMovieSearch.trim().length > 0 && addMovieSearch.trim().length < 3 && <p className="filmLibrary__modalMessage">Digite pelo menos 3 caracteres.</p>}
                                 <ul className="filmLibrary__resultList">
                                     {visibleMovieResults.map((result) => <li key={result.id} className={expandedMovieResult === result.id ? 'isExpanded' : ''}>
                                         <span className="filmLibrary__resultName">{result.title.toLocaleUpperCase()}</span>
@@ -175,15 +326,19 @@ export default function Dashboard() {
                                                 type="button"
                                                 className="filmLibrary__resultAdd"
                                                 aria-label={`Adicionar ${result.title} à listagem`}
-                                                onClick={() => {
-                                                    setSortDirection(null);
-                                                    setLibraryMovies((currentMovies) => [result, ...currentMovies.filter((movie) => movie.id !== result.id)]);
-                                                    closeModal();
-                                                }}
+                                                disabled={savingMovieId !== null}
+                                                onClick={() => void addMovie(result)}
                                             />
                                         </span>
                                         {expandedMovieResult === result.id && <div className="filmLibrary__resultDetails">
-                                            <div className="filmLibrary__selectedMovie"><Poster title={result.title} /><div>{result.genres.map((genre) => <span key={genre}>{genre}</span>)}</div></div>
+                                            <div className="filmLibrary__selectedMovie">
+                                                <Poster title={result.title} posterUrl={result.posterUrl} />
+                                                <div className="filmLibrary__selectedMovieContent">
+                                                    <p><strong>Título original:</strong> {result.originalTitle}</p>
+                                                    <p><strong>Data de lançamento:</strong> {result.releaseDate}</p>
+                                                    <p><strong>Sinopse:</strong> {result.synopsis}</p>
+                                                </div>
+                                            </div>
                                         </div>}
                                     </li>)}
                                 </ul>
@@ -204,8 +359,10 @@ export default function Dashboard() {
                                     setUsersPage(1);
                                 }} /></label>
                                 <p>Total de <strong>{filteredUsers.length}</strong> usuários listados</p>
+                                {isUsersLoading && <p className="filmLibrary__modalMessage">Carregando usuários...</p>}
+                                {usersError && <p className="filmLibrary__modalMessage filmLibrary__modalMessageError">{usersError}</p>}
                                 <ul className="filmLibrary__userList">
-                                    {visibleUsers.map((user) => <li key={`modal-${user}`}>{user}<button type="button" aria-label={`Excluir ${user}`} onClick={() => setUsers(users.filter((name) => name !== user))} /></li>)}
+                                    {visibleUsers.map((user) => <li key={user.id}>{user.name}<button type="button" aria-label={`Excluir ${user.name}`} onClick={() => setUsers((currentUsers) => currentUsers.filter((currentUser) => currentUser.id !== user.id))} /></li>)}
                                 </ul>
                                 <nav className="filmLibrary__modalPagination" aria-label="Paginação de usuários">
                                     {Array.from({ length: usersPageCount }, (_, index) => <button type="button" key={index} className={usersPage === index + 1 ? 'isCurrent' : ''} onClick={() => setUsersPage(index + 1)}>{index + 1}</button>)}

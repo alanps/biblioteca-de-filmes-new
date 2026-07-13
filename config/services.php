@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    'movie_info' => [
+        'base_url' => env('MOVIE_INFO_API_BASE_URL', 'https://movie-info-api.p.rapidapi.com'),
+        'host' => env('MOVIE_INFO_API_HOST', 'movie-info-api.p.rapidapi.com'),
+        'key' => env('MOVIE_INFO_API_KEY'),
+        'verify_tls' => env('MOVIE_INFO_API_VERIFY_TLS', true),
+    ],
+
 ];

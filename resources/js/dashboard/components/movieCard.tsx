@@ -9,15 +9,14 @@ type MovieCardProps = {
 export function MovieCard({ movie, onRemove }: MovieCardProps) {
     return (
         <article className="filmLibrary__movieCard">
-            <Poster title={movie.title} />
+            <Poster title={movie.title} posterUrl={movie.posterUrl} />
             <div className="filmLibrary__movieContent">
                 <h2>{movie.title}</h2>
-                <p>{movie.synopsis}</p>
-            </div>
-            <div className="filmLibrary__movieTags">
-                {movie.genres.map((genre) => (
-                    <span key={genre}>{genre}</span>
-                ))}
+                <dl className="filmLibrary__movieMeta">
+                    <div><dt>Título original:</dt><dd>{movie.originalTitle}</dd></div>
+                    <div><dt>Data de lançamento:</dt><dd>{movie.releaseDate}</dd></div>
+                </dl>
+                <p><strong>Sinopse:</strong> {movie.synopsis}</p>
             </div>
             <button type="button" className="filmLibrary__movieStatus" aria-label={`Remover ${movie.title}`} onClick={onRemove} />
         </article>
