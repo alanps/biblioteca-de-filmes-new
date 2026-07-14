@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthenticatedUserController;
 use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\MovieIndexController;
 use App\Http\Controllers\MovieStoreController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -13,6 +14,9 @@ Route::post('/reset-password', [ForgotPasswordController::class, 'redefinirSenha
 Route::post('/movies', MovieStoreController::class)
     ->middleware('auth:sanctum')
     ->name('movies.store');
+Route::get('/movies', MovieIndexController::class)
+    ->middleware(['auth:sanctum', 'throttle:60,1'])
+    ->name('movies.index');
 Route::middleware(['auth:sanctum', 'throttle:60,1'])->group(function () {
     Route::get('/user', [AuthenticatedUserController::class, 'show'])->name('session.user');
     Route::delete('/logout', [AuthenticatedUserController::class, 'destroy'])->name('session.destroy');

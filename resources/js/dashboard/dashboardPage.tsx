@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import Signature from "@/components/signature";
 import { login } from '@/routes';
-import { search as searchMovies, store as storeMovie } from '@/routes/movies';
+import { index as listLibraryMovies, search as searchMovies, store as storeMovie } from '@/routes/movies';
 import { destroy as destroySession, user as getAuthenticatedUser } from '@/routes/session';
 import { index as listUsers } from '@/routes/users';
 import type { DashboardUser, Movie } from '@/dashboard/types';
@@ -15,7 +15,6 @@ import { WindowTitle } from '@/dashboard/components/windowTitle';
 
 export default function Dashboard() {
     const [search, setSearch] = useState('');
-    const [activeGenre, setActiveGenre] = useState<string | null>(null);
     const [sortDirection, setSortDirection] = useState<'ascending' | 'descending' | null>(null);
     const [libraryMovies, setLibraryMovies] = useState<Movie[]>([]);
     const [users, setUsers] = useState<DashboardUser[]>([]);
@@ -37,10 +36,7 @@ export default function Dashboard() {
 
     const movies = useMemo(() => {
         return libraryMovies.filter((movie) => {
-            const matchesSearch = movie.title.toLocaleLowerCase().includes(search.toLocaleLowerCase());
-            const matchesGenre = activeGenre === null || movie.genres.includes(activeGenre);
-
-            return matchesSearch && matchesGenre;
+            return movie.title.toLocaleLowerCase().includes(search.toLocaleLowerCase());
         }).sort((firstMovie, secondMovie) => {
             if (sortDirection === null) {
                 return 0;
@@ -50,7 +46,7 @@ export default function Dashboard() {
 
             return sortDirection === 'ascending' ? result : -result;
         });
-    }, [activeGenre, libraryMovies, search, sortDirection]);
+    }, [libraryMovies, search, sortDirection]);
 
     const addMovieResults = useMemo(
         () => remoteMovieResults.filter((movie) => !libraryMovies.some((libraryMovie) =>
@@ -68,8 +64,6 @@ export default function Dashboard() {
     const usersPageCount = Math.max(1, Math.ceil(filteredUsers.length / usersPerPage));
     const visibleMovieResults = addMovieResults.slice((addMoviePage - 1) * moviesPerPage, addMoviePage * moviesPerPage);
     const visibleUsers = filteredUsers.slice((usersPage - 1) * usersPerPage, usersPage * usersPerPage);
-
-    const genres = ['ação', 'comédia', 'ficção científica'];
 
     useEffect(() => {
         function closeOnEscape(event: KeyboardEvent) {
@@ -94,26 +88,38 @@ export default function Dashboard() {
 
         const controller = new AbortController();
 
-        async function loadAuthenticatedUser() {
+        async function loadDashboardData() {
             try {
-                const response = await fetch(getAuthenticatedUser.url(), {
-                    headers: {
-                        Accept: 'application/json',
-                        Authorization: `Bearer ${token}`,
-                    },
-                    signal: controller.signal,
-                });
-                const payload = await response.json() as { user?: DashboardUser };
+                const headers = {
+                    Accept: 'application/json',
+                    Authorization: `Bearer ${token}`,
+                };
+                const [userResponse, moviesResponse] = await Promise.all([
+                    fetch(getAuthenticatedUser.url(), {
+                        headers,
+                        signal: controller.signal,
+                    }),
+                    fetch(listLibraryMovies.url(), {
+                        headers,
+                        signal: controller.signal,
+                    }),
+                ]);
+                const userPayload = await userResponse.json() as { user?: DashboardUser };
+                const moviesPayload = await moviesResponse.json() as { movies?: Movie[] };
 
-                if (response.status === 401) {
+                if (userResponse.status === 401 || moviesResponse.status === 401) {
                     window.localStorage.removeItem('TOKEN_API');
                     window.location.replace(login.url());
 
                     return;
                 }
 
-                if (response.ok && payload.user) {
-                    setAuthenticatedUser(payload.user);
+                if (userResponse.ok && userPayload.user) {
+                    setAuthenticatedUser(userPayload.user);
+                }
+
+                if (moviesResponse.ok) {
+                    setLibraryMovies(moviesPayload.movies ?? []);
                 }
             } catch (error) {
                 if (! (error instanceof DOMException && error.name === 'AbortError')) {
@@ -122,7 +128,7 @@ export default function Dashboard() {
             }
         }
 
-        void loadAuthenticatedUser();
+        void loadDashboardData();
 
         return () => controller.abort();
     }, []);
@@ -344,24 +350,11 @@ export default function Dashboard() {
                                 Z a A
                             </button>
                         </div>
-                        <div>
-                            <span>Filtros:</span>
-                            {genres.map((genre) => (
-                                <button
-                                    type="button"
-                                    key={genre}
-                                    className={activeGenre === genre ? 'isActive' : ''}
-                                    onClick={() => setActiveGenre(activeGenre === genre ? null : genre)}
-                                >
-                                    {genre}
-                                </button>
-                            ))}
-                        </div>
                     </div>
                     <label className="filmLibrary__search">
                         <span>Busca:</span>
                         <input value={search} onChange={(event) => setSearch(event.target.value)} />
-                        <small>Total de <strong>{search || activeGenre ? movies.length : libraryMovies.length}</strong> filmes listados</small>
+                        <small>Total de <strong>{search ? movies.length : libraryMovies.length}</strong> filmes listados</small>
                     </label>
                 </section>
 

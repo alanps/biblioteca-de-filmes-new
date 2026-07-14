@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMovieRequest;
+use App\Http\Resources\MovieResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Carbon;
@@ -26,15 +27,7 @@ class MovieStoreController extends Controller
         );
 
         return response()->json([
-            'movie' => [
-                'id' => $movie->id,
-                'title' => $movie->title,
-                'originalTitle' => $movie->original_title,
-                'releaseDate' => $movie->release_date?->format('d-m-Y') ?? '',
-                'synopsis' => $movie->synopsis ?? '',
-                'genres' => [],
-                'posterUrl' => $movie->poster_url,
-            ],
+            'movie' => (new MovieResource($movie))->resolve($request),
         ], $movie->wasRecentlyCreated ? 201 : 200);
     }
 
