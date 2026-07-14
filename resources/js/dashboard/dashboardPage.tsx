@@ -6,7 +6,7 @@ import { login } from '@/routes';
 import { destroy as destroyMovie, index as listLibraryMovies, search as searchMovies, store as storeMovie } from '@/routes/movies';
 import { destroy as destroySession, user as getAuthenticatedUser } from '@/routes/session';
 import { index as listUsers } from '@/routes/users';
-import type { DashboardUser, Movie } from '@/dashboard/types';
+import type { AuthenticatedDashboardUser, DashboardUser, Movie } from '@/dashboard/types';
 import { moviesPerPage, usersPerPage } from '@/dashboard/data';
 import { DashboardHeader } from '@/dashboard/components/dashboardHeader';
 import { MovieCard } from '@/dashboard/components/movieCard';
@@ -31,7 +31,7 @@ export default function Dashboard() {
     const [usersError, setUsersError] = useState<string | null>(null);
     const [savingMovieId, setSavingMovieId] = useState<number | null>(null);
     const [movieSaveError, setMovieSaveError] = useState<string | null>(null);
-    const [authenticatedUser, setAuthenticatedUser] = useState<DashboardUser | null>(null);
+    const [authenticatedUser, setAuthenticatedUser] = useState<AuthenticatedDashboardUser | null>(null);
     const [isLoggingOut, setIsLoggingOut] = useState(false);
     const [removingMovieId, setRemovingMovieId] = useState<number | null>(null);
     const [movieRemovalError, setMovieRemovalError] = useState<string | null>(null);
@@ -106,7 +106,7 @@ export default function Dashboard() {
                         signal: controller.signal,
                     }),
                 ]);
-                const userPayload = await userResponse.json() as { user?: DashboardUser };
+                const userPayload = await userResponse.json() as { user?: AuthenticatedDashboardUser };
                 const moviesPayload = await moviesResponse.json() as { movies?: Movie[] };
 
                 if (userResponse.status === 401 || moviesResponse.status === 401) {
@@ -202,14 +202,25 @@ export default function Dashboard() {
             setUsers([]);
 
             try {
+                const token = window.localStorage.getItem('TOKEN_API');
+
+                if (! token) {
+                    window.location.replace(login.url());
+
+                    return;
+                }
+
                 const response = await fetch(listUsers.url(), {
-                    headers: { Accept: 'application/json' },
+                    headers: {
+                        Accept: 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
                     signal: controller.signal,
                 });
                 const payload = await response.json() as { users?: DashboardUser[]; message?: string };
 
                 if (! response.ok) {
-                    throw new Error(payload.message || 'Não foi possível carregar os usuários agora.');
+                    throw new Error(response.status === 403 ? 'Você não tem permissão para listar os usuários.' : payload.message || 'Não foi possível carregar os usuários agora.');
                 }
 
                 setUsers(payload.users ?? []);
@@ -369,6 +380,7 @@ export default function Dashboard() {
                 <div className="filmLibrary__topBar" aria-hidden="true" />
                 <DashboardHeader
                     userName={authenticatedUser?.name ?? 'Usuário'}
+                    showUsers={authenticatedUser?.canViewUsers ?? false}
                     isLoggingOut={isLoggingOut}
                     onOpenUsers={() => {
                         setUsersPage(1);

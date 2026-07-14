@@ -13,6 +13,7 @@ test('the authenticated user name is returned for the dashboard menu', function 
             'user' => [
                 'id' => $user->id,
                 'name' => 'Alan Pardini',
+                'canViewUsers' => true,
             ],
         ]);
 });

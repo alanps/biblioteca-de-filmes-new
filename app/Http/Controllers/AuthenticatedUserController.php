@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 
 class AuthenticatedUserController extends Controller
 {
@@ -18,6 +19,7 @@ class AuthenticatedUserController extends Controller
             'user' => [
                 'id' => $user->id,
                 'name' => $user->name,
+                'canViewUsers' => Gate::allows('view-users'),
             ],
         ]);
     }

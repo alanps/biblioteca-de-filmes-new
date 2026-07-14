@@ -12,3 +12,7 @@ export type DashboardUser = {
     id: number;
     name: string;
 };
+
+export type AuthenticatedDashboardUser = DashboardUser & {
+    canViewUsers: boolean;
+};

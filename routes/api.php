@@ -6,6 +6,7 @@ use App\Http\Controllers\MovieDestroyController;
 use App\Http\Controllers\MovieIndexController;
 use App\Http\Controllers\MovieStoreController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserIndexController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [UserController::class, 'register']);
@@ -23,5 +24,6 @@ Route::delete('/movies/{movie}', MovieDestroyController::class)
     ->name('movies.destroy');
 Route::middleware(['auth:sanctum', 'throttle:60,1'])->group(function () {
     Route::get('/user', [AuthenticatedUserController::class, 'show'])->name('session.user');
+    Route::get('/users', UserIndexController::class)->name('users.index');
     Route::delete('/logout', [AuthenticatedUserController::class, 'destroy'])->name('session.destroy');
 });
