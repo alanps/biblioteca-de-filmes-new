@@ -2,6 +2,7 @@ import logo from "@images/logo.png";
 import google from "@images/google.svg";
 import RegisterBox from '@/components/registerBox';
 import Password from '@/components/password';
+import { dashboard } from '@/routes';
 import { useState } from "react";
 
 export default function LoginBox() {
@@ -42,7 +43,7 @@ export default function LoginBox() {
 
             setErrorMessage(null);
             
-            window.location.href = '/listagem';
+            window.location.href = dashboard.url();
 
         } catch (error) {
             setErrorMessage(error instanceof Error ? error.message : 'Não foi possível fazer login.');
