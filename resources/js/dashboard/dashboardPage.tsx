@@ -168,7 +168,13 @@ export default function Dashboard() {
                     throw new Error(payload.message || 'Não foi possível buscar os filmes agora.');
                 }
 
-                setRemoteMovieResults(payload.movies ?? []);
+                const movieResults = payload.movies ?? [];
+                const firstAvailableMovie = movieResults.find((movie) => !libraryMovies.some((libraryMovie) =>
+                    libraryMovie.id === movie.id || libraryMovie.title.localeCompare(movie.title, 'pt-BR', { sensitivity: 'base' }) === 0,
+                ));
+
+                setRemoteMovieResults(movieResults);
+                setExpandedMovieResult(firstAvailableMovie?.id ?? null);
             } catch (error) {
                 if (error instanceof DOMException && error.name === 'AbortError') {
                     return;
@@ -187,7 +193,7 @@ export default function Dashboard() {
             window.clearTimeout(timer);
             controller.abort();
         };
-    }, [activeModal, addMovieSearch]);
+    }, [activeModal, addMovieSearch, libraryMovies]);
 
     useEffect(() => {
         if (activeModal !== 'users') {
