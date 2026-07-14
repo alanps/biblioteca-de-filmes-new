@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import Signature from "@/components/signature";
 import { login } from '@/routes';
-import { index as listLibraryMovies, search as searchMovies, store as storeMovie } from '@/routes/movies';
+import { destroy as destroyMovie, index as listLibraryMovies, search as searchMovies, store as storeMovie } from '@/routes/movies';
 import { destroy as destroySession, user as getAuthenticatedUser } from '@/routes/session';
 import { index as listUsers } from '@/routes/users';
 import type { DashboardUser, Movie } from '@/dashboard/types';
@@ -33,6 +33,8 @@ export default function Dashboard() {
     const [movieSaveError, setMovieSaveError] = useState<string | null>(null);
     const [authenticatedUser, setAuthenticatedUser] = useState<DashboardUser | null>(null);
     const [isLoggingOut, setIsLoggingOut] = useState(false);
+    const [removingMovieId, setRemovingMovieId] = useState<number | null>(null);
+    const [movieRemovalError, setMovieRemovalError] = useState<string | null>(null);
 
     const movies = useMemo(() => {
         return libraryMovies.filter((movie) => {
@@ -315,6 +317,50 @@ export default function Dashboard() {
         }
     }
 
+    async function removeMovie(movie: Movie) {
+        if (removingMovieId !== null) {
+            return;
+        }
+
+        const token = window.localStorage.getItem('TOKEN_API');
+
+        if (! token) {
+            window.location.replace(login.url());
+
+            return;
+        }
+
+        setRemovingMovieId(movie.id);
+        setMovieRemovalError(null);
+
+        try {
+            const response = await fetch(destroyMovie.url(movie.id), {
+                method: 'DELETE',
+                headers: {
+                    Accept: 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (response.status === 401) {
+                window.localStorage.removeItem('TOKEN_API');
+                window.location.replace(login.url());
+
+                return;
+            }
+
+            if (! response.ok) {
+                throw new Error('Não foi possível remover o filme.');
+            }
+
+            setLibraryMovies((currentMovies) => currentMovies.filter((currentMovie) => currentMovie.id !== movie.id));
+        } catch (error) {
+            setMovieRemovalError(error instanceof Error ? error.message : 'Não foi possível remover o filme.');
+        } finally {
+            setRemovingMovieId(null);
+        }
+    }
+
     return (
         <>
             <Head title="Biblioteca de Filmes" />
@@ -359,7 +405,8 @@ export default function Dashboard() {
                 </section>
 
                 <section className="filmLibrary__movieGrid" aria-live="polite">
-                    {movies.length ? movies.map((movie) => <MovieCard key={movie.id} movie={movie} onRemove={() => setLibraryMovies((currentMovies) => currentMovies.filter((currentMovie) => currentMovie.id !== movie.id))} />) : <p className="filmLibrary__empty">Nenhum filme encontrado.</p>}
+                    {movieRemovalError && <p className="filmLibrary__empty">{movieRemovalError}</p>}
+                    {movies.length ? movies.map((movie) => <MovieCard key={movie.id} movie={movie} isRemoving={removingMovieId === movie.id} onRemove={() => void removeMovie(movie)} />) : <p className="filmLibrary__empty">Nenhum filme encontrado.</p>}
                 </section>
 
                 <aside className="filmLibrary__bottomBanner" aria-label="Espaço publicitário" />
