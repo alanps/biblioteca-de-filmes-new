@@ -10,7 +10,7 @@ test('movie data accepted from the search API is valid', function () {
     $validator = Validator::make([
         'title' => 'Jumanji',
         'originalTitle' => 'Jumanji',
-        'releaseDate' => '15-12-1995',
+        'releaseDate' => '15/12/1995',
         'synopsis' => 'Um jogo mágico transforma a vida de duas crianças.',
         'posterUrl' => 'https://image.example/jumanji.jpg',
     ], (new StoreMovieRequest)->rules());

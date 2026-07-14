@@ -37,7 +37,11 @@ class MovieStoreController extends Controller
             return null;
         }
 
-        $format = Str::of($releaseDate)->before('-')->length() === 4 ? 'Y-m-d' : 'd-m-Y';
+        $format = match (true) {
+            Str::contains($releaseDate, '/') => 'd/m/Y',
+            Str::of($releaseDate)->before('-')->length() === 4 => 'Y-m-d',
+            default => 'd-m-Y',
+        };
 
         return Carbon::createFromFormat($format, $releaseDate)->toDateString();
     }

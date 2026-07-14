@@ -30,7 +30,7 @@ test('movies can be searched by title', function () {
         ->assertSuccessful()
         ->assertJsonPath('movies.0.title', 'Jumanji')
         ->assertJsonPath('movies.0.originalTitle', 'Jumanji')
-        ->assertJsonPath('movies.0.releaseDate', '15-12-1995')
+        ->assertJsonPath('movies.0.releaseDate', '15/12/1995')
         ->assertJsonPath('movies.0.synopsis', 'Um jogo mágico transforma a vida de duas crianças.')
         ->assertJsonPath('movies.0.posterUrl', 'https://image.example/jumanji.jpg')
         ->assertJsonPath('movies.0.genres', []);

@@ -22,7 +22,7 @@ class StoreMovieRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'originalTitle' => ['required', 'string', 'max:255'],
-            'releaseDate' => ['nullable', 'date_format:d-m-Y,Y-m-d'],
+            'releaseDate' => ['nullable', 'date_format:d/m/Y,d-m-Y,Y-m-d'],
             'synopsis' => ['nullable', 'string'],
             'posterUrl' => ['nullable', 'url', 'max:255'],
         ];

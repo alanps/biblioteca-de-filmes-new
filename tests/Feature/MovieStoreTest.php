@@ -10,13 +10,13 @@ test('an authenticated user can add a movie to their library', function () {
         ->postJson(route('movies.store'), [
             'title' => 'Jumanji',
             'originalTitle' => 'Jumanji',
-            'releaseDate' => '15-12-1995',
+            'releaseDate' => '15/12/1995',
             'synopsis' => 'Um jogo mágico transforma a vida de duas crianças.',
             'posterUrl' => 'https://image.example/jumanji.jpg',
         ])
         ->assertCreated()
         ->assertJsonPath('movie.title', 'Jumanji')
-        ->assertJsonPath('movie.releaseDate', '15-12-1995');
+        ->assertJsonPath('movie.releaseDate', '15/12/1995');
 
     $movie = Movie::query()->sole();
 
