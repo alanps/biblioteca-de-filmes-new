@@ -2,7 +2,8 @@ import logo from "@images/logo.png";
 import google from "@images/google.svg";
 import RegisterBox from '@/components/registerBox';
 import Password from '@/components/password';
-import { dashboard } from '@/routes';
+import { dashboard, forgotpass } from '@/routes';
+import { Link } from '@inertiajs/react';
 import { useState } from "react";
 
 export default function LoginBox() {
@@ -115,11 +116,11 @@ export default function LoginBox() {
 
                         </button>
 
-                        <a href="/forgotpass">
+                        <Link href={forgotpass()}>
 
                             Esqueceu a password?
 
-                        </a>
+                        </Link>
 
                     </div>
 
