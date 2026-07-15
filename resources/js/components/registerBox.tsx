@@ -1,5 +1,7 @@
 import google from "@images/google.svg";
+import { register as registerUser } from '@/actions/App/Http/Controllers/UserController';
 import Password from '@/components/password';
+import { dashboard } from '@/routes';
 import { useState, useRef } from "react";
 
 export default function RegisterBox() {
@@ -29,7 +31,7 @@ export default function RegisterBox() {
         setIsLoading(true);
 
         try {
-            const response = await fetch('https://biblioteca-de-filmes.ddev.site/api/register', {
+            const response = await fetch(registerUser.url(), {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -52,7 +54,7 @@ export default function RegisterBox() {
 
             setErrorMessage(null);
             
-            window.location.href = '/listagem';
+            window.location.replace(dashboard.url());
 
         } catch (error) {
             setErrorMessage(error instanceof Error ? error.message : 'Não foi possível cadastrar.');
