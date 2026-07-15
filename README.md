@@ -1,1 +1,1 @@
-Layout feito no Figma, projeto criado com Laravel 13 no backend e React usando Inertia pra fazer a integração no frontend, usei o Trello para gerenciamento de demandas, o GitHub para versionamento e o ChatGPT com o Codex usando o plugin do Figma transformou o layout em HTML e SCSS.
+Layout feito no Figma, projeto criado com Laravel 13 no backend e React usando Inertia pra fazer a integração no frontend, Vite, usei o Trello para gerenciamento de demandas, o GitHub para versionamento e o ChatGPT com o Codex usando o plugin do Figma transformou o layout em HTML e SCSS.
