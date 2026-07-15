@@ -35,11 +35,11 @@ return [
         ],
     ],
 
-    'movie_info' => [
-        'base_url' => env('MOVIE_INFO_API_BASE_URL', 'https://movie-info-api.p.rapidapi.com'),
-        'host' => env('MOVIE_INFO_API_HOST', 'movie-info-api.p.rapidapi.com'),
-        'key' => env('MOVIE_INFO_API_KEY'),
-        'verify_tls' => env('MOVIE_INFO_API_VERIFY_TLS', true),
+    'trakt' => [
+        'base_url' => env('TRAKT_API_BASE_URL', 'https://api.trakt.tv'),
+        'client_id' => env('TRAKT_CLIENT_ID'),
+        'api_version' => env('TRAKT_API_VERSION', 2),
+        'verify_tls' => env('TRAKT_API_VERIFY_TLS', true),
     ],
 
 ];
