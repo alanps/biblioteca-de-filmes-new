@@ -9,15 +9,15 @@ uses(TestCase::class);
 
 beforeEach(function () {
     config()->set('cache.default', 'array');
-    config()->set('services.trakt.verify_tls', true);
+    config()->set('services.tmdb.verify_tls', true);
     Cache::flush();
     Storage::fake('local');
 });
 
-test('Trakt posters are downloaded once and served from local storage', function () {
-    $posterUrl = 'https://walter-r2.trakt.tv/images/movies/000/001/267/posters/thumb/jumanji.webp';
+test('TMDB posters are downloaded once and served from local storage', function () {
+    $posterUrl = 'https://image.tmdb.org/t/p/w500/jumanji.jpg';
 
-    Cache::put('trakt.movie.1267.poster', $posterUrl, now()->addYear());
+    Cache::put('tmdb.movie.1267.poster', $posterUrl, now()->addYear());
     Http::preventStrayRequests();
     Http::fake([
         $posterUrl => Http::response('webp-image', 200, ['Content-Type' => 'image/webp']),
@@ -38,8 +38,8 @@ test('Trakt posters are downloaded once and served from local storage', function
     Http::assertSentCount(1);
 });
 
-test('poster proxy rejects URLs outside Trakt', function () {
-    Cache::put('trakt.movie.1267.poster', 'https://example.com/poster.webp', now()->addYear());
+test('poster proxy rejects URLs outside TMDB', function () {
+    Cache::put('tmdb.movie.1267.poster', 'https://example.com/poster.webp', now()->addYear());
     Http::preventStrayRequests();
 
     $this->get(route('movies.poster', ['movie' => 1267]))->assertNotFound();

@@ -4,12 +4,11 @@ namespace App\Services;
 
 use DateTimeImmutable;
 use Illuminate\Http\Client\PendingRequest;
-use Illuminate\Http\Client\Pool;
-use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use RuntimeException;
 
 class MovieInfoService
 {
@@ -18,7 +17,7 @@ class MovieInfoService
      */
     public function search(string $title): array
     {
-        $cacheKey = 'trakt.search.'.sha1(Str::lower(Str::squish($title)));
+        $cacheKey = 'tmdb.search.'.sha1(Str::lower(Str::squish($title)));
 
         return Cache::remember(
             $cacheKey,
@@ -32,138 +31,41 @@ class MovieInfoService
      */
     private function searchProvider(string $title): array
     {
-        $response = $this->request()
+        $results = $this->request()
             ->get('/search/movie', [
                 'query' => $title,
-                'extended' => 'full',
+                'include_adult' => false,
+                'language' => 'pt-BR',
+                'region' => 'BR',
                 'page' => 1,
-                'limit' => 50,
             ])
-            ->throw();
-
-        $results = $response->json();
+            ->throw()
+            ->json('results');
 
         if (! is_array($results)) {
             return [];
         }
 
-        $movies = [];
-
-        foreach ($results as $result) {
-            $movie = is_array($result) ? Arr::get($result, 'movie') : null;
-
-            if (! is_array($movie)
-                || ! is_int(Arr::get($movie, 'ids.trakt'))
-                || blank(Arr::get($movie, 'title'))) {
-                continue;
-            }
-
-            $movies[] = $movie;
-
-            if (count($movies) === 50) {
-                break;
-            }
-        }
-
-        $translations = $this->translations($movies);
-
-        return collect($movies)
-            ->map(function (array $movie) use ($translations): array {
-                $id = (int) Arr::get($movie, 'ids.trakt');
-                $originalTitle = (string) Arr::get($movie, 'title');
-                $translation = $translations[$id] ?? [];
-                $translatedTitle = Arr::get($translation, 'title');
-                $translatedSynopsis = Arr::get($translation, 'overview');
+        return collect($results)
+            ->filter(fn (mixed $movie): bool => is_array($movie)
+                && is_int(Arr::get($movie, 'id'))
+                && filled(Arr::get($movie, 'title')))
+            ->take(50)
+            ->map(function (array $movie): array {
+                $id = (int) Arr::get($movie, 'id');
 
                 return [
                     'id' => $id,
-                    'title' => is_string($translatedTitle) && $translatedTitle !== '' ? $translatedTitle : $originalTitle,
-                    'originalTitle' => $originalTitle,
+                    'title' => (string) Arr::get($movie, 'title'),
+                    'originalTitle' => (string) Arr::get($movie, 'original_title', Arr::get($movie, 'title', '')),
                     'releaseDate' => $this->releaseDate($movie),
-                    'synopsis' => is_string($translatedSynopsis) && $translatedSynopsis !== ''
-                        ? $translatedSynopsis
-                        : (string) Arr::get($movie, 'overview', ''),
+                    'synopsis' => (string) Arr::get($movie, 'overview', ''),
                     'genres' => [],
                     'posterUrl' => $this->posterUrl($movie, $id),
                 ];
             })
+            ->values()
             ->all();
-    }
-
-    /**
-     * @param  array<int, array<string, mixed>>  $movies
-     * @return array<int, array<string, mixed>>
-     */
-    private function translations(array $movies): array
-    {
-        $translations = [];
-        $missingMovies = [];
-
-        foreach ($movies as $movie) {
-            $id = (int) Arr::get($movie, 'ids.trakt');
-            $cachedTranslation = Cache::get($this->translationCacheKey($id));
-
-            if (is_array($cachedTranslation)) {
-                $translations[$id] = $cachedTranslation;
-
-                continue;
-            }
-
-            $missingMovies[$id] = $movie;
-        }
-
-        if ($missingMovies === []) {
-            return $translations;
-        }
-
-        $responses = Http::pool(function (Pool $pool) use ($missingMovies): array {
-            $requests = [];
-
-            foreach ($missingMovies as $id => $movie) {
-                $identifier = Arr::get($movie, 'ids.slug', $id);
-                $requests[] = $pool
-                    ->as((string) $id)
-                    ->acceptJson()
-                    ->withOptions(['verify' => config('services.trakt.verify_tls')])
-                    ->withHeaders($this->headers())
-                    ->connectTimeout(3)
-                    ->timeout(10)
-                    ->get(config('services.trakt.base_url')."/movies/{$identifier}/translations/pt");
-            }
-
-            return $requests;
-        }, concurrency: 10);
-
-        foreach ($missingMovies as $id => $movie) {
-            $response = $responses[(string) $id] ?? null;
-            $translation = $response instanceof Response && $response->successful()
-                ? $this->preferredTranslation($response)
-                : [];
-
-            Cache::put($this->translationCacheKey($id), $translation, now()->addDays(7));
-            $translations[$id] = $translation;
-        }
-
-        return $translations;
-    }
-
-    /**
-     * @return array<string, mixed>
-     */
-    private function preferredTranslation(Response $response): array
-    {
-        $translations = $response->json();
-
-        if (! is_array($translations)) {
-            return [];
-        }
-
-        $translation = collect($translations)
-            ->filter(fn (mixed $item): bool => is_array($item))
-            ->first(fn (array $item): bool => Str::lower((string) Arr::get($item, 'country')) === 'br')
-            ?? collect($translations)->first(fn (mixed $item): bool => is_array($item));
-
-        return is_array($translation) ? $translation : [];
     }
 
     /**
@@ -171,7 +73,7 @@ class MovieInfoService
      */
     private function releaseDate(array $movie): string
     {
-        $releaseDate = Arr::get($movie, 'released');
+        $releaseDate = Arr::get($movie, 'release_date');
 
         if (! is_string($releaseDate)) {
             return '';
@@ -189,45 +91,33 @@ class MovieInfoService
      */
     private function posterUrl(array $movie, int $id): ?string
     {
-        $posterUrl = Arr::get($movie, 'images.poster.0');
+        $posterPath = Arr::get($movie, 'poster_path');
 
-        if (! is_string($posterUrl) || $posterUrl === '') {
+        if (! is_string($posterPath) || $posterPath === '') {
             return null;
         }
 
-        $posterUrl = Str::startsWith($posterUrl, ['http://', 'https://'])
-            ? $posterUrl
-            : "https://{$posterUrl}";
+        $posterUrl = rtrim((string) config('services.tmdb.image_url'), '/').'/w500/'.ltrim($posterPath, '/');
 
-        Cache::put("trakt.movie.{$id}.poster", $posterUrl, now()->addYear());
+        Cache::put("tmdb.movie.{$id}.poster", $posterUrl, now()->addYear());
 
         return route('movies.poster', ['movie' => $id]);
     }
 
     private function request(): PendingRequest
     {
-        return Http::baseUrl(config('services.trakt.base_url'))
+        $token = config('services.tmdb.token');
+
+        if (! is_string($token) || $token === '') {
+            throw new RuntimeException('TMDB_API_TOKEN is not configured.');
+        }
+
+        return Http::baseUrl(config('services.tmdb.base_url'))
             ->acceptJson()
-            ->withOptions(['verify' => config('services.trakt.verify_tls')])
-            ->withHeaders($this->headers())
+            ->withToken($token)
+            ->withOptions(['verify' => config('services.tmdb.verify_tls')])
             ->connectTimeout(3)
-            ->timeout(10);
-    }
-
-    /**
-     * @return array<string, mixed>
-     */
-    private function headers(): array
-    {
-        return [
-            'Content-Type' => 'application/json',
-            'trakt-api-key' => config('services.trakt.client_id'),
-            'trakt-api-version' => config('services.trakt.api_version'),
-        ];
-    }
-
-    private function translationCacheKey(int $id): string
-    {
-        return "trakt.movie.{$id}.translation.pt";
+            ->timeout(10)
+            ->retry(2, 200, throw: false);
     }
 }

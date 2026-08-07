@@ -10,83 +10,56 @@ uses(TestCase::class);
 
 beforeEach(function () {
     config()->set('cache.default', 'array');
-    config()->set('services.trakt.base_url', 'https://api.trakt.tv');
-    config()->set('services.trakt.client_id', 'test-client-id');
-    config()->set('services.trakt.api_version', 2);
-    config()->set('services.trakt.verify_tls', true);
+    config()->set('services.tmdb.base_url', 'https://api.themoviedb.org/3');
+    config()->set('services.tmdb.image_url', 'https://image.tmdb.org/t/p');
+    config()->set('services.tmdb.token', 'test-token');
+    config()->set('services.tmdb.verify_tls', true);
     Cache::flush();
 });
 
-test('movies can be searched by title with Brazilian Portuguese translations', function () {
+test('movies can be searched by title in Brazilian Portuguese', function () {
     Http::preventStrayRequests();
-    Http::fake(function (Request $request) {
-        if (str_contains($request->url(), '/search/movie')) {
-            return Http::response([[
-                'type' => 'movie',
-                'score' => 1000,
-                'movie' => [
-                    'title' => 'Jumanji',
-                    'year' => 1995,
-                    'released' => '1995-12-15',
-                    'overview' => 'Two children discover a magical board game.',
-                    'ids' => [
-                        'trakt' => 1267,
-                        'slug' => 'jumanji-1995',
-                        'imdb' => 'tt0113497',
-                        'tmdb' => 8844,
-                    ],
-                    'images' => [
-                        'poster' => [
-                            'walter-r2.trakt.tv/images/movies/000/001/267/posters/thumb/jumanji.webp',
-                        ],
-                    ],
-                ],
-            ]]);
-        }
-
-        if (str_contains($request->url(), '/movies/jumanji-1995/translations/pt')) {
-            return Http::response([
-                [
-                    'title' => 'Jumanji',
-                    'overview' => 'Duas crianças descobrem um jogo de tabuleiro mágico.',
-                    'tagline' => 'Um jogo para aqueles que procuram encontrar uma saída.',
-                    'language' => 'pt',
-                    'country' => 'br',
-                ],
-            ]);
-        }
-
-        return Http::response(status: 404);
-    });
+    Http::fake([
+        'api.themoviedb.org/3/search/movie*' => Http::response([
+            'page' => 1,
+            'results' => [[
+                'id' => 8844,
+                'title' => 'Jumanji',
+                'original_title' => 'Jumanji',
+                'release_date' => '1995-12-15',
+                'overview' => 'Duas crianças descobrem um jogo de tabuleiro mágico.',
+                'poster_path' => '/jumanji.jpg',
+            ]],
+        ]),
+    ]);
 
     $this->getJson(route('movies.search', ['title' => 'jumanji']))
         ->assertSuccessful()
-        ->assertJsonPath('movies.0.id', 1267)
+        ->assertJsonPath('movies.0.id', 8844)
         ->assertJsonPath('movies.0.title', 'Jumanji')
         ->assertJsonPath('movies.0.originalTitle', 'Jumanji')
         ->assertJsonPath('movies.0.releaseDate', '15/12/1995')
         ->assertJsonPath('movies.0.synopsis', 'Duas crianças descobrem um jogo de tabuleiro mágico.')
-        ->assertJsonPath('movies.0.posterUrl', route('movies.poster', ['movie' => 1267]))
+        ->assertJsonPath('movies.0.posterUrl', route('movies.poster', ['movie' => 8844]))
         ->assertJsonPath('movies.0.genres', []);
 
-    Http::assertSent(fn (Request $request): bool => $request->hasHeader('trakt-api-key', 'test-client-id')
-        && $request->hasHeader('trakt-api-version', '2')
+    Http::assertSent(fn (Request $request): bool => $request->hasHeader('Authorization', 'Bearer test-token')
         && str_contains($request->url(), '/search/movie?')
         && $request['query'] === 'jumanji'
-        && $request['extended'] === 'full'
-        && $request['page'] === 1
-        && $request['limit'] === 50);
+        && $request['include_adult'] === false
+        && $request['language'] === 'pt-BR'
+        && $request['region'] === 'BR'
+        && $request['page'] === 1);
+    Http::assertSentCount(1);
 
-    Http::assertSent(fn (Request $request): bool => $request->hasHeader('trakt-api-key', 'test-client-id')
-        && $request->hasHeader('trakt-api-version', '2')
-        && str_contains($request->url(), '/movies/jumanji-1995/translations/pt'));
-    Http::assertSentCount(2);
+    expect(Cache::get('tmdb.movie.8844.poster'))
+        ->toBe('https://image.tmdb.org/t/p/w500/jumanji.jpg');
 });
 
 test('movie search responses are cached', function () {
     Http::preventStrayRequests();
     Http::fake([
-        'api.trakt.tv/search/movie*' => Http::response([]),
+        'api.themoviedb.org/3/search/movie*' => Http::response(['results' => []]),
     ]);
 
     $this->getJson(route('movies.search', ['title' => 'jumanji']))->assertSuccessful();
@@ -107,7 +80,7 @@ test('movie search handles provider failures', function () {
     Exceptions::fake();
     Http::preventStrayRequests();
     Http::fake([
-        'api.trakt.tv/*' => Http::response(status: 503),
+        'api.themoviedb.org/3/*' => Http::response(status: 503),
     ]);
 
     $this->getJson(route('movies.search', ['title' => 'jumanji']))

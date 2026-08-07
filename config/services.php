@@ -41,11 +41,11 @@ return [
         'redirect' => env('GOOGLE_REDIRECT_URI'),
     ],
 
-    'trakt' => [
-        'base_url' => env('TRAKT_API_BASE_URL', 'https://api.trakt.tv'),
-        'client_id' => env('TRAKT_CLIENT_ID'),
-        'api_version' => env('TRAKT_API_VERSION', 2),
-        'verify_tls' => env('TRAKT_API_VERIFY_TLS', true),
+    'tmdb' => [
+        'base_url' => env('TMDB_API_BASE_URL', 'https://api.themoviedb.org/3'),
+        'image_url' => env('TMDB_IMAGE_BASE_URL', 'https://image.tmdb.org/t/p'),
+        'token' => env('TMDB_API_TOKEN'),
+        'verify_tls' => env('TMDB_API_VERIFY_TLS', true),
     ],
 
 ];
