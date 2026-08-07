@@ -35,6 +35,12 @@ return [
         ],
     ],
 
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => env('GOOGLE_REDIRECT_URI'),
+    ],
+
     'trakt' => [
         'base_url' => env('TRAKT_API_BASE_URL', 'https://api.trakt.tv'),
         'client_id' => env('TRAKT_CLIENT_ID'),

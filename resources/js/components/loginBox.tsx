@@ -3,10 +3,13 @@ import google from "@images/google.svg";
 import RegisterBox from '@/components/registerBox';
 import Password from '@/components/password';
 import { dashboard, forgotpass } from '@/routes';
-import { Link } from '@inertiajs/react';
+import { redirect as googleRedirect } from '@/routes/google';
+import { Link, usePage } from '@inertiajs/react';
 import { useState } from "react";
 
 export default function LoginBox() {
+
+    const { errors } = usePage().props as { errors?: { google?: string } };
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -124,9 +127,9 @@ export default function LoginBox() {
 
                     </div>
 
-                    {errorMessage && (
+                    {(errorMessage || errors?.google) && (
                         <div className="alertError" style={{ display: 'block' }}>
-                            {errorMessage}
+                            {errorMessage || errors?.google}
                         </div>
                     )}
 
@@ -138,13 +141,14 @@ export default function LoginBox() {
 
                     <button
                         className="btnGoogle"
-                        type="button">
+                        type="button"
+                        onClick={() => window.location.assign(googleRedirect.url())}>
 
                         <img
                             src={google}
                             alt="Google" />
 
-                        Fazer login com Google
+                        Continuar com Google
 
                     </button>
 

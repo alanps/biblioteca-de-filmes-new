@@ -2,6 +2,7 @@ import google from "@images/google.svg";
 import { register as registerUser } from '@/actions/App/Http/Controllers/UserController';
 import Password from '@/components/password';
 import { dashboard } from '@/routes';
+import { redirect as googleRedirect } from '@/routes/google';
 import { useState, useRef } from "react";
 
 export default function RegisterBox() {
@@ -155,7 +156,8 @@ export default function RegisterBox() {
 
                 <button
                     className="btnGoogle"
-                    type="button">
+                    type="button"
+                    onClick={() => window.location.assign(googleRedirect.url())}>
 
                     <img
                         src={google}
