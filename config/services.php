@@ -41,11 +41,10 @@ return [
         'redirect' => env('GOOGLE_REDIRECT_URI'),
     ],
 
-    'tmdb' => [
-        'base_url' => env('TMDB_API_BASE_URL', 'https://api.themoviedb.org/3'),
-        'image_url' => env('TMDB_IMAGE_BASE_URL', 'https://image.tmdb.org/t/p'),
-        'token' => env('TMDB_API_TOKEN'),
-        'verify_tls' => env('TMDB_API_VERIFY_TLS', true),
+    'omdb' => [
+        'base_url' => env('OMDB_API_BASE_URL', 'https://www.omdbapi.com'),
+        'api_key' => env('OMDB_API_KEY'),
+        'verify_tls' => env('OMDB_API_VERIFY_TLS', true),
     ],
 
 ];

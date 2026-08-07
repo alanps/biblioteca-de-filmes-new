@@ -10,56 +10,52 @@ uses(TestCase::class);
 
 beforeEach(function () {
     config()->set('cache.default', 'array');
-    config()->set('services.tmdb.base_url', 'https://api.themoviedb.org/3');
-    config()->set('services.tmdb.image_url', 'https://image.tmdb.org/t/p');
-    config()->set('services.tmdb.token', 'test-token');
-    config()->set('services.tmdb.verify_tls', true);
+    config()->set('services.omdb.base_url', 'https://www.omdbapi.com');
+    config()->set('services.omdb.api_key', 'test-key');
+    config()->set('services.omdb.verify_tls', true);
     Cache::flush();
 });
 
-test('movies can be searched by title in Brazilian Portuguese', function () {
+test('movies can be searched by title', function () {
     Http::preventStrayRequests();
     Http::fake([
-        'api.themoviedb.org/3/search/movie*' => Http::response([
-            'page' => 1,
-            'results' => [[
-                'id' => 8844,
-                'title' => 'Jumanji',
-                'original_title' => 'Jumanji',
-                'release_date' => '1995-12-15',
-                'overview' => 'Duas crianças descobrem um jogo de tabuleiro mágico.',
-                'poster_path' => '/jumanji.jpg',
+        'www.omdbapi.com/*' => Http::response([
+            'Search' => [[
+                'Title' => 'Jumanji',
+                'Year' => '1995',
+                'imdbID' => 'tt0113497',
+                'Type' => 'movie',
+                'Poster' => 'https://m.media-amazon.com/images/M/jumanji.jpg',
             ]],
+            'totalResults' => '1',
+            'Response' => 'True',
         ]),
     ]);
 
     $this->getJson(route('movies.search', ['title' => 'jumanji']))
         ->assertSuccessful()
-        ->assertJsonPath('movies.0.id', 8844)
+        ->assertJsonPath('movies.0.id', 113497)
         ->assertJsonPath('movies.0.title', 'Jumanji')
         ->assertJsonPath('movies.0.originalTitle', 'Jumanji')
-        ->assertJsonPath('movies.0.releaseDate', '15/12/1995')
-        ->assertJsonPath('movies.0.synopsis', 'Duas crianças descobrem um jogo de tabuleiro mágico.')
-        ->assertJsonPath('movies.0.posterUrl', route('movies.poster', ['movie' => 8844]))
+        ->assertJsonPath('movies.0.releaseDate', '')
+        ->assertJsonPath('movies.0.synopsis', '')
+        ->assertJsonPath('movies.0.posterUrl', route('movies.poster', ['movie' => 113497]))
         ->assertJsonPath('movies.0.genres', []);
 
-    Http::assertSent(fn (Request $request): bool => $request->hasHeader('Authorization', 'Bearer test-token')
-        && str_contains($request->url(), '/search/movie?')
-        && $request['query'] === 'jumanji'
-        && $request['include_adult'] === false
-        && $request['language'] === 'pt-BR'
-        && $request['region'] === 'BR'
+    Http::assertSent(fn (Request $request): bool => str_contains($request->url(), 'apikey=test-key')
+        && $request['s'] === 'jumanji'
+        && $request['type'] === 'movie'
         && $request['page'] === 1);
     Http::assertSentCount(1);
 
-    expect(Cache::get('tmdb.movie.8844.poster'))
-        ->toBe('https://image.tmdb.org/t/p/w500/jumanji.jpg');
+    expect(Cache::get('omdb.movie.113497.poster'))
+        ->toBe('https://m.media-amazon.com/images/M/jumanji.jpg');
 });
 
 test('movie search responses are cached', function () {
     Http::preventStrayRequests();
     Http::fake([
-        'api.themoviedb.org/3/search/movie*' => Http::response(['results' => []]),
+        'www.omdbapi.com/*' => Http::response(['Response' => 'False', 'Error' => 'Movie not found!']),
     ]);
 
     $this->getJson(route('movies.search', ['title' => 'jumanji']))->assertSuccessful();
@@ -80,7 +76,7 @@ test('movie search handles provider failures', function () {
     Exceptions::fake();
     Http::preventStrayRequests();
     Http::fake([
-        'api.themoviedb.org/3/*' => Http::response(status: 503),
+        'www.omdbapi.com/*' => Http::response(status: 503),
     ]);
 
     $this->getJson(route('movies.search', ['title' => 'jumanji']))

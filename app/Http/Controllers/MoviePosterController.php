@@ -19,11 +19,11 @@ class MoviePosterController extends Controller
             return Storage::disk('local')->response($path, headers: $this->responseHeaders());
         }
 
-        $posterUrl = Cache::get("tmdb.movie.{$movie}.poster");
+        $posterUrl = Cache::get("omdb.movie.{$movie}.poster");
 
-        abort_unless(is_string($posterUrl) && $this->isTmdbUrl($posterUrl), 404);
+        abort_unless(is_string($posterUrl) && $this->isOmdbPosterUrl($posterUrl), 404);
 
-        $response = Http::withOptions(['verify' => config('services.tmdb.verify_tls')])
+        $response = Http::withOptions(['verify' => config('services.omdb.verify_tls')])
             ->connectTimeout(3)
             ->timeout(10)
             ->get($posterUrl)
@@ -37,11 +37,16 @@ class MoviePosterController extends Controller
         return response($response->body(), 200, $this->responseHeaders());
     }
 
-    private function isTmdbUrl(string $url): bool
+    private function isOmdbPosterUrl(string $url): bool
     {
         $host = parse_url($url, PHP_URL_HOST);
 
-        return is_string($host) && ($host === 'image.tmdb.org' || Str::endsWith($host, '.image.tmdb.org'));
+        return is_string($host) && (
+            $host === 'media-amazon.com'
+            || Str::endsWith($host, '.media-amazon.com')
+            || $host === 'media-imdb.com'
+            || Str::endsWith($host, '.media-imdb.com')
+        );
     }
 
     /**

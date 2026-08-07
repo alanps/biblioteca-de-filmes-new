@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use DateTimeImmutable;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
@@ -17,7 +16,7 @@ class MovieInfoService
      */
     public function search(string $title): array
     {
-        $cacheKey = 'tmdb.search.'.sha1(Str::lower(Str::squish($title)));
+        $cacheKey = 'omdb.search.'.sha1(Str::lower(Str::squish($title)));
 
         return Cache::remember(
             $cacheKey,
@@ -31,16 +30,19 @@ class MovieInfoService
      */
     private function searchProvider(string $title): array
     {
-        $results = $this->request()
-            ->get('/search/movie', [
-                'query' => $title,
-                'include_adult' => false,
-                'language' => 'pt-BR',
-                'region' => 'BR',
+        $response = $this->request()
+            ->get('/', [
+                's' => $title,
+                'type' => 'movie',
                 'page' => 1,
             ])
-            ->throw()
-            ->json('results');
+            ->throw();
+
+        if ($response->json('Response') === 'False') {
+            return [];
+        }
+
+        $results = $response->json('Search');
 
         if (! is_array($results)) {
             return [];
@@ -48,18 +50,23 @@ class MovieInfoService
 
         return collect($results)
             ->filter(fn (mixed $movie): bool => is_array($movie)
-                && is_int(Arr::get($movie, 'id'))
-                && filled(Arr::get($movie, 'title')))
-            ->take(50)
+                && $this->movieId($movie) !== null
+                && filled(Arr::get($movie, 'Title')))
             ->map(function (array $movie): array {
-                $id = (int) Arr::get($movie, 'id');
+                $id = $this->movieId($movie);
+
+                if ($id === null) {
+                    throw new RuntimeException('OMDb returned an invalid IMDb identifier.');
+                }
+
+                $title = (string) Arr::get($movie, 'Title');
 
                 return [
                     'id' => $id,
-                    'title' => (string) Arr::get($movie, 'title'),
-                    'originalTitle' => (string) Arr::get($movie, 'original_title', Arr::get($movie, 'title', '')),
-                    'releaseDate' => $this->releaseDate($movie),
-                    'synopsis' => (string) Arr::get($movie, 'overview', ''),
+                    'title' => $title,
+                    'originalTitle' => $title,
+                    'releaseDate' => '',
+                    'synopsis' => '',
                     'genres' => [],
                     'posterUrl' => $this->posterUrl($movie, $id),
                 ];
@@ -71,19 +78,15 @@ class MovieInfoService
     /**
      * @param  array<string, mixed>  $movie
      */
-    private function releaseDate(array $movie): string
+    private function movieId(array $movie): ?int
     {
-        $releaseDate = Arr::get($movie, 'release_date');
+        $imdbId = Arr::get($movie, 'imdbID');
 
-        if (! is_string($releaseDate)) {
-            return '';
+        if (! is_string($imdbId) || preg_match('/^tt(\d+)$/', $imdbId, $matches) !== 1) {
+            return null;
         }
 
-        $date = DateTimeImmutable::createFromFormat('!Y-m-d', $releaseDate);
-
-        return $date !== false && $date->format('Y-m-d') === $releaseDate
-            ? $date->format('d/m/Y')
-            : '';
+        return (int) $matches[1];
     }
 
     /**
@@ -91,31 +94,29 @@ class MovieInfoService
      */
     private function posterUrl(array $movie, int $id): ?string
     {
-        $posterPath = Arr::get($movie, 'poster_path');
+        $posterUrl = Arr::get($movie, 'Poster');
 
-        if (! is_string($posterPath) || $posterPath === '') {
+        if (! is_string($posterUrl) || $posterUrl === '' || $posterUrl === 'N/A') {
             return null;
         }
 
-        $posterUrl = rtrim((string) config('services.tmdb.image_url'), '/').'/w500/'.ltrim($posterPath, '/');
-
-        Cache::put("tmdb.movie.{$id}.poster", $posterUrl, now()->addYear());
+        Cache::put("omdb.movie.{$id}.poster", $posterUrl, now()->addYear());
 
         return route('movies.poster', ['movie' => $id]);
     }
 
     private function request(): PendingRequest
     {
-        $token = config('services.tmdb.token');
+        $apiKey = config('services.omdb.api_key');
 
-        if (! is_string($token) || $token === '') {
-            throw new RuntimeException('TMDB_API_TOKEN is not configured.');
+        if (! is_string($apiKey) || $apiKey === '') {
+            throw new RuntimeException('OMDB_API_KEY is not configured.');
         }
 
-        return Http::baseUrl(config('services.tmdb.base_url'))
+        return Http::baseUrl(config('services.omdb.base_url'))
             ->acceptJson()
-            ->withToken($token)
-            ->withOptions(['verify' => config('services.tmdb.verify_tls')])
+            ->withQueryParameters(['apikey' => $apiKey])
+            ->withOptions(['verify' => config('services.omdb.verify_tls')])
             ->connectTimeout(3)
             ->timeout(10)
             ->retry(2, 200, throw: false);
