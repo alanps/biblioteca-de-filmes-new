@@ -46,3 +46,18 @@ test('poster proxy rejects URLs outside OMDb poster hosts', function () {
 
     Http::assertNothingSent();
 });
+
+test('missing remote posters return not found without throwing an HTTP client exception', function () {
+    $posterUrl = 'https://m.media-amazon.com/images/M/missing.jpg';
+
+    Cache::put('omdb.movie.1267.poster', $posterUrl, now()->addYear());
+    Http::preventStrayRequests();
+    Http::fake([
+        $posterUrl => Http::response(status: 404),
+    ]);
+
+    $this->get(route('movies.poster', ['movie' => 1267]))->assertNotFound();
+
+    expect(Cache::has('omdb.movie.1267.poster'))->toBeFalse();
+    Http::assertSentCount(1);
+});

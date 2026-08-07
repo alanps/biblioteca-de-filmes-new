@@ -8,7 +8,14 @@ type PosterProps = {
 export function Poster({ title, posterUrl }: PosterProps) {
     return (
         <div className="filmLibrary__poster" aria-label={`Pôster do filme ${title}`}>
-            <img src={posterUrl || moviePoster} alt={`Pôster de ${title}`} />
+            <img
+                src={posterUrl || moviePoster}
+                alt={`Pôster de ${title}`}
+                onError={(event) => {
+                    event.currentTarget.onerror = null;
+                    event.currentTarget.src = moviePoster;
+                }}
+            />
         </div>
     );
 }

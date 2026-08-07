@@ -26,8 +26,15 @@ class MoviePosterController extends Controller
         $response = Http::withOptions(['verify' => config('services.omdb.verify_tls')])
             ->connectTimeout(3)
             ->timeout(10)
-            ->get($posterUrl)
-            ->throw();
+            ->get($posterUrl);
+
+        if ($response->notFound()) {
+            Cache::forget("omdb.movie.{$movie}.poster");
+
+            abort(404);
+        }
+
+        $response->throw();
         $contentType = $response->header('Content-Type');
 
         abort_unless(Str::startsWith($contentType, 'image/'), 502);
