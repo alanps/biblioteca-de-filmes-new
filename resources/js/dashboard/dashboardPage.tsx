@@ -2,16 +2,16 @@ import { Head } from '@inertiajs/react';
 import { useEffect, useMemo, useState } from 'react';
 
 import Signature from "@/components/signature";
-import { login } from '@/routes';
-import { destroy as destroyMovie, index as listLibraryMovies, search as searchMovies, store as storeMovie } from '@/routes/movies';
-import { destroy as destroySession, user as getAuthenticatedUser } from '@/routes/session';
-import { index as listUsers } from '@/routes/users';
-import type { AuthenticatedDashboardUser, DashboardUser, Movie } from '@/dashboard/types';
-import { moviesPerPage, usersPerPage } from '@/dashboard/data';
 import { DashboardHeader } from '@/dashboard/components/dashboardHeader';
 import { MovieCard } from '@/dashboard/components/movieCard';
 import { Poster } from '@/dashboard/components/poster';
 import { WindowTitle } from '@/dashboard/components/windowTitle';
+import { moviesPerPage, usersPerPage } from '@/dashboard/data';
+import type { AuthenticatedDashboardUser, DashboardUser, Movie } from '@/dashboard/types';
+import { login } from '@/routes';
+import { destroy as destroyMovie, details as getMovieDetails, index as listLibraryMovies, search as searchMovies, store as storeMovie } from '@/routes/movies';
+import { destroy as destroySession, user as getAuthenticatedUser } from '@/routes/session';
+import { index as listUsers } from '@/routes/users';
 
 export default function Dashboard() {
     const [search, setSearch] = useState('');
@@ -27,6 +27,9 @@ export default function Dashboard() {
     const [remoteMovieResults, setRemoteMovieResults] = useState<Movie[]>([]);
     const [isMovieSearchLoading, setIsMovieSearchLoading] = useState(false);
     const [movieSearchError, setMovieSearchError] = useState<string | null>(null);
+    const [loadingMovieDetailsId, setLoadingMovieDetailsId] = useState<number | null>(null);
+    const [movieDetailsError, setMovieDetailsError] = useState<string | null>(null);
+    const [loadedMovieDetailsIds, setLoadedMovieDetailsIds] = useState<number[]>([]);
     const [isUsersLoading, setIsUsersLoading] = useState(false);
     const [usersError, setUsersError] = useState<string | null>(null);
     const [savingMovieId, setSavingMovieId] = useState<number | null>(null);
@@ -169,12 +172,9 @@ export default function Dashboard() {
                 }
 
                 const movieResults = payload.movies ?? [];
-                const firstAvailableMovie = movieResults.find((movie) => !libraryMovies.some((libraryMovie) =>
-                    libraryMovie.id === movie.id || libraryMovie.title.localeCompare(movie.title, 'pt-BR', { sensitivity: 'base' }) === 0,
-                ));
-
                 setRemoteMovieResults(movieResults);
-                setExpandedMovieResult(firstAvailableMovie?.id ?? null);
+                setExpandedMovieResult(null);
+                setLoadedMovieDetailsIds([]);
             } catch (error) {
                 if (error instanceof DOMException && error.name === 'AbortError') {
                     return;
@@ -194,6 +194,43 @@ export default function Dashboard() {
             controller.abort();
         };
     }, [activeModal, addMovieSearch, libraryMovies]);
+
+    async function toggleMovieDetails(movie: Movie) {
+        if (expandedMovieResult === movie.id) {
+            setExpandedMovieResult(null);
+
+            return;
+        }
+
+        setExpandedMovieResult(movie.id);
+        setMovieDetailsError(null);
+
+        if (loadedMovieDetailsIds.includes(movie.id)) {
+            return;
+        }
+
+        setLoadingMovieDetailsId(movie.id);
+
+        try {
+            const response = await fetch(getMovieDetails.url(movie.id), {
+                headers: { Accept: 'application/json' },
+            });
+            const payload = await response.json() as { movie?: Movie; message?: string };
+
+            if (! response.ok || ! payload.movie) {
+                throw new Error(payload.message || 'Não foi possível carregar os detalhes do filme.');
+            }
+
+            setRemoteMovieResults((currentMovies) => currentMovies.map((currentMovie) =>
+                currentMovie.id === movie.id ? payload.movie as Movie : currentMovie,
+            ));
+            setLoadedMovieDetailsIds((currentIds) => [...currentIds, movie.id]);
+        } catch (error) {
+            setMovieDetailsError(error instanceof Error ? error.message : 'Não foi possível carregar os detalhes do filme.');
+        } finally {
+            setLoadingMovieDetailsId(null);
+        }
+    }
 
     useEffect(() => {
         if (activeModal !== 'users') {
@@ -259,6 +296,9 @@ export default function Dashboard() {
         setRemoteMovieResults([]);
         setIsMovieSearchLoading(false);
         setMovieSearchError(null);
+        setLoadingMovieDetailsId(null);
+        setMovieDetailsError(null);
+        setLoadedMovieDetailsIds([]);
         setIsUsersLoading(false);
         setUsersError(null);
         setSavingMovieId(null);
@@ -453,7 +493,7 @@ export default function Dashboard() {
                                                 className="filmLibrary__resultToggle"
                                                 aria-label={`Mostrar detalhes de ${result.title}`}
                                                 aria-expanded={expandedMovieResult === result.id}
-                                                onClick={() => setExpandedMovieResult(expandedMovieResult === result.id ? null : result.id)}
+                                                onClick={() => void toggleMovieDetails(result)}
                                             />
                                             <button
                                                 type="button"
@@ -464,6 +504,8 @@ export default function Dashboard() {
                                             />
                                         </span>
                                         {expandedMovieResult === result.id && <div className="filmLibrary__resultDetails">
+                                            {loadingMovieDetailsId === result.id && <p className="filmLibrary__modalMessage">Carregando detalhes...</p>}
+                                            {movieDetailsError && loadingMovieDetailsId !== result.id && <p className="filmLibrary__modalMessage filmLibrary__modalMessageError">{movieDetailsError}</p>}
                                             <div className="filmLibrary__selectedMovie">
                                                 <Poster title={result.title} posterUrl={result.posterUrl} />
                                                 <div className="filmLibrary__selectedMovieContent">

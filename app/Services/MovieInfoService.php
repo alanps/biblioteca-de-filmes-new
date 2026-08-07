@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use DateTimeImmutable;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
@@ -22,6 +23,18 @@ class MovieInfoService
             $cacheKey,
             now()->addMinutes(15),
             fn (): array => $this->searchProvider($title),
+        );
+    }
+
+    /**
+     * @return array{id: int, title: string, originalTitle: string, releaseDate: string, synopsis: string, genres: array<int, string>, posterUrl: string|null}
+     */
+    public function details(int $id): array
+    {
+        return Cache::remember(
+            "omdb.movie.{$id}.details",
+            now()->addDays(7),
+            fn (): array => $this->detailsProvider($id),
         );
     }
 
@@ -73,6 +86,56 @@ class MovieInfoService
             })
             ->values()
             ->all();
+    }
+
+    /**
+     * @return array{id: int, title: string, originalTitle: string, releaseDate: string, synopsis: string, genres: array<int, string>, posterUrl: string|null}
+     */
+    private function detailsProvider(int $id): array
+    {
+        $movie = $this->request()
+            ->get('/', [
+                'i' => 'tt'.str_pad((string) $id, 7, '0', STR_PAD_LEFT),
+                'plot' => 'full',
+            ])
+            ->throw()
+            ->json();
+
+        if (! is_array($movie) || Arr::get($movie, 'Response') === 'False') {
+            throw new RuntimeException('Movie details were not found on OMDb.');
+        }
+
+        $title = (string) Arr::get($movie, 'Title', '');
+        $plot = Arr::get($movie, 'Plot');
+        $genres = Arr::get($movie, 'Genre');
+
+        return [
+            'id' => $id,
+            'title' => $title,
+            'originalTitle' => $title,
+            'releaseDate' => $this->releaseDate($movie),
+            'synopsis' => is_string($plot) && $plot !== 'N/A' ? $plot : '',
+            'genres' => is_string($genres) && $genres !== 'N/A'
+                ? array_values(array_filter(array_map('trim', explode(',', $genres))))
+                : [],
+            'posterUrl' => $this->posterUrl($movie, $id),
+        ];
+    }
+
+    /**
+     * @param  array<string, mixed>  $movie
+     */
+    private function releaseDate(array $movie): string
+    {
+        $releaseDate = Arr::get($movie, 'Released');
+
+        if (! is_string($releaseDate) || $releaseDate === 'N/A') {
+            return '';
+        }
+
+        $date = DateTimeImmutable::createFromFormat('!d M Y', $releaseDate);
+
+        return $date !== false ? $date->format('d/m/Y') : '';
     }
 
     /**

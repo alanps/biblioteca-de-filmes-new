@@ -64,6 +64,35 @@ test('movie search responses are cached', function () {
     Http::assertSentCount(1);
 });
 
+test('movie details include release date synopsis and genres', function () {
+    Http::preventStrayRequests();
+    Http::fake([
+        'www.omdbapi.com/*' => Http::response([
+            'Title' => 'Jumanji',
+            'Released' => '15 Dec 1995',
+            'Genre' => 'Adventure, Comedy, Family',
+            'Plot' => 'Two children discover a magical board game.',
+            'Poster' => 'https://m.media-amazon.com/images/M/jumanji.jpg',
+            'imdbID' => 'tt0113497',
+            'Response' => 'True',
+        ]),
+    ]);
+
+    $this->getJson(route('movies.details', ['movie' => 113497]))
+        ->assertSuccessful()
+        ->assertJsonPath('movie.id', 113497)
+        ->assertJsonPath('movie.title', 'Jumanji')
+        ->assertJsonPath('movie.releaseDate', '15/12/1995')
+        ->assertJsonPath('movie.synopsis', 'Two children discover a magical board game.')
+        ->assertJsonPath('movie.genres', ['Adventure', 'Comedy', 'Family']);
+
+    $this->getJson(route('movies.details', ['movie' => 113497]))->assertSuccessful();
+
+    Http::assertSent(fn (Request $request): bool => $request['i'] === 'tt0113497'
+        && $request['plot'] === 'full');
+    Http::assertSentCount(1);
+});
+
 test('movie search requires at least three characters', function () {
     Http::preventStrayRequests();
 
