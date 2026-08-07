@@ -13,6 +13,19 @@ test('guests can be redirected to Google', function () {
         ->assertRedirect();
 });
 
+test('redirect attempts do not consume the Google callback limit', function () {
+    Socialite::fake('google', googleUser());
+
+    foreach (range(1, 20) as $attempt) {
+        $this->get(route('google.redirect'))->assertRedirect();
+    }
+
+    $this->get(route('google.redirect'))->assertTooManyRequests();
+
+    $this->get(route('google.callback'))
+        ->assertRedirect(route('google.complete'));
+});
+
 test('new users can register and authenticate with Google', function () {
     Socialite::fake('google', googleUser());
 
@@ -40,6 +53,24 @@ test('existing users can link and authenticate with Google', function () {
     expect($user->refresh()->google_id)->toBe('google-123')
         ->and($user->email_verified_at)->not->toBeNull();
     $this->assertAuthenticatedAs($user);
+});
+
+test('users with a partial session can restart and complete Google authentication', function () {
+    $user = User::factory()->create([
+        'email' => 'cinefilo@example.com',
+    ]);
+    Socialite::fake('google', googleUser());
+
+    $this->actingAs($user)
+        ->get(route('google.redirect'))
+        ->assertRedirect();
+
+    $this->actingAs($user)
+        ->get(route('google.callback'))
+        ->assertRedirect(route('google.complete'))
+        ->assertSessionHas('google_access_token');
+
+    expect($user->tokens()->count())->toBe(1);
 });
 
 test('authenticated users can complete Google login exactly once', function () {
